@@ -1,0 +1,172 @@
+@media (max-width: 1350px) {
+  .left-and-rightside {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 0;
+  }
+
+  .parting-line-add-task {
+    display: none;
+  }
+
+  .leftside-add-task {
+    padding-right: 0;
+    width: 100%;
+  }
+
+  .rightside-add-task {
+    padding-left: 0;
+    width: 100%;
+  }
+
+  .description-input {
+    width: 100%;
+  }
+
+  .reuired-notice-cancel-create {
+    background-color: #f6f7f8;
+    z-index: 4;
+    align-items: center;
+    width: 100%;
+  }
+
+  .d-none-mobile {
+    display: none;
+  }
+
+  .height-80 {
+    height: auto;
+  }
+}
+
+@media (max-width: 1150px) {
+  .headline-area-template .add-task-informations {
+    padding-left: 328px;
+  }
+
+  .fz-20 {
+    font-size: 16px;
+  }
+
+  .selection-field {
+    padding: 16px 4px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .rightside-add-task {
+    gap: 16px;
+  }
+
+  .fz-20 {
+    font-size: 20px;
+  }
+
+  .selection-field {
+    padding: 16px 4px;
+  }
+  .over-div {
+    flex-direction: column;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+  }
+
+  .add-task-informations {
+    padding: 0;
+    padding-top: 40px;
+    gap: 16px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 860px) {
+  .over-div {
+    position: unset;
+    padding-top: 144px;
+    padding-bottom: 40px;
+  }
+
+  .typography-contacts-assigned {
+    font-size: 16px;
+  }
+
+  .headline-area-template .add-task-informations {
+    padding-left: 0;
+  }
+
+  .reuired-notice-cancel-create {
+    z-index: 6;
+    position: sticky;
+    right: 0;
+    left: 0;
+    bottom: 74px;
+    width: 100%;
+  }
+
+  .rightside-add-task {
+    padding-bottom: 100px;
+  }
+}
+
+@media (max-width: 500px) {
+  input[type='text'] {
+    font-size: 14px;
+  }
+
+  .headline-area-template {
+    padding-left: 16px;
+  }
+
+  .over-div {
+    top: 128px;
+  }
+
+  .leftside-add-task {
+    padding-bottom: 16px;
+  }
+
+  .description-input {
+    width: auto;
+  }
+
+  .fz-20 {
+    font-size: 12px;
+  }
+
+  .prio-image {
+    width: 14px;
+  }
+
+  .selection-field {
+    width: auto;
+  }
+
+  .user-list {
+    width: auto;
+  }
+
+  .pd-inline-start {
+    width: auto;
+  }
+
+  .headline-add-task-template {
+    font-size: 47px;
+  }
+
+  .btn-add-task {
+    padding: 8px;
+  }
+
+  .typography-create {
+    font-size: 14px;
+  }
+
+  .required-field-notice {
+    font-size: 14px;
+  }
+}

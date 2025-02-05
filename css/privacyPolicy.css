@@ -1,0 +1,45 @@
+body {
+  font-family: inter;
+}
+
+h2 {
+  position: unset !important;
+}
+
+.privacyPolicyContent {
+  margin-top: 206px;
+  margin-left: 328px;
+  margin-right: 98px;
+  padding-bottom: 50px;
+}
+
+.privacyPolicySectionBackImage {
+  position: fixed;
+  top: 225px;
+  right: 96px;
+}
+
+.privacyPolicySectionBackImage:hover {
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #e2e6ec;
+}
+
+h1 {
+  font-size: 61px;
+}
+
+h3 {
+  font-size: 27px;
+}
+
+@media (max-width: 860px) {
+  .privacyPolicyContent {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .privacyPolicySectionBackImage {
+    display: none;
+  }
+}

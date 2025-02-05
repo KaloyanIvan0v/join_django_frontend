@@ -1,0 +1,397 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.contacts-main-box {
+  height: 100vh;
+  display: flex;
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px;
+  margin-left: 232px;
+  background-color: rgb(255, 255, 255);
+  max-height: calc(100vh - 96px);
+  width: 100%;
+  max-width: 456px;
+  box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  padding: 32px 7px 32px 7px;
+}
+
+.add-contact-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 352px;
+  min-width: 200px;
+  min-height: 56px;
+  background-color: rgb(43, 54, 71);
+  font-size: 21px;
+  font-weight: 700;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.add-contact-button img {
+  padding-left: 16px;
+  height: auto;
+  width: 32px;
+}
+
+.contacts-single-view {
+  margin-top: 96px;
+  height: calc(100vh - 96px);
+  width: 100%;
+  min-width: 470px;
+  background-color: rgb(246, 247, 248);
+}
+
+.default-slogan {
+  position: relative;
+  top: 110px;
+  left: 55px;
+  display: flex;
+  width: max-content;
+  justify-content: center;
+  align-items: center;
+}
+
+.default-slogan-left {
+  font-size: 61px;
+  font-weight: 700;
+}
+
+.default-slogan-middle {
+  width: 3px;
+  height: 59px;
+  border-radius: 3px;
+  background-color: rgba(41, 171, 226, 1);
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.default-slogan-right {
+  font-size: 27px;
+  font-weight: 400;
+}
+
+.contact-form {
+  position: fixed;
+  top: calc(50% - 296px); /* Zentriert das Formular vertikal */
+  right: -1212px; /* Startet das Formular außerhalb des Bildschirms nach rechts */
+  width: 1212px;
+  height: 592px;
+  display: flex;
+  border-radius: 30px;
+  z-index: 999;
+  transition: right 0.5s ease-in-out; /* Animiert die right-Eigenschaft */
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.contacts-inner-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.contacts-inner-list::-webkit-scrollbar {
+  border: none;
+  width: 8px;
+}
+
+.contacts-inner-list::-webkit-scrollbar-thumb {
+  background-color: rgba(168, 168, 168, 1);
+  border-radius: 8px;
+}
+
+.contact-list-item {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  height: 78px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  cursor: pointer;
+  transition: background-color 0.125s ease;
+}
+
+.contact-list-item:hover {
+  background-image: linear-gradient(to bottom, rgba(249, 249, 249, 1), rgba(240, 240, 240, 1));
+  border-radius: 10px;
+  color: black;
+}
+
+.selected {
+  background-color: rgba(42, 54, 71, 1);
+  border-radius: 10px;
+  color: white;
+}
+
+.selected:hover {
+  background-color: rgba(42, 54, 71, 1);
+  border-radius: 10px;
+  color: white;
+  background-image: none;
+}
+
+.contact-list-badges {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 42px;
+  height: 42px;
+  background-color: lightblue;
+  border-radius: 50%;
+  margin-right: 35px;
+  margin-left: 24px;
+  font-size: 12px;
+  font-weight: 400;
+  color: white;
+  border: solid 2px white;
+}
+
+.contact-list-first-letter {
+  min-width: calc(100% - 36px);
+  font-size: 20px;
+  padding-top: 17px;
+  padding-bottom: 17px;
+  margin-left: 36px;
+}
+
+.contact-list-letter-parting-line {
+  width: 352px;
+  min-width: 200px;
+  min-height: 1px;
+  background-color: rgba(209, 209, 209, 1);
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.contact-list-name {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.contact-list-email {
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(0, 124, 238, 1);
+}
+
+.contact-full-mode {
+  position: relative;
+  top: 155px;
+  right: -100vw; /* Startposition außerhalb des sichtbaren Bereichs */
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: max-content;
+  height: 364px;
+  transition: right 0.5s ease-in-out;
+}
+
+.contact-full-mode-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.contact-full-mode-badges {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  font-size: 47px;
+  font-weight: 500;
+  color: white;
+  border: solid 3px white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-right: 54px;
+}
+
+.contact-full-mode-name-edit-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+}
+
+.contact-full-mode-edit {
+  display: flex;
+  justify-content: left;
+  margin-top: 8px;
+}
+
+.contact-full-mode-name {
+  font-size: 47px;
+  font-weight: 500;
+  max-width: 300px;
+  overflow: auto;
+}
+
+.contact-full-mode-edit-contact {
+  display: flex;
+  margin-right: 16px;
+  font-size: 16px;
+  align-items: center;
+}
+
+.contact-full-mode-edit-contact:hover {
+  color: var(--accent-color);
+}
+
+.contact-full-mode-delete-contact {
+  display: flex;
+  font-size: 16px;
+  align-items: center;
+}
+.contact-full-mode-delete-contact:hover {
+  color: var(--accent-color);
+}
+
+.contact-full-mode-data {
+  width: max-content;
+}
+
+.contact-full-mode-data-headline {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 207px;
+  height: 74px;
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 21px;
+  margin-bottom: 21px;
+}
+
+.contact-full-mode-data-email-headline {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.contact-full-mode-data-email {
+  margin-top: 15px;
+  color: rgba(0, 124, 238, 1);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.contact-full-mode-data-phone-headline {
+  margin-top: 22px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.contact-full-mode-data-phone {
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.edit-btn-img {
+  margin-right: 8px;
+  background-image: url("/img/edit-pencil.png");
+  width: 24px;
+  height: 24px;
+}
+
+.delete-btn-img {
+  margin-right: 8px;
+  background-image: url("/img/trash-blue.png");
+  width: 24px;
+  height: 24px;
+}
+
+.mask-contact-img-div {
+  color: white;
+  font-size: 47px;
+  font-weight: 500;
+}
+
+.mobile-dot-menu {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  z-index: 99;
+  width: 56px;
+  height: 56px;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.mobile-add-contact {
+  position: absolute;
+  right: 20px;
+  bottom: 100px;
+  z-index: 99;
+  width: 56px;
+  height: 56px;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.contacts-arrow-exit {
+  position: fixed;
+  right: 20px;
+  top: 128px;
+  z-index: 99;
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.contact-full-mode-edit-mobile {
+  position: fixed;
+  bottom: 100px;
+  right: 8px;
+  width: 116px;
+  height: 100px;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: white;
+  z-index: 100;
+  border-radius: 20px;
+  border-bottom-right-radius: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-form-visible {
+  right: calc(50% - 606px); /* Bewegt das Formular in die Mitte des Bildschirms */
+}
+
+.contact-form-hidden {
+  right: -1212px; /* Bewegt das Formular wieder nach rechts außerhalb des Bildschirms */
+}
+
+.contact-full-mode-right-0 {
+  right: -55px;
+}
