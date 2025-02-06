@@ -4,28 +4,32 @@
  * @returns {Promise<void>}
  */
 async function init_board() {
-  await loadTasks();
-  await loadContacts();
-  await includeHTML();
-  renderTasks(getFilteredTasks());
-  setSearchFieldBorderListener();
-  filterTaskListener();
+  try {
+    await loadTasks()
+    await loadContacts()
+    await includeHTML()
+    renderTasks(getFilteredTasks())
+    setSearchFieldBorderListener()
+    filterTaskListener()
+  } catch (error) {
+    console.error('Error initializing board:', error)
+  }
 }
 
 /**
  * Opens the popup by removing the visibility-hidden class.
  */
 function openPopUp() {
-  document.getElementById("id-shadow-layer").classList.remove("visibility-hidden");
+  document.getElementById('id-shadow-layer').classList.remove('visibility-hidden')
 }
 
 /**
  * Closes the popup, clears its content, and re-renders tasks.
  */
 function closePopUp() {
-  addClassListTo("id-shadow-layer", "visibility-hidden");
-  clearElement("id-pop-up");
-  renderTasks(getFilteredTasks());
+  addClassListTo('id-shadow-layer', 'visibility-hidden')
+  clearElement('id-pop-up')
+  renderTasks(getFilteredTasks())
 }
 
 /**
@@ -33,11 +37,11 @@ function closePopUp() {
  * @returns {HTMLElement[]} An array of task area elements.
  */
 function initTaskAreas() {
-  let toDoField = document.getElementById("statementToDo");
-  let inProgressField = document.getElementById("statementInProgress");
-  let awaitFeedbackField = document.getElementById("statementAwaitFeedback");
-  let doneField = document.getElementById("statementDone");
-  return [toDoField, inProgressField, awaitFeedbackField, doneField];
+  let toDoField = document.getElementById('statementToDo')
+  let inProgressField = document.getElementById('statementInProgress')
+  let awaitFeedbackField = document.getElementById('statementAwaitFeedback')
+  let doneField = document.getElementById('statementDone')
+  return [toDoField, inProgressField, awaitFeedbackField, doneField]
 }
 
 /**
@@ -45,13 +49,13 @@ function initTaskAreas() {
  * @param {Object[]} taskList - The list of tasks to render.
  */
 async function renderTasks(taskList) {
-  let taskAreas = initTaskAreas();
-  clearBoard(taskAreas);
-  for (let i = 0; i < taskList.length; i++) {
-    renderSingleTask(taskList, taskAreas, i);
-  }
-  ifTaskAreaIsEmptySetEmptyInfoBox();
-  handleMobileTaskMenu();
+  let taskAreas = initTaskAreas()
+  clearBoard(taskAreas)
+  taskList.forEach((task, i) => {
+    renderSingleTask(taskList, taskAreas, i)
+  })
+  ifTaskAreaIsEmptySetEmptyInfoBox()
+  handleMobileTaskMenu()
 }
 
 /**
@@ -61,14 +65,14 @@ async function renderTasks(taskList) {
  * @param {number} i - Index of the task.
  */
 function renderSingleTask(taskList, taskAreas, i) {
-  let singleTask = taskList[i];
-  let id = taskList[i]["id"];
-  taskAreas[sectionIdForTask(taskList, i)].innerHTML += returnHtmlShowToDos(singleTask, i, id);
-  setCategoryColor(i, taskList);
-  setPriorityTaskCard(i, id);
-  renderContactsBoardInitials(false, id, `contactsFieldBoard(${id})`);
+  let singleTask = taskList[i]
+  let id = taskList[i]['id']
+  taskAreas[sectionIdForTask(taskList, i)].innerHTML += returnHtmlShowToDos(singleTask, i, id)
+  setCategoryColor(i, taskList)
+  setPriorityTaskCard(i, id)
+  renderContactsBoardInitials(false, id, `contactsFieldBoard(${id})`)
   if (singleTask.subTasks !== -1) {
-    handleSubtasksProgressBar(id);
+    handleSubtasksProgressBar(id)
   }
 }
 
@@ -78,9 +82,9 @@ function renderSingleTask(taskList, taskAreas, i) {
  */
 function handleSubtasksProgressBar(id) {
   if (noSubtasksExist(id)) {
-    return;
+    return
   } else {
-    renderSubtaskProgressBar(id);
+    renderSubtaskProgressBar(id)
   }
 }
 
@@ -90,8 +94,8 @@ function handleSubtasksProgressBar(id) {
  * @returns {boolean} True if no subtasks exist, otherwise false.
  */
 function noSubtasksExist(id) {
-  let subTasksExist = tasks[getIndexOfElementById(id, tasks)].subTasks;
-  return subTasksExist === -1 ? true : false;
+  let subTasksExist = tasks[getIndexOfElementById(id, tasks)].subTasks
+  return subTasksExist === -1 ? true : false
 }
 
 /**
@@ -99,12 +103,12 @@ function noSubtasksExist(id) {
  * @param {string} id - The ID of the task.
  */
 function renderSubtaskProgressBar(id) {
-  let subTasksLength = tasks[getIndexOfElementById(id, tasks)].subTasks.length;
-  let finishedSubTasks = getFinishedSubTasksLength(id);
-  let progressSection = document.getElementById(`id-subtasks-progress-section${id}`);
-  progressSection.classList.remove("visibility-hidden");
-  renderProgressBarText(id, subTasksLength, finishedSubTasks);
-  renderProgressBar(id, subTasksLength, finishedSubTasks);
+  let subTasksLength = tasks[getIndexOfElementById(id, tasks)].subTasks.length
+  let finishedSubTasks = getFinishedSubTasksLength(id)
+  let progressSection = document.getElementById(`id-subtasks-progress-section${id}`)
+  progressSection.classList.remove('visibility-hidden')
+  renderProgressBarText(id, subTasksLength, finishedSubTasks)
+  renderProgressBar(id, subTasksLength, finishedSubTasks)
 }
 
 /**
@@ -114,8 +118,8 @@ function renderSubtaskProgressBar(id) {
  * @param {number} finishedSubTasks - The number of finished subtasks.
  */
 function renderProgressBarText(id, subTasksLength, finishedSubTasks) {
-  let progressTextArea = document.getElementById(`subtasks-progress-text${id}`);
-  progressTextArea.innerHTML = `${finishedSubTasks}/${subTasksLength} Subtasks`;
+  let progressTextArea = document.getElementById(`subtasks-progress-text${id}`)
+  progressTextArea.innerHTML = `${finishedSubTasks}/${subTasksLength} Subtasks`
 }
 
 /**
@@ -125,9 +129,9 @@ function renderProgressBarText(id, subTasksLength, finishedSubTasks) {
  * @param {number} finishedSubTasks - The number of finished subtasks.
  */
 function renderProgressBar(id, subTasksLength, finishedSubTasks) {
-  let loadWidth = (finishedSubTasks / subTasksLength) * 100;
-  let loadBar = document.getElementById(`id-loadbar${id}`);
-  loadBar.style.width = `${loadWidth}%`;
+  let loadWidth = (finishedSubTasks / subTasksLength) * 100
+  let loadBar = document.getElementById(`id-loadbar${id}`)
+  loadBar.style.width = `${loadWidth}%`
 }
 
 /**
@@ -136,9 +140,9 @@ function renderProgressBar(id, subTasksLength, finishedSubTasks) {
  * @returns {number} The number of finished subtasks.
  */
 function getFinishedSubTasksLength(id) {
-  let task = tasks[getIndexOfElementById(id, tasks)];
-  let finishedSubTasks = task.subTasks.filter((subTask) => subTask.status);
-  return finishedSubTasks.length;
+  let task = tasks[getIndexOfElementById(id, tasks)]
+  let finishedSubTasks = task.subTasks.filter((subTask) => subTask.status)
+  return finishedSubTasks.length
 }
 
 /**
@@ -147,15 +151,15 @@ function getFinishedSubTasksLength(id) {
  * @returns {number} The index of the task area.
  */
 function sectionIdForTask(taskList, i) {
-  let statement = taskList[i]["statement"];
-  if (statement == "toDo") {
-    return 0;
-  } else if (statement == "inProgress") {
-    return 1;
-  } else if (statement == "awaitFeedback") {
-    return 2;
-  } else if (statement == "done") {
-    return 3;
+  let statement = taskList[i]['statement']
+  if (statement == 'toDo') {
+    return 0
+  } else if (statement == 'inProgress') {
+    return 1
+  } else if (statement == 'awaitFeedback') {
+    return 2
+  } else if (statement == 'done') {
+    return 3
   }
 }
 
@@ -165,7 +169,7 @@ function sectionIdForTask(taskList, i) {
  */
 function clearBoard(element) {
   for (let i = 0; i < element.length; i++) {
-    clearElement(element[i]);
+    clearElement(element[i])
   }
 }
 
@@ -175,15 +179,15 @@ function clearBoard(element) {
  * @param {string} id - The ID of the task.
  */
 function setPriorityTaskCard(i, id) {
-  let prioField = document.getElementById(`prioField${i}`);
-  let singleTaskPrio = tasks[getIndexOfElementById(id, tasks)]["prio"];
-  clearElement(prioField);
-  if (singleTaskPrio == "Low") {
-    prioField.innerHTML = '<img src="/img/low_green.png" alt="Low Priority">';
-  } else if (singleTaskPrio == "Medium") {
-    prioField.innerHTML = '<img src="/img/medium_orange.png" alt="Medium Priority">';
+  let prioField = document.getElementById(`prioField${i}`)
+  let singleTaskPrio = tasks[getIndexOfElementById(id, tasks)]['prio']
+  clearElement(prioField)
+  if (singleTaskPrio == 'Low') {
+    prioField.innerHTML = '<img src="/img/low_green.png" alt="Low Priority">'
+  } else if (singleTaskPrio == 'Medium') {
+    prioField.innerHTML = '<img src="/img/medium_orange.png" alt="Medium Priority">'
   } else {
-    prioField.innerHTML = '<img src="/img/urgent_red.png" alt="Urgent Priority">';
+    prioField.innerHTML = '<img src="/img/urgent_red.png" alt="Urgent Priority">'
   }
 }
 
@@ -191,9 +195,9 @@ function setPriorityTaskCard(i, id) {
  * Toggles the background of the dialog by adding or removing the background-dialog class.
  */
 function toggleBackgroundDialog() {
-  clearElement("taskOverlay");
-  let backgroundDialog = document.getElementById("backgroundDialog");
-  backgroundDialog.classList.toggle("background-dialog");
+  clearElement('taskOverlay')
+  let backgroundDialog = document.getElementById('backgroundDialog')
+  backgroundDialog.classList.toggle('background-dialog')
 }
 
 /**
@@ -203,16 +207,16 @@ function toggleBackgroundDialog() {
  * @param {string} targetElementId - The ID of the target element to render contacts initials.
  */
 function renderContactsBoardInitials(renderFull, id, targetElementId) {
-  let contactsFieldBoard = document.getElementById(targetElementId);
-  let contactsForTask = tasks[getIndexOfElementById(id, tasks)]["assignedTo"];
+  let contactsFieldBoard = document.getElementById(targetElementId)
+  let contactsForTask = tasks[getIndexOfElementById(id, tasks)]['assignedTo']
   if (contactsForTask !== -1) {
     for (let j = 0; j < contactsForTask.length; j++) {
       if (contactExists(contactsForTask[j])) {
         if (j < 3 || renderFull) {
-          renderContactInitial(contactsFieldBoard, contactsForTask, id, j);
+          renderContactInitial(contactsFieldBoard, contactsForTask, id, j)
         } else {
-          renderMoreContactsPreview(contactsFieldBoard, contactsForTask, j);
-          break;
+          renderMoreContactsPreview(contactsFieldBoard, contactsForTask, j)
+          break
         }
       }
     }
@@ -227,9 +231,9 @@ function renderContactsBoardInitials(renderFull, id, targetElementId) {
  * @param {number} j - The index of the contact.
  */
 function renderContactInitial(contactsFieldBoard, contactsForTask, id, j) {
-  let contactForTask = contactsForTask[j];
-  contactsFieldBoard.innerHTML += returnHtmlContactsInitialen(contactForTask, j);
-  backgroundColorInitialsBoard(j, id);
+  let contactForTask = contactsForTask[j]
+  contactsFieldBoard.innerHTML += returnHtmlContactsInitialen(contactForTask, j)
+  backgroundColorInitialsBoard(j, id)
 }
 
 /**
@@ -238,8 +242,8 @@ function renderContactInitial(contactsFieldBoard, contactsForTask, id, j) {
  * @param {Object[]} contactsForTask - The list of contacts assigned to the task.
  */
 function renderMoreContactsPreview(contactsFieldBoard, contactsForTask, j) {
-  let restAmount = contactsForTask.length - 3;
-  contactsFieldBoard.innerHTML += returnMoreContactsPreview(restAmount, j);
+  let restAmount = contactsForTask.length - 3
+  contactsFieldBoard.innerHTML += returnMoreContactsPreview(restAmount, j)
 }
 
 /**
@@ -248,8 +252,8 @@ function renderMoreContactsPreview(contactsFieldBoard, contactsForTask, j) {
  * @returns {boolean} True if the contact exists, otherwise false.
  */
 function contactExists(assignedContact) {
-  let contactsIds = contacts.map((contact) => contact.id);
-  return contactsIds.includes(assignedContact.id);
+  let contactsIds = contacts.map((contact) => contact.id)
+  return contactsIds.includes(assignedContact.id)
 }
 
 /**
@@ -258,11 +262,11 @@ function contactExists(assignedContact) {
  * @param {string} id - The ID of the task.
  */
 function backgroundColorInitialsBoard(j, id) {
-  let initialArea = document.getElementById(`initialArea${j}`);
-  let colorNumber = tasks[getIndexOfElementById(id, tasks)]["assignedTo"][j]["color"];
-  let bgColor = contactColor[colorNumber];
-  initialArea.style.backgroundColor = bgColor;
-  initialArea.removeAttribute("id");
+  let initialArea = document.getElementById(`initialArea${j}`)
+  let colorNumber = tasks[getIndexOfElementById(id, tasks)]['assignedTo'][j]['color']
+  let bgColor = contactColor[colorNumber]
+  initialArea.style.backgroundColor = bgColor
+  initialArea.removeAttribute('id')
 }
 
 /**
@@ -273,12 +277,12 @@ function backgroundColorInitialsBoard(j, id) {
  * @returns {string[]} An array of IDs from the second level array.
  */
 function retrieveIdsFromTwoLevelNestedArrayById(id, arrayLevelOne, ArrayLevelTwo) {
-  let secondLevelArrayIds = [];
-  let secondLevelArray = arrayLevelOne[getIndexOfElementById(id, arrayLevelOne)][ArrayLevelTwo];
+  let secondLevelArrayIds = []
+  let secondLevelArray = arrayLevelOne[getIndexOfElementById(id, arrayLevelOne)][ArrayLevelTwo]
   for (let i = 0; i < secondLevelArray.length; i++) {
-    secondLevelArrayIds.push(secondLevelArray[i].id);
+    secondLevelArrayIds.push(secondLevelArray[i].id)
   }
-  return secondLevelArrayIds;
+  return secondLevelArrayIds
 }
 
 /**
@@ -287,19 +291,19 @@ function retrieveIdsFromTwoLevelNestedArrayById(id, arrayLevelOne, ArrayLevelTwo
  * @returns {string[]} An array of IDs.
  */
 function retrieveIdsFromOneLevelArrayById(arrayName) {
-  let idArray = [];
+  let idArray = []
   for (let i = 0; i < arrayName.length; i++) {
-    idArray.push(arrayName[i].id);
+    idArray.push(arrayName[i].id)
   }
-  return idArray;
+  return idArray
 }
 
 /**
  * Closes the current task dialog by toggling the background and re-rendering tasks.
  */
 function closeCurrentTask() {
-  toggleBackgroundDialog();
-  renderTasks(getFilteredTasks());
+  toggleBackgroundDialog()
+  renderTasks(getFilteredTasks())
 }
 
 /**
@@ -309,11 +313,11 @@ function closeCurrentTask() {
  * @param {number} i - The index of the task.
  */
 function checkBooleanForPriority(priority, prioSelection, i) {
-  if (priority["isPriority"] == false) {
-    prioSelection.innerHTML += prioNormal(priority, i);
+  if (priority['isPriority'] == false) {
+    prioSelection.innerHTML += prioNormal(priority, i)
   } else {
-    prioSelection.innerHTML += prioActive(priority, i);
-    priority["isPriority"] = false;
+    prioSelection.innerHTML += prioActive(priority, i)
+    priority['isPriority'] = false
   }
 }
 
@@ -321,11 +325,11 @@ function checkBooleanForPriority(priority, prioSelection, i) {
  * Checks if any task area is empty and sets an empty info box.
  */
 function ifTaskAreaIsEmptySetEmptyInfoBox() {
-  let taskAreas = initTaskAreas();
+  let taskAreas = initTaskAreas()
   for (let i = 0; i < taskAreas.length; i++) {
-    if (taskAreas[i].innerHTML == "") {
-      let statement = getStatementByTaskI(i);
-      taskAreas[i].innerHTML = taskAreaIsEmptyHtml(statement);
+    if (taskAreas[i].innerHTML == '') {
+      let statement = getStatementByTaskI(i)
+      taskAreas[i].innerHTML = taskAreaIsEmptyHtml(statement)
     }
   }
 }
@@ -336,12 +340,12 @@ function ifTaskAreaIsEmptySetEmptyInfoBox() {
  */
 function getStatementByTaskI(i) {
   const TaskAreaStatements = {
-    0: "To do",
-    1: "In progress",
-    2: "Await Feedback",
-    3: "Done",
-  };
-  return TaskAreaStatements[i];
+    0: 'To do',
+    1: 'In progress',
+    2: 'Await Feedback',
+    3: 'Done',
+  }
+  return TaskAreaStatements[i]
 }
 
 /**
@@ -355,9 +359,9 @@ function getTaskStatementIndex(id) {
     inProgress: 1,
     awaitFeedback: 2,
     done: 3,
-  };
-  const statement = tasks[getIndexOfElementById(id, tasks)].statement;
-  return statementIndices.hasOwnProperty(statement) ? statementIndices[statement] : -1;
+  }
+  const statement = tasks[getIndexOfElementById(id, tasks)].statement
+  return statementIndices.hasOwnProperty(statement) ? statementIndices[statement] : -1
 }
 
 /**
@@ -365,8 +369,8 @@ function getTaskStatementIndex(id) {
  */
 function filterTaskListener() {
   document
-    .getElementById("id-find-task-input")
-    .addEventListener("input", () => renderTasks(getFilteredTasks()));
+    .getElementById('id-find-task-input')
+    .addEventListener('input', () => renderTasks(getFilteredTasks()))
 }
 
 /**
@@ -374,26 +378,25 @@ function filterTaskListener() {
  * @returns {Object[]} The filtered list of tasks.
  */
 function getFilteredTasks() {
-  let inputValue = document.getElementById("id-find-task-input").value.toLowerCase();
-  let filteredTasks = tasks.filter((task) => {
-    return (
+  const inputElement = document.getElementById('id-find-task-input')
+  const inputValue = inputElement.value.toLowerCase()
+  return tasks.filter(
+    (task) =>
       task.title.toLowerCase().includes(inputValue) ||
       task.description.toLowerCase().includes(inputValue)
-    );
-  });
-  return filteredTasks;
+  )
 }
 
 /**
  * Sets up event listeners to change the border color of the search field.
  */
 function setSearchFieldBorderListener() {
-  const inputElement = document.getElementById("id-find-task-input");
-  const formElement = document.getElementById("id-input-find-task");
-  inputElement.addEventListener("focus", function () {
-    formElement.style.border = `1px solid var(--accent-color)`;
-  });
-  inputElement.addEventListener("blur", function () {
-    formElement.style.border = "1px solid  rgba(168, 168, 168, 1)";
-  });
+  const inputElement = document.getElementById('id-find-task-input')
+  const formElement = document.getElementById('id-input-find-task')
+  inputElement.addEventListener('focus', () => {
+    formElement.style.border = `1px solid var(--accent-color)`
+  })
+  inputElement.addEventListener('blur', () => {
+    formElement.style.border = '1px solid rgba(168, 168, 168, 1)'
+  })
 }

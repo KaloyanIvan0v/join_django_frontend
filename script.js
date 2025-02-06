@@ -83,7 +83,7 @@ async function loadUsers() {
  */
 async function loadContacts() {
   try {
-    contacts = await getItem('contacts')
+    contacts = await getItemsDjango('contacts')
   } catch (e) {
     console.error('Loading error:', e)
   }

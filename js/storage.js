@@ -4,6 +4,10 @@
  */
 const STORAGE_URL = 'https://join-6783b-default-rtdb.europe-west1.firebasedatabase.app/'
 
+const TASKS_URL = 'http://127.0.0.1:8000/api/v1/tasks/'
+const SUBTASKS_URL = 'http://127.0.0.1:8000/api/v1/subtasks/'
+const CONTACTS_URL = 'http://127.0.0.1:8000/api/v1/contacts/'
+const USERS_URL = 'http://127.0.0.1:8000/api/v1/users/'
 /**
  * Stores a key-value pair in the remote storage.
  *
@@ -37,4 +41,38 @@ async function getItem(path = '') {
     console.error('Error fetching data:', error)
     return []
   }
+}
+
+//SECTION - Django API
+
+async function getItemsDjango(itemName) {
+  try {
+    let response = await fetch(`http://127.0.0.1:8000/api/v1/${itemName}/`)
+    let data = await response.json()
+    return data !== '' && data !== null ? data : []
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    return []
+  }
+}
+
+async function getItemDjango(itemName, id) {
+  try {
+    let response = await fetch('http://127.0.0.1:8000/api/v1/' + itemName + '/' + id + '/')
+    let data = await response.json()
+    return data !== '' && data !== null ? data : []
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    return []
+  }
+}
+
+async function setItemsDjango(itemName, data) {
+  await fetch('http://127.0.0.1:8000/api/v1/' + itemName + '/', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
 }

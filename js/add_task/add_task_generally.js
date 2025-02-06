@@ -2,29 +2,29 @@
  * Loads the HTML task template with specific variables into the document body.
  */
 function loadHtmlTaskTemplate() {
-  let body = document.getElementById("body");
-  let createTask = "createTask";
-  let leftButtonFunction = "resetInputFields";
-  let leftButtonText = "Clear";
+  let body = document.getElementById('body')
+  let createTask = 'createTask'
+  let leftButtonFunction = 'resetInputFields'
+  let leftButtonText = 'Clear'
 
-  body.innerHTML += returnHtmlTaskTemplate(createTask, leftButtonFunction, leftButtonText);
+  body.innerHTML += returnHtmlTaskTemplate(createTask, leftButtonFunction, leftButtonText)
 }
 
 function addedToBoardPopUp() {
-  let bgDialog = document.getElementById("bgDialog");
+  let bgDialog = document.getElementById('bgDialog')
 
-  bgDialog.classList.remove("vs-hidden");
-  bgDialog.classList.add("align-center");
+  bgDialog.classList.remove('vs-hidden')
+  bgDialog.classList.add('align-center')
 }
 
 function toggleDropDownArrowInputField(idImage) {
-  let arrow = document.getElementById(idImage);
+  let arrow = document.getElementById(idImage)
   if (arrowToggleCheck == false) {
-    arrow.src = "../img/arrow_drop_down_up.png";
-    arrowToggleCheck = true;
+    arrow.src = '../img/arrow_drop_down_up.png'
+    arrowToggleCheck = true
   } else {
-    arrow.src = "../img/arrow_drop_down.png";
-    arrowToggleCheck = false;
+    arrow.src = '../img/arrow_drop_down.png'
+    arrowToggleCheck = false
   }
 }
 
@@ -32,72 +32,72 @@ function toggleDropDownArrowInputField(idImage) {
  * Resets input fields and other variables to their default state.
  */
 function resetInputFields() {
-  clearAssignedSection();
-  checkedUsers = [];
-  subTasks = [];
-  checkChangeIcons = true;
-  renderSubTasks("none");
-  currentDate();
-  changePrio(1);
-  changeIconsSubtask();
-  clearContactsChecked();
-  clearInnerHtmlInputFields();
+  clearAssignedSection()
+  checkedUsers = []
+  subTasks = []
+  checkChangeIcons = true
+  renderSubTasks('none')
+  currentDate()
+  changePrio(1)
+  changeIconsSubtask()
+  clearContactsChecked()
+  clearInnerHtmlInputFields()
 }
 
 function clearAssignedSection() {
-  let contactBox = document.getElementById("contactsField");
-  if (contactBox.classList.contains("contacts-initialen")) {
-    showOrHideContacts(event);
+  let contactBox = document.getElementById('contactsField')
+  if (contactBox.classList.contains('contacts-initialen')) {
+    showOrHideContacts(event)
   }
   for (let index = 0; index < contacts.length; index++) {
     if (contacts[index].checkbox == true) {
-      let id = contacts[index].id;
-      selectedUser(event, id);
+      let id = contacts[index].id
+      selectedUser(event, id)
     }
   }
-  showOrHideContacts(event);
-  arrowToggleCheck = true;
+  showOrHideContacts(event)
+  arrowToggleCheck = true
 }
 
 /**
  * Clears the inner HTML content of input fields.
  */
 function clearInnerHtmlInputFields() {
-  let subTasks = document.getElementById("subTasks");
-  let subTasksArea = document.getElementById("newSubTaskField");
-  let contactsField = document.getElementById("contactsField");
-  let assignedBtn = document.getElementById("inputToSearchContact");
-  let categoryField = document.getElementById("categoryDropdown");
+  let subTasks = document.getElementById('subTasks')
+  let subTasksArea = document.getElementById('newSubTaskField')
+  let contactsField = document.getElementById('contactsField')
+  let assignedBtn = document.getElementById('inputToSearchContact')
+  let categoryField = document.getElementById('categoryDropdown')
 
-  title.value = "";
-  description.value = "";
-  contactsField.innerHTML = "";
-  subTasks.value = "";
-  subTasksArea.innerHTML = "";
-  assignedBtn.innerHTML = "";
-  categoryField.innerHTML = "";
-  categoryField.innerHTML = "Select task category";
+  title.value = ''
+  description.value = ''
+  contactsField.innerHTML = ''
+  subTasks.value = ''
+  subTasksArea.innerHTML = ''
+  assignedBtn.innerHTML = ''
+  categoryField.innerHTML = ''
+  categoryField.innerHTML = 'Select task category'
 }
 
 /**
  * Sets the current date as the value of the specified date input field.
  */
 function currentDate() {
-  let inputDateField = document.getElementById("dueDate");
-  let todayDate = new Date();
-  let year = todayDate.getFullYear();
-  let month = todayDate.getMonth() + 1;
-  let day = todayDate.getDate();
+  let inputDateField = document.getElementById('dueDate')
+  let todayDate = new Date()
+  let year = todayDate.getFullYear()
+  let month = todayDate.getMonth() + 1
+  let day = todayDate.getDate()
 
   if (month < 10) {
-    month = "0" + month;
+    month = '0' + month
   }
   if (day < 10) {
-    day = "0" + day;
+    day = '0' + day
   }
-  let currentDate = year + "-" + month + "-" + day;
-  inputDateField.setAttribute("min", currentDate);
-  inputDateField.value = currentDate;
+  let currentDate = year + '-' + month + '-' + day
+  inputDateField.setAttribute('min', currentDate)
+  inputDateField.value = currentDate
 }
 
 /**
@@ -106,21 +106,21 @@ function currentDate() {
  * @param {number} i - The index of the priority to change.
  */
 function changePrio(i) {
-  currentPrio = priorities[i]["text"];
-  priorities[i]["isPriority"] = true;
-  selectPriority();
+  currentPrio = priorities[i]['text']
+  priorities[i]['isPriority'] = true
+  selectPriority()
 }
 
 /**
  * Updates the priority selection options based on the priority data.
  */
 function selectPriority() {
-  let prioSelection = document.getElementById("prioSelection");
-  prioSelection.innerHTML = "";
+  let prioSelection = document.getElementById('prioSelection')
+  prioSelection.innerHTML = ''
 
   for (i = 0; i < priorities.length; i++) {
-    priority = priorities[i];
-    checkBooleanForPriority(priority);
+    priority = priorities[i]
+    checkBooleanForPriority(priority)
   }
 }
 
@@ -131,11 +131,11 @@ function selectPriority() {
  * @param {HTMLElement} prioSelection - The HTML element to update with the priority options.
  */
 function checkBooleanForPriority(priority) {
-  if (priority["isPriority"] == false) {
-    prioSelection.innerHTML += prioNormal(priority);
+  if (priority['isPriority'] == false) {
+    prioSelection.innerHTML += prioNormal(priority)
   } else {
-    prioSelection.innerHTML += prioActive(priority);
-    priority["isPriority"] = false;
+    prioSelection.innerHTML += prioActive(priority)
+    priority['isPriority'] = false
   }
 }
 
@@ -147,28 +147,28 @@ function checkBooleanForPriority(priority) {
  */
 function showOrHideCategoriesField(event) {
   if (event) {
-    event.stopPropagation();
+    event.stopPropagation()
   }
   if (openContacts) {
-    closeContactsField(event);
-    openContacts = false;
+    closeContactsField(event)
+    openContacts = false
   }
-  let categoriesField = document.getElementById("categories");
+  let categoriesField = document.getElementById('categories')
 
-  categoriesField.innerHTML = "";
+  categoriesField.innerHTML = ''
 
   if (categoryBoolean == false) {
-    openCategories = true;
+    openCategories = true
     for (i = 0; i < categories.length; i++) {
-      let category = categories[i];
-      categoriesField.innerHTML += returnHtmlShowCategories(category);
+      let category = categories[i]
+      categoriesField.innerHTML += returnHtmlShowCategories(category)
     }
-    categoryBoolean = true;
-    arrowToggleCheck = false;
+    categoryBoolean = true
+    arrowToggleCheck = false
   } else {
-    categoryBoolean = false;
+    categoryBoolean = false
   }
-  toggleDropDownArrowInputField("dropDownArrowCategory");
+  toggleDropDownArrowInputField('dropDownArrowCategory')
 }
 
 /**
@@ -178,15 +178,15 @@ function showOrHideCategoriesField(event) {
  * @returns {void}
  */
 function changeCategoryAndCloseDropdown(category) {
-  let showSelectedCatageory = document.getElementById("categoryDropdown");
-  let containerCategory = document.getElementById("containerCategory");
-  showSelectedCatageory.innerHTML = "";
-  showSelectedCatageory.innerHTML = category;
-  containerCategory.classList.remove("error-border");
+  let showSelectedCatageory = document.getElementById('categoryDropdown')
+  let containerCategory = document.getElementById('containerCategory')
+  showSelectedCatageory.innerHTML = ''
+  showSelectedCatageory.innerHTML = category
+  containerCategory.classList.remove('error-border')
 
-  selectedCategory = category;
-  arrowToggleCheck = true;
-  showOrHideCategoriesField();
+  selectedCategory = category
+  arrowToggleCheck = true
+  showOrHideCategoriesField()
 }
 
 /**
@@ -194,18 +194,18 @@ function changeCategoryAndCloseDropdown(category) {
  */
 function clearContactsChecked() {
   for (i = 0; i < contacts.length; i++) {
-    contacts[i]["checkbox"] = false;
+    contacts[i]['checkbox'] = false
   }
 }
 
 function closeContactsOrCategories(event) {
   if (openContacts) {
-    closeContactsField(event);
-    openContacts = false;
+    closeContactsField(event)
+    openContacts = false
   } else if (openCategories) {
-    showOrHideCategoriesField(event);
-    openCategories = false;
-    arrowToggleCheck = false;
+    showOrHideCategoriesField(event)
+    openCategories = false
+    arrowToggleCheck = false
   }
 }
 
@@ -216,7 +216,7 @@ function closeContactsOrCategories(event) {
  */
 function closeContactsField(event) {
   if (arrowToggleCheck == true) {
-    showOrHideContacts(event);
+    showOrHideContacts(event)
   }
 }
 
@@ -227,16 +227,16 @@ function closeContactsField(event) {
  * @param {string} idToggle - The ID of the element to toggle.
  */
 function showOrHideRequiredField(idParent, idToggle) {
-  let input = document.getElementById(idParent);
-  let inputValue = input.value;
-  let element = document.getElementById(idToggle);
+  let input = document.getElementById(idParent)
+  let inputValue = input.value
+  let element = document.getElementById(idToggle)
 
   if (inputValue.length == 0) {
-    element.classList.remove("vs-hidden");
-    input.classList.add("error-border");
+    element.classList.remove('vs-hidden')
+    input.classList.add('error-border')
   } else if (inputValue.length > 0) {
-    element.classList.add("vs-hidden");
-    input.classList.remove("error-border");
+    element.classList.add('vs-hidden')
+    input.classList.remove('error-border')
   }
 }
 
@@ -246,27 +246,27 @@ function showOrHideRequiredField(idParent, idToggle) {
  * @param {Event} event - The click event.
  */
 function showOrHideContacts(event) {
-  event.stopPropagation();
+  event.stopPropagation()
 
   if (openCategories) {
-    showOrHideCategoriesField(event);
-    openCategories = false;
-    arrowToggleCheck = false;
+    showOrHideCategoriesField(event)
+    openCategories = false
+    arrowToggleCheck = false
   }
-  toggleDropDownArrowInputField("dropDownArrow");
+  toggleDropDownArrowInputField('dropDownArrow')
 
-  let contactsField = document.getElementById("contactsField");
-  let inputField = document.getElementById("inputToSearchContact");
+  let contactsField = document.getElementById('contactsField')
+  let inputField = document.getElementById('inputToSearchContact')
 
   if (arrowToggleCheck == true) {
-    openContacts = true;
-    contactsField.classList.add("contacts-assigned");
-    contactsField.classList.remove("contacts-initialen");
-    renderContactsToSelect(contactsField, contacts);
+    openContacts = true
+    contactsField.classList.add('contacts-assigned')
+    contactsField.classList.remove('contacts-initialen')
+    renderContactsToSelect(contactsField, contacts)
   } else {
-    showContactsInitial(contactsField);
-    inputField.blur();
-    inputField.value = "";
+    showContactsInitial(contactsField)
+    inputField.blur()
+    inputField.value = ''
   }
 }
 
@@ -277,14 +277,14 @@ function showOrHideContacts(event) {
  * @param {Array} arrayToRender - The array of contacts to render.
  */
 function renderContactsToSelect(contactsField, arrayToRender) {
-  contactsField.innerHTML = "";
+  contactsField.innerHTML = ''
 
   for (i = 0; i < arrayToRender.length; i++) {
-    let contact = arrayToRender[i];
-    let contactId = arrayToRender[i]["id"];
-    contactsField.innerHTML += returnHtmlSingleContact(contact);
-    backgroundColorInitialsById(i, contactId, "showInitial");
-    checkIfContactChecked(contactId);
+    let contact = arrayToRender[i]
+    let contactId = arrayToRender[i]['id']
+    contactsField.innerHTML += returnHtmlSingleContact(contact)
+    backgroundColorInitialsById(i, contactId, 'showInitial')
+    checkIfContactChecked(contactId)
   }
 }
 
@@ -295,17 +295,17 @@ function renderContactsToSelect(contactsField, arrayToRender) {
  * @param {string} whichArea - The area to set the background color for.
  */
 function backgroundColorInitialsById(i, contactId, whichArea) {
-  let indexOfId = contacts.findIndex((item) => item.id === contactId);
+  let indexOfId = contacts.findIndex((item) => item.id === contactId)
 
-  let currentColor = contacts[indexOfId]["color"];
-  let bgColorCheckedUser = contactColor[currentColor];
+  let currentColor = contacts[indexOfId]['color']
+  let bgColorCheckedUser = contactColor[currentColor]
 
-  if (whichArea == "showInitial") {
-    let bgInitials = document.getElementById(`bgInitials${i}`);
-    bgInitials.style.backgroundColor = bgColorCheckedUser;
+  if (whichArea == 'showInitial') {
+    let bgInitials = document.getElementById(`bgInitials${i}`)
+    bgInitials.style.backgroundColor = bgColorCheckedUser
   } else {
-    let bgInitials = document.getElementById(`initialArea${i}`);
-    bgInitials.style.backgroundColor = bgColorCheckedUser;
+    let bgInitials = document.getElementById(`initialArea${i}`)
+    bgInitials.style.backgroundColor = bgColorCheckedUser
   }
 }
 
@@ -315,18 +315,18 @@ function backgroundColorInitialsById(i, contactId, whichArea) {
  * @param {HTMLElement} contactsField - The HTML element to render initial contacts into.
  */
 function showContactsInitial(contactsField) {
-  contactsField.innerHTML = "";
+  contactsField.innerHTML = ''
 
   for (i = 0; i < checkedUsers.length; i++) {
-    let contact = checkedUsers[i];
-    let contactId = checkedUsers[i]["id"];
-    let checkBoxStatus = checkedUsers[i]["checkbox"];
+    let contact = checkedUsers[i]
+    let contactId = checkedUsers[i]['id']
+    let checkBoxStatus = checkedUsers[i]['checkbox']
 
     if (checkBoxStatus == true) {
-      contactsField.classList.remove("contacts-assigned");
-      contactsField.classList.add("contacts-initialen");
-      contactsField.innerHTML += loadInitial(i, contact);
-      backgroundColorInitialsById(i, contactId, "initialArea");
+      contactsField.classList.remove('contacts-assigned')
+      contactsField.classList.add('contacts-initialen')
+      contactsField.innerHTML += loadInitial(i, contact)
+      backgroundColorInitialsById(i, contactId, 'initialArea')
     }
   }
 }
@@ -335,19 +335,19 @@ function showContactsInitial(contactsField) {
  * Searches for contacts based on the input value and updates the contacts dropdown accordingly.
  */
 function searchContact() {
-  let inputSearchContact = document.getElementById("inputToSearchContact").value;
+  let inputSearchContact = document.getElementById('inputToSearchContact').value
 
-  inputSearchContact = inputSearchContact.toLowerCase();
+  inputSearchContact = inputSearchContact.toLowerCase()
 
-  findContactsAtSearch.splice(0, findContactsAtSearch.length);
+  findContactsAtSearch.splice(0, findContactsAtSearch.length)
   if (inputSearchContact.length >= 3) {
     for (i = 0; i < contacts.length; i++) {
-      contact = contacts[i];
-      filterContacts(contact, inputSearchContact);
+      contact = contacts[i]
+      filterContacts(contact, inputSearchContact)
     }
-    renderContactsToSelect(contactsField, findContactsAtSearch);
+    renderContactsToSelect(contactsField, findContactsAtSearch)
   } else {
-    renderContactsToSelect(contactsField, contacts);
+    renderContactsToSelect(contactsField, contacts)
   }
 }
 
@@ -359,7 +359,7 @@ function searchContact() {
  */
 function filterContacts(contact, inputSearchContact) {
   if (contact.name.toLowerCase().includes(inputSearchContact)) {
-    findContactsAtSearch.push(contact);
+    findContactsAtSearch.push(contact)
   }
 }
 
@@ -372,24 +372,24 @@ function filterContacts(contact, inputSearchContact) {
  */
 function selectedUser(event, contactId) {
   if (event) {
-    event.stopPropagation();
+    event.stopPropagation()
   }
-  checkedContactsId.push(contactId);
-  let indexOfId = contacts.findIndex((item) => item.id === contactId);
+  checkedContactsId.push(contactId)
+  let indexOfId = contacts.findIndex((item) => item.id === contactId)
 
-  let singleUser = contacts[indexOfId];
-  let currentIndex = checkedUsers.indexOf(singleUser);
-  let inputField = document.getElementById("inputToSearchContact");
+  let singleUser = contacts[indexOfId]
+  let currentIndex = checkedUsers.indexOf(singleUser)
+  let inputField = document.getElementById('inputToSearchContact')
 
   if (!checkedUsers.includes(singleUser, 0)) {
-    checkedUsers.push(singleUser);
+    checkedUsers.push(singleUser)
   } else {
-    checkedUsers.splice(currentIndex, 1);
+    checkedUsers.splice(currentIndex, 1)
   }
-  toggleBackgroundForCheckedUser(contactId);
-  toggleCheckboxStatus(contactId);
-  toggleCheckbox(contactId);
-  inputField.focus();
+  toggleBackgroundForCheckedUser(contactId)
+  toggleCheckboxStatus(contactId)
+  toggleCheckbox(contactId)
+  inputField.focus()
 }
 
 /**
@@ -398,10 +398,10 @@ function selectedUser(event, contactId) {
  * @param {number} i - The index of the contact.
  */
 function toggleBackgroundForCheckedUser(id) {
-  let userField = document.getElementById(`userField${id}`);
-  let paddingForChecked = document.getElementById(`paddingForChecked${id}`);
-  userField.classList.toggle("hover-user-field");
-  paddingForChecked.classList.toggle("pd-right-16");
+  let userField = document.getElementById(`userField${id}`)
+  let paddingForChecked = document.getElementById(`paddingForChecked${id}`)
+  userField.classList.toggle('hover-user-field')
+  paddingForChecked.classList.toggle('pd-right-16')
 }
 
 /**
@@ -410,21 +410,21 @@ function toggleBackgroundForCheckedUser(id) {
  * @param {number} i - The index of the contact.
  */
 function toggleCheckbox(id) {
-  let checkBox = document.getElementById(`checkBox${id}`);
-  let checkBoxStatus = contacts[getIndexOfElementById(id, contacts)]["checkbox"];
+  let checkBox = document.getElementById(`checkBox${id}`)
+  let checkBoxStatus = contacts[getIndexOfElementById(id, contacts)]['checkbox']
   if (checkBoxStatus == false) {
-    checkBox.src = "/img/box-unchecked.png";
+    checkBox.src = '/img/box-unchecked.png'
   } else {
-    checkBox.src = "/img/Check-button.png";
+    checkBox.src = '/img/Check-button.png'
   }
 }
 
 function toggleCheckboxStatus(id) {
-  let checkBoxStatus = contacts[getIndexOfElementById(id, contacts)]["checkbox"];
+  let checkBoxStatus = contacts[getIndexOfElementById(id, contacts)]['checkbox']
   if (checkBoxStatus == false) {
-    contacts[getIndexOfElementById(id, contacts)]["checkbox"] = true;
+    contacts[getIndexOfElementById(id, contacts)]['checkbox'] = true
   } else {
-    contacts[getIndexOfElementById(id, contacts)]["checkbox"] = false;
+    contacts[getIndexOfElementById(id, contacts)]['checkbox'] = false
   }
 }
 
@@ -434,13 +434,13 @@ function toggleCheckboxStatus(id) {
  * @param {number} i - The index of the contact.
  */
 function checkIfContactChecked(id) {
-  let currentContactId = id;
+  let currentContactId = id
 
   for (j = 0; j < checkedContactsId.length; j++) {
-    let checkedContact = checkedContactsId[j];
+    let checkedContact = checkedContactsId[j]
     if (checkedContact === currentContactId) {
-      toggleBackgroundForCheckedUser(currentContactId);
-      toggleCheckbox(currentContactId);
+      toggleBackgroundForCheckedUser(currentContactId)
+      toggleCheckbox(currentContactId)
     }
   }
 }
