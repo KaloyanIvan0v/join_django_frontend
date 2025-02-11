@@ -5,8 +5,8 @@
  */
 async function init_board() {
   try {
-    await loadTasks()
-    await loadContacts()
+    await loadAllTasks()
+    await loadAllContacts()
     await includeHTML()
     renderTasks(getFilteredTasks())
     setSearchFieldBorderListener()
@@ -71,7 +71,7 @@ function renderSingleTask(taskList, taskAreas, i) {
   setCategoryColor(i, taskList)
   setPriorityTaskCard(i, id)
   renderContactsBoardInitials(false, id, `contactsFieldBoard(${id})`)
-  if (singleTask.subTasks !== -1) {
+  if (singleTask.subTasks[0] !== -1) {
     handleSubtasksProgressBar(id)
   }
 }
@@ -151,7 +151,7 @@ function getFinishedSubTasksLength(id) {
  * @returns {number} The index of the task area.
  */
 function sectionIdForTask(taskList, i) {
-  let statement = taskList[i]['statement']
+  let statement = taskList[i]['state']
   if (statement == 'toDo') {
     return 0
   } else if (statement == 'inProgress') {
@@ -360,7 +360,7 @@ function getTaskStatementIndex(id) {
     awaitFeedback: 2,
     done: 3,
   }
-  const statement = tasks[getIndexOfElementById(id, tasks)].statement
+  const statement = tasks[getIndexOfElementById(id, tasks)].state
   return statementIndices.hasOwnProperty(statement) ? statementIndices[statement] : -1
 }
 

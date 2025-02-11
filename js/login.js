@@ -7,9 +7,9 @@ let checkBoxState = false
  */
 async function initLogin() {
   setStartScreenImgAndBackgroundColor()
-  await loadUsers()
-  await loadContacts()
-  await loadTasks()
+  await loadAllUsers()
+  await loadAllContacts()
+  await loadAllTasks()
   setPwdInputEventListeners()
   setTimeout(() => {
     startScreen()

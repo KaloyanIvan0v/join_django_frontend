@@ -5,17 +5,17 @@
  * @returns {void}
  */
 function openContactForm(form) {
-  addShadowLayer();
-  let contactForm = document.getElementById("id-contact-form");
-  if (form === "addContact") {
-    loadAddContactTemplate(contactForm);
+  addShadowLayer()
+  let contactForm = document.getElementById('id-contact-form')
+  if (form === 'addContact') {
+    loadAddContactTemplate(contactForm)
   } else {
-    loadEditContactTemplate(contactForm);
+    loadEditContactTemplate(contactForm)
   }
-  includeHTML();
+  includeHTML()
   setTimeout(function () {
-    toggleContactForm();
-  }, 100);
+    toggleContactForm()
+  }, 100)
 }
 
 /**
@@ -25,12 +25,12 @@ function openContactForm(form) {
  * @returns {void}
  */
 function loadAddContactTemplate(element) {
-  handleHoverButtonChangeImgDelayed();
-  element.innerHTML = `<div class="contact-form" w3-include-html="/templates/add-contact.html"></div>`;
+  handleHoverButtonChangeImgDelayed()
+  element.innerHTML = `<div class="contact-form" w3-include-html="/templates/add-contact.html"></div>`
   setTimeout(function () {
-    document.getElementById("id-contact-form-cancel").classList.add("d-none-mobile-1300");
-    handleInputOnFocusChangeParentElementBorderColor();
-  }, 200);
+    document.getElementById('id-contact-form-cancel').classList.add('d-none-mobile-1300')
+    handleInputOnFocusChangeParentElementBorderColor()
+  }, 200)
 }
 
 /**
@@ -40,11 +40,11 @@ function loadAddContactTemplate(element) {
  * @returns {void}
  */
 function loadEditContactTemplate(element) {
-  element.innerHTML = `<div class="contact-form" w3-include-html="/templates/edit-contact.html"></div>`;
+  element.innerHTML = `<div class="contact-form" w3-include-html="/templates/edit-contact.html"></div>`
   setTimeout(function () {
-    editContactFillForm();
-    handleInputOnFocusChangeParentElementBorderColor();
-  }, 200);
+    editContactFillForm()
+    handleInputOnFocusChangeParentElementBorderColor()
+  }, 200)
 }
 
 /**
@@ -55,12 +55,12 @@ function loadEditContactTemplate(element) {
  */
 function exitContactForm(event) {
   if (event) {
-    event.preventDefault();
+    event.preventDefault()
   }
-  toggleContactForm();
+  toggleContactForm()
   setTimeout(function () {
-    closeContactForm();
-  }, 500);
+    closeContactForm()
+  }, 500)
 }
 
 /**
@@ -70,12 +70,12 @@ function exitContactForm(event) {
  * @returns {void}
  */
 function closeContactForm(event) {
-  let contactForm = document.getElementById("id-contact-form");
+  let contactForm = document.getElementById('id-contact-form')
   if (event) {
-    event.preventDefault();
+    event.preventDefault()
   }
-  contactForm.innerHTML = "";
-  removeShadowLayer();
+  contactForm.innerHTML = ''
+  removeShadowLayer()
 }
 
 /**
@@ -84,14 +84,14 @@ function closeContactForm(event) {
  * @returns {void}
  */
 function editContactFillForm() {
-  const contactIndex = getContactIndex(getActualContactEmail());
+  const contactIndex = getContactIndex(getActualContactEmail())
   if (contactIndex !== undefined) {
-    const { name, email, phone, nameInitials: badge, color } = contacts[contactIndex];
-    document.getElementById("id-edit-contact-input-name").value = name;
-    document.getElementById("id-edit-contact-input-email").value = email;
-    document.getElementById("id-edit-contact-input-phone").value = phone;
-    setBadge(badge, color);
-    currentEditingContactId = contactIndex;
+    const { name, email, phone, nameInitials: badge, color } = contacts[contactIndex]
+    document.getElementById('id-edit-contact-input-name').value = name
+    document.getElementById('id-edit-contact-input-email').value = email
+    document.getElementById('id-edit-contact-input-phone').value = phone
+    setBadge(badge, color)
+    currentEditingContactId = contactIndex
   }
 }
 
@@ -101,16 +101,16 @@ function editContactFillForm() {
  * @returns {void}
  */
 async function addNewContact() {
-  const name = document.getElementById("id-add-contact-name").value;
-  const email = document.getElementById("id-add-contact-email").value;
-  const phone = document.getElementById("id-add-contact-phone").value;
-  const color = Math.floor(Math.random() * 14) + 1;
-  const nameInitials = generateBadge(name);
-  const author = "Günter";
-  const id = increaseId(contacts);
-  const contact = { id, name, email, phone, color, nameInitials, author, checkbox: false };
-  contacts.push(contact);
-  safeContacts();
+  const name = document.getElementById('id-add-contact-name').value
+  const email = document.getElementById('id-add-contact-email').value
+  const phone = document.getElementById('id-add-contact-phone').value
+  const color = Math.floor(Math.random() * 14) + 1
+  const nameInitials = generateBadge(name)
+  const author = 'Günter'
+  const id = increaseId(contacts)
+  const contact = { id, name, email, phone, color, nameInitials, author, checkbox: false }
+  contacts.push(contact)
+  createContact(contact)
 }
 
 /**
@@ -119,13 +119,13 @@ async function addNewContact() {
  * @returns {void}
  */
 function toggleContactForm() {
-  const form = document.querySelector(".contact-form");
-  if (form.classList.contains("contact-form-visible")) {
-    form.classList.remove("contact-form-visible");
-    form.classList.add("contact-form-hidden");
+  const form = document.querySelector('.contact-form')
+  if (form.classList.contains('contact-form-visible')) {
+    form.classList.remove('contact-form-visible')
+    form.classList.add('contact-form-hidden')
   } else {
-    form.classList.remove("contact-form-hidden");
-    form.classList.add("contact-form-visible");
+    form.classList.remove('contact-form-hidden')
+    form.classList.add('contact-form-visible')
   }
 }
 
@@ -135,8 +135,8 @@ function toggleContactForm() {
  * @returns {void}
  */
 function openContactEditMenu() {
-  var element = document.getElementById("id-contact-full-mode-edit-mobile");
-  element.classList.remove("hide");
+  var element = document.getElementById('id-contact-full-mode-edit-mobile')
+  element.classList.remove('hide')
 }
 
 /**
@@ -146,8 +146,8 @@ function openContactEditMenu() {
  */
 function closeContactEditMenu() {
   if (window.width < 1080) {
-    var element = document.getElementById("id-contact-full-mode-edit-mobile");
-    element.classList.add("hide");
+    var element = document.getElementById('id-contact-full-mode-edit-mobile')
+    element.classList.add('hide')
   }
 }
 
@@ -158,17 +158,17 @@ function closeContactEditMenu() {
  */
 function setListenerForEditDeleteBtn() {
   handleHoverButtonChangeImg(
-    ".contact-full-mode-edit-contact",
-    ".edit-btn-img",
+    '.contact-full-mode-edit-contact',
+    '.edit-btn-img',
     'url("/img/edit-pencil.png")',
     'url("/img/edit-pencil-light-blue.png")'
-  );
+  )
   handleHoverButtonChangeImg(
-    ".contact-full-mode-delete-contact",
-    ".delete-btn-img",
+    '.contact-full-mode-delete-contact',
+    '.delete-btn-img',
     'url("/img/trash-blue.png")',
     'url("/img/trash-light-blue.png")'
-  );
+  )
 }
 
 /**
@@ -177,12 +177,12 @@ function setListenerForEditDeleteBtn() {
  * @returns {void}
  */
 function createContactAndCloseForm() {
-  addNewContact();
-  toggleContactForm();
+  addNewContact()
+  toggleContactForm()
   setTimeout(function () {
-    closeContactForm();
-    renderContacts(contacts);
-  }, 500);
+    closeContactForm()
+    renderContacts(contacts)
+  }, 500)
 }
 
 /**
@@ -191,17 +191,17 @@ function createContactAndCloseForm() {
  * @returns {void}
  */
 function SaveEditedContact() {
-  let contact = contacts[currentEditingContactId];
-  contact.name = document.getElementById("id-edit-contact-input-name").value;
-  contact.email = document.getElementById("id-edit-contact-input-email").value;
-  contact.phone = document.getElementById("id-edit-contact-input-phone").value;
-  toggleContactForm();
+  let contact = contacts[currentEditingContactId]
+  contact.name = document.getElementById('id-edit-contact-input-name').value
+  contact.email = document.getElementById('id-edit-contact-input-email').value
+  contact.phone = document.getElementById('id-edit-contact-input-phone').value
+  toggleContactForm()
   setTimeout(function () {
-    safeContacts();
-    closeContactForm();
-    renderContacts(contacts);
-    renderContactFullMode(contacts[currentEditingContactId]);
-  }, 500);
+    updateContact(contact)
+    closeContactForm()
+    renderContacts(contacts)
+    renderContactFullMode(contacts[currentEditingContactId])
+  }, 500)
 }
 
 /**
@@ -212,10 +212,10 @@ function SaveEditedContact() {
  */
 function deleteContactFromForm(event) {
   if (event) {
-    event.preventDefault();
+    event.preventDefault()
   }
-  toggleContactForm();
+  toggleContactForm()
   setTimeout(function () {
-    deleteContact();
-  }, 500);
+    removeContact()
+  }, 500)
 }

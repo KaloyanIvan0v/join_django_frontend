@@ -1,45 +1,45 @@
-let currentPrio = ["medium"];
-let idNumber = [];
-let categories = ["Technical Task", "User Story"];
-let selectedCategory = [];
-let subTasks = [];
-let subTaskStatus = [];
-let checkedUsers = [];
-let findContactsAtSearch = [];
-let finishedSubTasks = [];
-let checkedContactsId = [];
-let openContacts = false;
-let openCategories = false;
-let checkChangeIcons = false;
-let checkBoxContact = false;
-let arrowToggleCheck = false;
-let categoryBoolean = false;
+let currentPrio = ['medium']
+let idNumber = []
+let categories = ['Technical Task', 'User Story']
+let selectedCategory = []
+let subTasks = []
+let subTaskStatus = []
+let checkedUsers = []
+let findContactsAtSearch = []
+let finishedSubTasks = []
+let checkedContactsId = []
+let openContacts = false
+let openCategories = false
+let checkChangeIcons = false
+let checkBoxContact = false
+let arrowToggleCheck = false
+let categoryBoolean = false
 
 async function init_add_task() {
-  await includeHTML();
-  loadHtmlTaskTemplate();
+  await includeHTML()
+  loadHtmlTaskTemplate()
   // setTimeout(loadFirstLettersFromSessionStorage, 300);
-  loadTasks();
-  loadContacts();
-  loadUsers();
-  setTimeout(selectPriority, 200);
-  setTimeout(currentDate, 200);
-  handleExitImg();
+  loadAllTasks()
+  loadAllContacts()
+  loadAllUsers()
+  setTimeout(selectPriority, 200)
+  setTimeout(currentDate, 200)
+  handleExitImg()
 }
 
 /**
  * Creates a new task, adds it to the board, and redirects to the board page after a delay.
  */
 function createTask() {
-  let containerCategory = document.getElementById("containerCategory");
+  let containerCategory = document.getElementById('containerCategory')
   if (selectedCategory.length == 0) {
-    containerCategory.classList.add("error-border");
+    containerCategory.classList.add('error-border')
   } else {
-    addTask();
-    addedToBoardPopUp();
+    addTask()
+    addedToBoardPopUp()
     setTimeout(function () {
-      window.location.href = "board.html";
-    }, 900);
+      window.location.href = 'board.html'
+    }, 900)
   }
 }
 
@@ -49,65 +49,78 @@ function createTask() {
  * @returns {Promise} A promise that resolves after the task is added.
  */
 async function addTask() {
-  let idNumber = increaseId(tasks);
-  let title = document.getElementById("title");
-  let description = document.getElementById("description");
-  let dueDate = document.getElementById("dueDate");
-  let checkedUsersForTask = checkedUsers;
-  let task = {
-    title: title.value,
-    description: description.value,
-    assignedTo: checkedUsers.length === 0 ? -1 : checkedUsers,
-    dueDate: dueDate.value,
-    prio: currentPrio,
-    category: selectedCategory,
-    subTasks: subTasks.length === 0 ? -1 : subTasks,
-    finishedSubTasks: finishedSubTasks,
-    checkedUsers: checkedUsersForTask.length === 0 ? -1 : checkedUsersForTask,
-    statement: "toDo",
-    id: idNumber,
-  };
-  tasks.push(task);
-  await setItem("tasks", tasks);
+  try {
+    const task = {
+      title: document.getElementById('title').value,
+      description: document.getElementById('description').value,
+      assignedTo: checkedUsers.length === 0 ? [] : checkedUsers, // Changed -1 to empty array
+      dueDate: document.getElementById('dueDate').value,
+      prio: currentPrio,
+      category: selectedCategory,
+      subTasks: subTasks.length === 0 ? [] : subTasks, // Changed -1 to empty array
+      finishedSubTasks: finishedSubTasks || [], // Added default
+      state: 'toDo',
+    }
+
+    // Validate task
+    if (!validateTask(task)) {
+      throw new Error('Invalid task data')
+    }
+
+    //tasks.push(task)
+    //await setItem('tasks', tasks)
+    await createTaskApi(task)
+
+    return true
+  } catch (error) {
+    console.error('Error adding task:', error)
+    return false
+  }
+}
+
+function validateTask(task) {
+  return (
+    task.title && task.dueDate && Array.isArray(task.assignedTo) && Array.isArray(task.subTasks)
+  )
 }
 
 /**
  * Changes the icons for adding or clearing subtasks and renders the subtasks accordingly.
  */
 function changeIconsSubtask() {
-  let addIconSubtasks = document.getElementById("addIconSubtasks");
-  let subTask = document.getElementById("inputFieldSubtasks");
+  let addIconSubtasks = document.getElementById('addIconSubtasks')
+  let subTask = document.getElementById('inputFieldSubtasks')
 
-  addIconSubtasks.innerHTML = "";
+  addIconSubtasks.innerHTML = ''
 
   if (checkChangeIcons == false) {
-    addIconSubtasks.innerHTML = returnHtmlCheckAndClear();
-    checkChangeIcons = false;
-    renderSubTasks();
+    addIconSubtasks.innerHTML = returnHtmlCheckAndClear()
+    checkChangeIcons = false
+    renderSubTasks()
   } else {
-    addIconSubtasks.innerHTML = returnHtmlAdd();
-    checkChangeIcons = false;
+    addIconSubtasks.innerHTML = returnHtmlAdd()
+    checkChangeIcons = false
   }
-  renderSubTasks();
+  renderSubTasks()
 }
 
 /**
  * Adds a new subtask to the list of subtasks.
  */
 function addNewSubTask() {
-  let id = increaseId(subTasks);
-  let singleNewTask = document.getElementById("subTasks");
-  let singleNewTaskValue = singleNewTask.value;
+  let id = increaseId(subTasks)
+  let singleNewTask = document.getElementById('subTasks')
+  let singleNewTaskValue = singleNewTask.value
 
   if (singleNewTaskValue.length >= 3) {
     subTasks.push({
       subTask: singleNewTaskValue,
       status: false,
       id: id,
-    });
+    })
   }
-  singleNewTask.blur();
-  renderSubTasks("newSubtask");
+  singleNewTask.blur()
+  renderSubTasks('newSubtask')
 }
 
 /**
@@ -116,10 +129,10 @@ function addNewSubTask() {
  * @param {number} i - The index of the subtask.
  */
 function deleteSubtask(event, i) {
-  event.stopPropagation();
-  subTasks.splice(i, 1);
-  setItem("subTasks", subTasks);
-  renderSubTasks();
+  event.stopPropagation()
+  subTasks.splice(i, 1)
+  setItem('subTasks', subTasks)
+  renderSubTasks()
 }
 
 /**
@@ -128,10 +141,10 @@ function deleteSubtask(event, i) {
  * @param {number} i - The index of the subtask.
  */
 async function changeSubtask(i) {
-  let changedSubTask = document.getElementById(`inputField${i}`).value;
-  subTasks[i]["subTask"] = changedSubTask;
-  await setItem("subTasks", subTasks);
-  renderSubTasks();
+  let changedSubTask = document.getElementById(`inputField${i}`).value
+  subTasks[i]['subTask'] = changedSubTask
+  await setItem('subTasks', subTasks)
+  renderSubTasks()
 }
 
 /**
@@ -140,26 +153,26 @@ async function changeSubtask(i) {
  * @param {string} operator - The operation to perform.
  */
 function renderSubTasks(operator) {
-  let newTaskField = document.getElementById("newSubTaskField");
-  let singleNewTask = document.getElementById("subTasks");
-  singleNewTask.value = "";
-  newTaskField.innerHTML = "";
+  let newTaskField = document.getElementById('newSubTaskField')
+  let singleNewTask = document.getElementById('subTasks')
+  singleNewTask.value = ''
+  newTaskField.innerHTML = ''
 
   for (i = 0; i < subTasks.length; i++) {
-    let newSubTask = subTasks[i]["subTask"];
-    newTaskField.innerHTML += returnHtmlNewSubtasks(newSubTask);
+    let newSubTask = subTasks[i]['subTask']
+    newTaskField.innerHTML += returnHtmlNewSubtasks(newSubTask)
   }
-  checkIfNewSubTask(operator);
+  checkIfNewSubTask(operator)
 }
 
 /**
  * Resets the input field for adding a new subtask.
  */
 function resetAddNewSubtask() {
-  let subTasks = document.getElementById("subTasks");
-  subTasks.value = "";
-  checkChangeIcons = true;
-  changeIconsSubtask();
+  let subTasks = document.getElementById('subTasks')
+  subTasks.value = ''
+  checkChangeIcons = true
+  changeIconsSubtask()
 }
 
 /**
@@ -168,10 +181,10 @@ function resetAddNewSubtask() {
  * @param {string} operator - The operation to perform.
  */
 async function checkIfNewSubTask(operator) {
-  if (operator == "newSubtask") {
-    checkChangeIcons = true;
-    changeIconsSubtask();
-    await setItem("subTasks", subTasks);
+  if (operator == 'newSubtask') {
+    checkChangeIcons = true
+    changeIconsSubtask()
+    await setItem('subTasks', subTasks)
   }
 }
 
@@ -181,13 +194,13 @@ async function checkIfNewSubTask(operator) {
  * @param {number} i - The index of the subtask.
  */
 function editSubtask(i) {
-  let subTaskField = document.getElementById(`subTaskElement${i}`);
-  let subTask = subTasks[i]["subTask"];
+  let subTaskField = document.getElementById(`subTaskElement${i}`)
+  let subTask = subTasks[i]['subTask']
 
-  subTaskField.classList.add("list-element-subtasks");
-  subTaskField.classList.remove("hover-subtask");
-  subTaskField.innerHTML = editSubtaskHtml(i, subTask);
-  inputFocus(i);
+  subTaskField.classList.add('list-element-subtasks')
+  subTaskField.classList.remove('hover-subtask')
+  subTaskField.innerHTML = editSubtaskHtml(i, subTask)
+  inputFocus(i)
 }
 
 /**
@@ -196,7 +209,7 @@ function editSubtask(i) {
  * @param {number} i - The index of the subtask.
  */
 function inputFocus(i) {
-  let inputField = document.getElementById(`inputField${i}`);
-  inputField.focus();
-  inputField.setSelectionRange(inputField.value.length, inputField.value.length);
+  let inputField = document.getElementById(`inputField${i}`)
+  inputField.focus()
+  inputField.setSelectionRange(inputField.value.length, inputField.value.length)
 }

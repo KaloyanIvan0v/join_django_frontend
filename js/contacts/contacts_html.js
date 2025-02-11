@@ -15,7 +15,7 @@ function renderContactFullModeHtml(contactName, contactEmail, contactPhone, cont
             <div class="edit-btn-img"></div>
             <div>Edit</div>
           </button>
-        <button class="contact-full-mode-delete-contact" onclick="deleteContact()">
+        <button class="contact-full-mode-delete-contact" onclick="removeContact()">
             <div class="delete-btn-img" ></div>
             <div>Delete</div>
           </button>
@@ -30,14 +30,14 @@ function renderContactFullModeHtml(contactName, contactEmail, contactPhone, cont
         <div class="contact-full-mode-data-phone">${contactPhone}</div>
       </div>
   
-  `;
+  `
 }
 
 function renderLetterSectionHTML(firstLetter) {
   return /*html*/ `
   <div class="contact-list-first-letter">${firstLetter}</div>
   <div class="contact-list-letter-parting-line"></div>
-  `;
+  `
 }
 
 function renderContactHtml(contactBadges, contactName, contactEmail, i) {
@@ -49,7 +49,7 @@ function renderContactHtml(contactBadges, contactName, contactEmail, i) {
       <div id="id-contact-list-email${i}" class="contact-list-email">${contactEmail}</div>
     </div>
   </div>
-  `;
+  `
 }
 
 function renderContactEditMenuMobile() {
@@ -59,9 +59,9 @@ function renderContactEditMenuMobile() {
             <div class="edit-btn-img"></div>
             <div>Edit</div>
           </button>
-        <button class="contact-full-mode-delete-contact" onclick="deleteContact()">
+        <button class="contact-full-mode-delete-contact" onclick="removeContact()">
             <div class="delete-btn-img" ></div>
             <div>Delete</div>
           </button>
-        </div>`;
+        </div>`
 }

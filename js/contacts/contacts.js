@@ -4,12 +4,16 @@
  *
  * @returns {void}
  */
-let currentEditingContactId;
+let currentEditingContactId
 async function initContacts() {
-  includeHTML();
-  await loadContacts();
-  renderContacts(contacts);
-  addClickListener();
+  try {
+    await includeHTML()
+    await loadAllContacts()
+    renderContacts(contacts)
+    addClickListener()
+  } catch (error) {
+    console.error('Error initializing contacts:', error)
+  }
 }
 
 /**
@@ -20,12 +24,12 @@ async function initContacts() {
 function handleHoverButtonChangeImgDelayed() {
   setTimeout(function () {
     handleHoverButtonChangeImg(
-      ".contact-form-cancel-btn",
-      ".img-close-contact-form",
+      '.contact-form-cancel-btn',
+      '.img-close-contact-form',
       'url("/img/close.png")',
       'url("/img/close-blue.png")'
-    );
-  }, 50);
+    )
+  }, 50)
 }
 
 /**
@@ -34,16 +38,19 @@ function handleHoverButtonChangeImgDelayed() {
  * @param {Event} event - The event triggering the delete action.
  * @returns {void}
  */
-async function deleteContact(event) {
-  closeContactForm();
-  HideFullViewShowContactList();
-  let contactIndex = getContactIndex(getActualContactEmail());
+async function removeContact(event) {
+  console.log(event)
+  closeContactForm()
+  HideFullViewShowContactList()
+  let contactIndex = getContactIndex(getActualContactEmail())
   if (contactIndex != undefined) {
-    contacts.splice(contactIndex, 1);
-    document.getElementById("id-contact-full-mode").innerHTML = "";
-    renderContacts(contacts);
-    safeContacts();
-    toggleContactFullMode();
+    let contact = contacts[contactIndex]
+    deleteContact(contact.id)
+    console.log(contact)
+    contacts.splice(contactIndex, 1)
+    document.getElementById('id-contact-full-mode').innerHTML = ''
+    renderContacts(contacts)
+    toggleContactFullMode()
   }
 }
 
@@ -53,12 +60,12 @@ async function deleteContact(event) {
  * @returns {void}
  */
 function createContactAndCloseForm() {
-  addNewContact();
-  toggleContactForm();
+  addNewContact()
+  toggleContactForm()
   setTimeout(function () {
-    closeContactForm();
-    renderContacts(contacts);
-  }, 500);
+    closeContactForm()
+    renderContacts(contacts)
+  }, 500)
 }
 
 /**
@@ -68,12 +75,12 @@ function createContactAndCloseForm() {
  * @returns {string} The generated badge.
  */
 function generateBadge(name) {
-  const nameParts = name.split(" ");
-  let badge = nameParts[0][0].toUpperCase();
+  const nameParts = name.split(' ')
+  let badge = nameParts[0][0].toUpperCase()
   if (nameParts.length > 1) {
-    badge += nameParts[nameParts.length - 1][0].toUpperCase();
+    badge += nameParts[nameParts.length - 1][0].toUpperCase()
   }
-  return badge;
+  return badge
 }
 
 /**
@@ -84,9 +91,9 @@ function generateBadge(name) {
  * @returns {void}
  */
 function setBadge(badge, colorId) {
-  let badgeDiv = document.getElementById("id-mask-contact-img-div");
-  badgeDiv.innerHTML = badge;
-  badgeDiv.style.backgroundColor = contactColor[colorId];
+  let badgeDiv = document.getElementById('id-mask-contact-img-div')
+  badgeDiv.innerHTML = badge
+  badgeDiv.style.backgroundColor = contactColor[colorId]
 }
 
 /**
@@ -95,8 +102,8 @@ function setBadge(badge, colorId) {
  * @returns {void}
  */
 function safeContacts() {
-  setItem("/contacts", contacts);
-  setSessionStorage("contacts", contacts);
+  setItem('/contacts', contacts)
+  setSessionStorage('contacts', contacts)
 }
 
 /**
@@ -105,8 +112,8 @@ function safeContacts() {
  * @returns {string} The email of the contact.
  */
 function getActualContactEmail() {
-  let email = document.getElementById("id-contact-full-mode-data-email").textContent;
-  return email;
+  let email = document.getElementById('id-contact-full-mode-data-email').textContent
+  return email
 }
 
 /**
@@ -118,7 +125,7 @@ function getActualContactEmail() {
 function getContactIndex(email) {
   for (let i = 0; i < contacts.length; i++) {
     if (contacts[i].email == email) {
-      return i;
+      return i
     }
   }
 }
@@ -131,9 +138,9 @@ function getContactIndex(email) {
  * @returns {void}
  */
 function setBadge(badge, colorId) {
-  let badgeDiv = document.getElementById("id-mask-contact-img-div");
-  badgeDiv.innerHTML = badge;
-  badgeDiv.style.backgroundColor = contactColor[colorId];
+  let badgeDiv = document.getElementById('id-mask-contact-img-div')
+  badgeDiv.innerHTML = badge
+  badgeDiv.style.backgroundColor = contactColor[colorId]
 }
 
 /**
@@ -143,12 +150,12 @@ function setBadge(badge, colorId) {
  * @returns {string} The generated badge.
  */
 function generateBadge(name) {
-  const nameParts = name.split(" ");
-  let badge = nameParts[0][0].toUpperCase();
+  const nameParts = name.split(' ')
+  let badge = nameParts[0][0].toUpperCase()
   if (nameParts.length > 1) {
-    badge += nameParts[nameParts.length - 1][0].toUpperCase();
+    badge += nameParts[nameParts.length - 1][0].toUpperCase()
   }
-  return badge;
+  return badge
 }
 
 /**
@@ -158,19 +165,19 @@ function generateBadge(name) {
  * @returns {void}
  */
 function renderContacts(contacts) {
-  const contactList = document.getElementById("id-contact-inner-list");
-  const sortedContacts = sortListAlphabetically(contacts);
-  let currentLetter = null;
-  clearElementById("id-contact-inner-list");
+  const contactList = document.getElementById('id-contact-inner-list')
+  const sortedContacts = sortListAlphabetically(contacts)
+  let currentLetter = null
+  clearElementById('id-contact-inner-list')
   sortedContacts.forEach((contact, i) => {
-    const { name, color } = contact;
-    const firstLetter = name.charAt(0).toUpperCase();
-    handleFirstLetterSection(firstLetter, contactList, currentLetter);
-    renderContact(contact, contactList, i);
-    setElementBackgroundColor(`id-contact-list-badges${i}`, color);
-    currentLetter = firstLetter;
-  });
-  renderMobileAddContactButton();
+    const { name, color } = contact
+    const firstLetter = name.charAt(0).toUpperCase()
+    handleFirstLetterSection(firstLetter, contactList, currentLetter)
+    renderContact(contact, contactList, i)
+    setElementBackgroundColor(`id-contact-list-badges${i}`, color)
+    currentLetter = firstLetter
+  })
+  renderMobileAddContactButton()
 }
 
 /**
@@ -182,7 +189,7 @@ function renderContacts(contacts) {
  * @returns {void}
  */
 function handleFirstLetterSection(firstLetter, contactList, currentLetter) {
-  firstLetter !== currentLetter ? renderFirstLetterSection(contactList, firstLetter) : null;
+  firstLetter !== currentLetter ? renderFirstLetterSection(contactList, firstLetter) : null
 }
 
 /**
@@ -193,7 +200,7 @@ function handleFirstLetterSection(firstLetter, contactList, currentLetter) {
  * @returns {void}
  */
 function renderFirstLetterSection(contactList, firstLetter) {
-  contactList.innerHTML += renderLetterSectionHTML(firstLetter);
+  contactList.innerHTML += renderLetterSectionHTML(firstLetter)
 }
 
 /**
@@ -203,7 +210,7 @@ function renderFirstLetterSection(contactList, firstLetter) {
  * @returns {void}
  */
 function clearElementById(id) {
-  document.getElementById(id).innerHTML = "";
+  document.getElementById(id).innerHTML = ''
 }
 
 /**
@@ -213,8 +220,8 @@ function clearElementById(id) {
  * @returns {Array} The sorted list of contacts.
  */
 function sortListAlphabetically(list) {
-  const sortedList = list.sort((a, b) => a.name.localeCompare(b.name));
-  return sortedList;
+  const sortedList = list.sort((a, b) => a.name.localeCompare(b.name))
+  return sortedList
 }
 
 /**
@@ -226,10 +233,10 @@ function sortListAlphabetically(list) {
  * @returns {void}
  */
 function renderContact(contact, divId, i) {
-  const contactBadges = contact.nameInitials;
-  const contactName = contact.name;
-  const contactEmail = contact.email;
-  divId.innerHTML += renderContactHtml(contactBadges, contactName, contactEmail, i);
+  const contactBadges = contact.nameInitials
+  const contactName = contact.name
+  const contactEmail = contact.email
+  divId.innerHTML += renderContactHtml(contactBadges, contactName, contactEmail, i)
 }
 
 /**
@@ -240,8 +247,8 @@ function renderContact(contact, divId, i) {
  * @returns {void}
  */
 function setElementBackgroundColor(elementId, colorId) {
-  let div = document.getElementById(elementId);
-  div.style.backgroundColor = contactColor[colorId];
+  let div = document.getElementById(elementId)
+  div.style.backgroundColor = contactColor[colorId]
 }
 
 /**
@@ -252,18 +259,18 @@ function setElementBackgroundColor(elementId, colorId) {
  * @returns {void}
  */
 function openContact(contactEmail, divId) {
-  selectContact(divId);
-  HideContactsListShowFullView();
-  const contactDiv = document.getElementById("id-contact-full-mode-badges");
-  let timeout = 0;
+  selectContact(divId)
+  HideContactsListShowFullView()
+  const contactDiv = document.getElementById('id-contact-full-mode-badges')
+  let timeout = 0
   if (contactDiv) {
-    timeout = 500;
-    toggleContactFullMode();
+    timeout = 500
+    toggleContactFullMode()
   }
   setTimeout(function () {
-    renderContactFullMode(getContactData(contactEmail));
-    toggleContactFullMode();
-  }, timeout);
+    renderContactFullMode(getContactData(contactEmail))
+    toggleContactFullMode()
+  }, timeout)
 }
 
 /**
@@ -275,7 +282,7 @@ function openContact(contactEmail, divId) {
 function getContactData(contactEmail) {
   for (let i = 0; i < contacts.length; i++) {
     if (contacts[i].email == contactEmail) {
-      return contacts[i];
+      return contacts[i]
     }
   }
 }
@@ -287,12 +294,12 @@ function getContactData(contactEmail) {
  * @returns {void}
  */
 function renderContactFullMode(contact) {
-  const div = document.getElementById("id-contact-full-mode");
-  const { name, email, phone, nameInitials, color } = contact;
-  div.innerHTML = renderContactFullModeHtml(name, email, phone, nameInitials);
-  setElementBackgroundColor("id-contact-full-mode-badges", color);
-  setTimeout(setListenerForEditDeleteBtn, 25);
-  div.innerHTML += renderContactEditMenuMobile();
+  const div = document.getElementById('id-contact-full-mode')
+  const { name, email, phone, nameInitials, color } = contact
+  div.innerHTML = renderContactFullModeHtml(name, email, phone, nameInitials)
+  setElementBackgroundColor('id-contact-full-mode-badges', color)
+  setTimeout(setListenerForEditDeleteBtn, 25)
+  div.innerHTML += renderContactEditMenuMobile()
 }
 
 /**
@@ -301,10 +308,10 @@ function renderContactFullMode(contact) {
  * @returns {void}
  */
 function HideContactsListShowFullView() {
-  let contactList = document.getElementById("id-contacts-list");
-  let contactSingleView = document.getElementById("id-contacts-single-view");
-  contactList.classList.add("d-none-mobile");
-  contactSingleView.classList.remove("d-none-mobile");
+  let contactList = document.getElementById('id-contacts-list')
+  let contactSingleView = document.getElementById('id-contacts-single-view')
+  contactList.classList.add('d-none-mobile')
+  contactSingleView.classList.remove('d-none-mobile')
 }
 
 /**
@@ -313,10 +320,10 @@ function HideContactsListShowFullView() {
  * @returns {void}
  */
 function HideFullViewShowContactList() {
-  let contactList = document.getElementById("id-contacts-list");
-  let contactSingleView = document.getElementById("id-contacts-single-view");
-  contactList.classList.remove("d-none-mobile");
-  contactSingleView.classList.add("d-none-mobile");
+  let contactList = document.getElementById('id-contacts-list')
+  let contactSingleView = document.getElementById('id-contacts-single-view')
+  contactList.classList.remove('d-none-mobile')
+  contactSingleView.classList.add('d-none-mobile')
 }
 
 /**
@@ -325,11 +332,11 @@ function HideFullViewShowContactList() {
  * @returns {void}
  */
 function renderMobileAddContactButton() {
-  document.getElementById("id-contacts-list").innerHTML += /*html*/ `
+  document.getElementById('id-contacts-list').innerHTML += /*html*/ `
 <div id="id-mobile-add-contact" class="mobile-add-contact join-button" onclick="openContactForm('addContact')">
     <img src="/img/person_add.png" alt="">
 </div>
-`;
+`
 }
 
 /**
@@ -338,8 +345,8 @@ function renderMobileAddContactButton() {
  * @returns {void}
  */
 function addShadowLayer() {
-  let shadowLayer = document.getElementById("id-shadow-layer");
-  shadowLayer.classList.remove("hide");
+  let shadowLayer = document.getElementById('id-shadow-layer')
+  shadowLayer.classList.remove('hide')
 }
 
 /**
@@ -348,8 +355,8 @@ function addShadowLayer() {
  * @returns {void}
  */
 function removeShadowLayer() {
-  let shadowLayer = document.getElementById("id-shadow-layer");
-  shadowLayer.classList.add("hide");
+  let shadowLayer = document.getElementById('id-shadow-layer')
+  shadowLayer.classList.add('hide')
 }
 
 /**
@@ -358,12 +365,12 @@ function removeShadowLayer() {
  * @returns {void}
  */
 function addClickListener() {
-  var element = document.getElementById("id-contacts-single-view");
-  element.addEventListener("click", function (event) {
-    if (event.target.id !== "id-mobile-dot-menu" && event.target.id !== "dot-menu-img") {
-      closeContactEditMenu();
+  var element = document.getElementById('id-contacts-single-view')
+  element.addEventListener('click', function (event) {
+    if (event.target.id !== 'id-mobile-dot-menu' && event.target.id !== 'dot-menu-img') {
+      closeContactEditMenu()
     }
-  });
+  })
 }
 
 /**
@@ -373,12 +380,12 @@ function addClickListener() {
  * @returns {void}
  */
 function selectContact(selectedDiv) {
-  const element = document.getElementById(`id-contact-list-item${selectedDiv}`);
-  const contacts = document.querySelectorAll(".contact-list-item");
+  const element = document.getElementById(`id-contact-list-item${selectedDiv}`)
+  const contacts = document.querySelectorAll('.contact-list-item')
   contacts.forEach((contact) => {
-    contact.classList.remove("selected");
-  });
-  element.classList.add("selected");
+    contact.classList.remove('selected')
+  })
+  element.classList.add('selected')
 }
 
 /**
@@ -387,6 +394,6 @@ function selectContact(selectedDiv) {
  * @returns {void}
  */
 function toggleContactFullMode() {
-  var element = document.getElementById("id-contact-full-mode");
-  element.classList.toggle("contact-full-mode-right-0");
+  var element = document.getElementById('id-contact-full-mode')
+  element.classList.toggle('contact-full-mode-right-0')
 }

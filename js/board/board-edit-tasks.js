@@ -146,7 +146,10 @@ function renderSubTask(i, id, subTasksField, subTask, j) {
 function safeTaskChanges(id) {
   safeChangesToTasks(id)
   setSessionStorage('tasks', tasks)
-  setItem('tasks', tasks)
+  task = tasks[getIndexOfElementById(id, tasks)]
+  console.log('task', task)
+
+  //updateTask(task)
   closeEditTaskPopUp()
   subTasks = []
   tasks = JSON.parse(sessionStorage.getItem('tasks'))
@@ -167,8 +170,8 @@ function safeChangesToTasks(id) {
   task.title = title
   task.description = description
   task.dueDate = dueDate
-  task.assignedTo = assignedTo.length == 0 ? -1 : assignedTo
-  subTasks.length == 0 ? (task.subTasks = -1) : (task.subTasks = subTasks)
+  task.assignedTo = assignedTo.length == 0 ? [] : assignedTo
+  task.subTasks.length == 0 ? (task.subTasks = []) : (task.subTasks = subTasks)
 }
 
 /**

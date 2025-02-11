@@ -60,7 +60,7 @@ async function createTaskAtBoard(statement) {
  */
 function setStatement(statement) {
   if (statement != 'undefined') {
-    tasks[tasks.length - 1].statement = statement
+    tasks[tasks.length - 1].state = statement
     setItem('tasks', tasks)
   }
 }

@@ -4,17 +4,17 @@ function returnHtmlShowToDos(singleTask, i, id) {
     onclick="openTaskDetailView(${i},${id})">
     <div class="task-card-category">
         <span id="statementField${i}" class="which-statement">
-            ${singleTask["category"]}
+            ${singleTask['category']}
         </span>
         <div id="mobileTasMenu${i}" class="mobile-task-menu" onclick="openTaskMenu(${id})"></div>
     </div>
 
     <div class="header-area-card">
         <div class="ft-weight-700">
-            ${singleTask["title"]}
+            ${singleTask['title']}
         </div>
         <div class="task-msg">
-            ${singleTask["description"]}
+            ${singleTask['description']}
         </div>
         <div id="id-subtasks-progress-section${id}" class="subtasks-progress-section visibility-hidden">
             <div id="progressBar${id}" class="progerss-bar-container">
@@ -32,12 +32,12 @@ function returnHtmlShowToDos(singleTask, i, id) {
         <div class="contacts-area">
             <div id="contactsFieldBoard(${id})" class="contacts-board"></div>
             <div id="prioField${i}" class="prio-field">
-                ${singleTask["prio"]}
+                ${singleTask['prio']}
             </div>
         </div>
     </div>
 </div>
-`;
+`
 }
 
 function returnHtmlEditCurrentTask(overlayTask, i, id) {
@@ -54,7 +54,7 @@ function returnHtmlEditCurrentTask(overlayTask, i, id) {
         </div>
       </div>
       <div>
-        <input class="input-edit-title" id="title" type="text" value="${overlayTask["title"]}">
+        <input class="input-edit-title" id="title" type="text" value="${overlayTask['title']}">
         <div>
           <span class="required-field-edit vs-hidden">This field is required</span>   
         </div>
@@ -64,13 +64,13 @@ function returnHtmlEditCurrentTask(overlayTask, i, id) {
     <div class="description-edit-board">
       <span clas="edit-task-headlines">Description</span>
       <div>
-        <textarea id="description" class="edit-task-description">${overlayTask["description"]}</textarea>
+        <textarea id="description" class="edit-task-description">${overlayTask['description']}</textarea>
       </div>
     </div>
     
     <div class="overlay-date-edit font-overlay">
         <span clas="edit-task-headlines">Due date</span>
-        <input class="input-edit-title" type="date" value="${overlayTask["dueDate"]}" id="dueDate">
+        <input class="input-edit-title" type="date" value="${overlayTask['dueDate']}" id="dueDate">
         <div class="vs-hidden">
          <span class="required-field-edit">This field is required</span>
         </div>
@@ -126,13 +126,13 @@ function returnHtmlEditCurrentTask(overlayTask, i, id) {
       </button>
       </div>
     </div>
-</div>`;
+</div>`
 }
 
 function previewElementHtml(positon) {
   return /*html*/ `
   <div class="preview-element-${positon}"></div>
-  `;
+  `
 }
 
 function renderSubtaskProgressBarHtml(singleTask, finishedSubTasks) {
@@ -142,39 +142,39 @@ function renderSubtaskProgressBarHtml(singleTask, finishedSubTasks) {
   </div>
   <div class="number-done-subtasks">
     <span>${finishedSubTasks.length}/</span>
-    <span>${singleTask["subTasks"].length} Subtasks</span>
+    <span>${singleTask['subTasks'].length} Subtasks</span>
   </div>
-  `;
+  `
 }
 
 function returnMoreContactsPreview(restAmount, j) {
   return /*html*/ `
     <div id="initialArea${j}" class="contact-board mg-left-8" style="background-color: rgb(42, 54, 71)">
       <span>+${restAmount}</span>
-    </div>`;
+    </div>`
 }
 
 function openTaskDetailViewHtml(overlayTask, i, id) {
   return /*html*/ `
   <div class="overlay-current-task" onclick="doNotClosePopUp(event)">
     <div id="categoryArea(${i})" class="overlay-first-row">
-        <div class="overlay-category" id="statementField${i}">${overlayTask["category"]}</div>
+        <div class="overlay-category" id="statementField${i}">${overlayTask['category']}</div>
         <a class="exit-cross" onclick="closePopUp()">X</a>
     </div>
     <div class="overlay-title">
-        <span id="title(${i})">${overlayTask["title"]}</span>
+        <span id="title(${i})">${overlayTask['title']}</span>
     </div>
     <div class="overlay-description font-overlay">
-      <span id="description(${i})">${overlayTask["description"]}</span>
+      <span id="description(${i})">${overlayTask['description']}</span>
     </div>
     <div class="overlay-date font-overlay">
         <span class="task-detail-view-section-title">Due Date:</span>
-        <span id="date(${i})">${overlayTask["dueDate"]}</span>
+        <span id="date(${i})">${overlayTask['dueDate']}</span>
     </div>
     <div class="overlay-prio font-overlay">
         <span class="task-detail-view-section-title">Priority:</span>
         <div class="prio-name-image">
-            <span>${overlayTask["prio"]}</span>
+            <span>${overlayTask['prio']}</span>
             <div id="prioField${i}"></div>
         </div>
     </div>
@@ -204,14 +204,14 @@ function openTaskDetailViewHtml(overlayTask, i, id) {
       </div>
     </div>
     </div>
-  <div>`;
+  <div>`
 }
 
 function returnHtmlContactsInitialen(contactForTask, j) {
   return /*html*/ `
     <div id="initialArea${j}" class="contact-board mg-left-8">
-      <span>${contactForTask["nameInitials"]}</span>
-    </div>`;
+      <span>${contactForTask['nameInitials']}</span>
+    </div>`
 }
 
 function returnHtmlSubtasks(subTask, i, subTaskId, imgSrc, taksId, j) {
@@ -219,14 +219,14 @@ function returnHtmlSubtasks(subTask, i, subTaskId, imgSrc, taksId, j) {
     <div class="subtasks-check-board">
       <img id="checkEmptySubtask(${j})" src="${imgSrc}" onclick="toggleCheckboxSubTask(${i},${subTaskId},${taksId})">
       <span>${subTask}</span>
-    </div>`;
+    </div>`
 }
 
 function returnHtmlContactsFullName(currentTask) {
   return /*html*/ `
     <div class="full-name">
-      <span>${currentTask["name"]}</span>
-    </div>`;
+      <span>${currentTask['name']}</span>
+    </div>`
 }
 
 function taskAreaIsEmptyHtml(statement) {
@@ -234,20 +234,20 @@ function taskAreaIsEmptyHtml(statement) {
   <div class="task-area-empty-mgs">
     no tasks ${statement}
   </div>
-  `;
+  `
 }
 
 function returnTaskAssignedContactNameHtml(name) {
   return /*html*/ `
   <div class="task-assignet-contact-name">${name}</div>
- `;
+ `
 }
 
 function returnMoreContactsPreview(restAmount, j) {
   return /*html*/ `
     <div id="initialArea${j}" class="contact-board mg-left-8" style="background-color: rgb(42, 54, 71)">
       <span>+${restAmount}</span>
-    </div>`;
+    </div>`
 }
 
 function returnExitCrossHtml() {
@@ -255,7 +255,7 @@ function returnExitCrossHtml() {
   <div class="exit-cross" onclick="closeAddTaskPopUp()">
     <img src="/img/close-dark.svg">
   </div>
-  `;
+  `
 }
 
 function renderTaskMenuHtml(id) {
@@ -268,5 +268,5 @@ function renderTaskMenuHtml(id) {
     <button class="join-button" onclick="moveTaskTo(${id}, 'done')">Done</button>
     <button class="join-button" onclick="closePopUp()">Cancel</button>
   </div>
-    `;
+    `
 }

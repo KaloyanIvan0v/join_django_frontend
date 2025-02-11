@@ -39,10 +39,11 @@ function allowDrop(event) {
  * @param {string} newstatement - The new statement to assign to the dragged element.
  */
 function moveElementTo(newstatement) {
-  tasks[getIndexOfElementById(currentDraggedElement, tasks)].statement = newstatement
+  tasks[getIndexOfElementById(currentDraggedElement, tasks)].state = newstatement
   renderTasks(getFilteredTasks())
   setSessionStorage('tasks', tasks)
-  setItem('tasks', tasks)
+  //setItem('tasks', tasks)
+  updateTask(tasks[getIndexOfElementById(currentDraggedElement, tasks)])
   stopDragging()
 }
 
@@ -157,8 +158,10 @@ function renderTaskMenu(id) {
  */
 function moveTaskTo(id, statement) {
   let task = tasks[getIndexOfElementById(id, tasks)]
-  task.statement = statement
+  task.state = statement
+  console.log('task', task)
+  updateTask(task)
   renderTasks(getFilteredTasks())
   closePopUp()
-  setItem('tasks', tasks)
+  updateTask(task)
 }
