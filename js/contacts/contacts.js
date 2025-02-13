@@ -39,14 +39,12 @@ function handleHoverButtonChangeImgDelayed() {
  * @returns {void}
  */
 async function removeContact(event) {
-  console.log(event)
   closeContactForm()
   HideFullViewShowContactList()
   let contactIndex = getContactIndex(getActualContactEmail())
   if (contactIndex != undefined) {
     let contact = contacts[contactIndex]
     deleteContactApi(contact.id)
-    console.log(contact)
     contacts.splice(contactIndex, 1)
     document.getElementById('id-contact-full-mode').innerHTML = ''
     renderContacts(contacts)

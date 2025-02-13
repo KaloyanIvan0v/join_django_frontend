@@ -1,4 +1,4 @@
-let currentPrio = ['medium']
+let currentPrio = 'Medium'
 let idNumber = []
 let categories = ['Technical Task', 'User Story']
 let selectedCategory = []
@@ -18,7 +18,6 @@ let categoryBoolean = false
 async function init_add_task() {
   await includeHTML()
   loadHtmlTaskTemplate()
-  // setTimeout(loadFirstLettersFromSessionStorage, 300);
   loadAllTasksApi()
   loadAllContactsApi()
   loadAllUsersApi()
@@ -30,16 +29,23 @@ async function init_add_task() {
 /**
  * Creates a new task, adds it to the board, and redirects to the board page after a delay.
  */
-function createTask() {
+async function createTask() {
   let containerCategory = document.getElementById('containerCategory')
-  if (selectedCategory.length == 0) {
-    containerCategory.classList.add('error-border')
-  } else {
-    addTask()
-    addedToBoardPopUp()
-    setTimeout(function () {
-      window.location.href = 'board.html'
-    }, 900)
+
+  try {
+    if (selectedCategory.length == 0) {
+      containerCategory.classList.add('error-border')
+      return
+    }
+    const success = await addTask()
+    if (success) {
+      addedToBoardPopUp()
+      setTimeout(function () {
+        window.location.href = 'board.html'
+      }, 900)
+    }
+  } catch (error) {
+    console.error('Error in createTask:', error)
   }
 }
 
@@ -48,7 +54,7 @@ function createTask() {
  *
  * @returns {Promise} A promise that resolves after the task is added.
  */
-async function addTask() {
+async function addTask(statement = 'undefined') {
   try {
     const task = {
       title: document.getElementById('title').value,
@@ -58,9 +64,10 @@ async function addTask() {
       prio: currentPrio,
       category: selectedCategory,
       subTasks: subTasks.length === 0 ? [] : subTasks, // Changed -1 to empty array
-      finishedSubTasks: finishedSubTasks || [], // Added default
-      state: 'toDo',
+      state: statement == 'undefined' ? 'toDo' : statement,
     }
+
+    console.log(task)
 
     // Validate task
     if (!validateTask(task)) {

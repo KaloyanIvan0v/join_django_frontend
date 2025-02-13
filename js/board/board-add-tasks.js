@@ -41,8 +41,7 @@ function renderAddTaskTemplate(statement) {
 async function createTaskAtBoard(statement) {
   arrowToggleCheck ? (arrowToggleCheck = false) : arrowToggleCheck
   if (categorySelected()) {
-    addTask()
-    setStatement(statement)
+    await addTask(statement)
     await setSessionStorage('tasks', tasks)
     resetInputFields()
     closePopUp()
@@ -61,7 +60,7 @@ async function createTaskAtBoard(statement) {
 function setStatement(statement) {
   if (statement != 'undefined') {
     tasks[tasks.length - 1].state = statement
-    setItem('tasks', tasks)
+    updateTaskApi(tasks[tasks.length - 1])
   }
 }
 

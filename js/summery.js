@@ -1,113 +1,120 @@
 /**
- * This is the Initialfunction.
+ * Initializes the summary page
  */
 async function init() {
-  await loadAllTasksApi()
-  includeHTML()
+  try {
+    await loadAllTasksApi()
+    await includeHTML()
+    initializeSummary()
+  } catch (error) {
+    console.error('Error initializing summary:', error)
+  }
+}
+
+/**
+ * Initializes all summary components
+ */
+function initializeSummary() {
   getTime()
-  writeNumberOfAllTasks()
-  filterHighestPrio()
-  countStatements('toDo')
-  countStatements('done')
-  countStatements('inProgress')
-  countStatements('awaitFeedback')
+  updateTaskMetrics()
   upCommingDeadline()
 }
 
 /**
- * Render the number of all tasks to summery.html
+ * Updates all task-related metrics
+ */
+function updateTaskMetrics() {
+  writeNumberOfAllTasks()
+  filterHighestPrio()
+  updateTaskStateCounts()
+}
+
+/**
+ * Updates the counts for all task states
+ */
+function updateTaskStateCounts() {
+  const states = ['toDo', 'done', 'inProgress', 'awaitFeedback']
+  states.forEach((state) => countStatements(state))
+}
+
+/**
+ * Counts and displays tasks for a specific state
+ * @param {string} state - The state to count ('toDo', 'done', etc.)
+ */
+function countStatements(state) {
+  try {
+    const count = tasks.filter((task) => task.state === state).length
+    document.getElementById(`count${state}`).innerHTML = count
+  } catch (error) {
+    console.error(`Error counting ${state} tasks:`, error)
+  }
+}
+
+/**
+ * Displays the total number of tasks
  */
 function writeNumberOfAllTasks() {
-  document.getElementById('numberOfTasksInBoard').innerHTML = tasks.length
+  document.getElementById('numberOfTasksInBoard').innerHTML = tasks?.length || 0
 }
 
 /**
- * Filter the Array Tasks for prio Urgent.
+ * Counts and displays tasks with urgent priority
  */
 function filterHighestPrio() {
-  // search for high prio Tasks.
-  let count = 0
-  for (let i = 0; i < tasks.length; i++) {
-    if (tasks[i]['prio'] === 'Urgent') {
-      count++
-    }
-  }
-  document.getElementById('highestPrio').innerHTML = count
+  const urgentCount = tasks.filter((task) => task.prio === 'Urgent').length
+  document.getElementById('highestPrio').innerHTML = urgentCount
 }
 
 /**
- * counts the number of statementtype and render it.
- *
- * @param {string} index - Id of current statement.
- */
-function countStatements(index) {
-  //Count all Tasks.
-  let statementCounts = 0
-  try {
-    tasks.forEach((task) => {
-      if (task.stat === index) {
-        statementCounts++
-      }
-    })
-  } catch (e) {
-    console.log(e)
-  }
-  document.getElementById(`count${index}`).innerHTML = statementCounts
-}
-
-/**
- * Change the image of an element.
- *
- * @param {string} element - The Elements specific ID.
- * @param {string} image - The Image.
- */
-function changeImage(element, image) {
-  document.getElementById(element).setAttribute('src', image)
-}
-
-/**
- * Search for shortest deadline.
- *
- * @returns
+ * Finds and displays the upcoming deadline
  */
 function upCommingDeadline() {
-  //search for shortest deadline
+  if (!tasks.length) {
+    document.getElementById('deadlineH3').innerHTML = 'No tasks'
+    return
+  }
+
+  const sortedTasks = [...tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+  const nextDeadline = sortedTasks[0]
+
   const options = { month: 'long', day: 'numeric', year: 'numeric' }
-  if (tasks.length === 0) {
-    return null
-  }
-  // Initialisiere mit der ersten Deadline
-  let shortestDeadline = tasks[0]
-  // Iteriere durch das Array, um die kürzeste Deadline zu finden
-  for (let i = 1; i < tasks.length; i++) {
-    if (new Date(tasks[i].dueDate) < new Date(shortestDeadline.dueDate)) {
-      shortestDeadline = tasks[i]
-    }
-  }
-  const deadlineDate = new Date(shortestDeadline.dueDate)
-  const deadlineDateToString = deadlineDate.toLocaleString('en-US', options)
-  document.getElementById('deadlineH3').innerHTML = `${deadlineDateToString}`
+  const deadlineDate = new Date(nextDeadline.dueDate)
+  const formattedDate = deadlineDate.toLocaleString('en-US', options)
+
+  document.getElementById('deadlineH3').innerHTML = formattedDate
 }
 
 /**
- * redirect to board.html at set activesite to sessionstorage.
+ * Updates greeting based on current time
+ */
+function getTime() {
+  const hours = new Date().getHours()
+  const greetings = {
+    morning: { range: [2, 11], text: 'Good morning:' },
+    day: { range: [11, 17], text: 'Good day:' },
+    evening: { range: [17, 2], text: 'Good evening:' },
+  }
+
+  const greeting =
+    Object.values(greetings).find(({ range }) => hours >= range[0] && hours < range[1]) ||
+    greetings.evening
+
+  document.getElementById('greetingsH4').innerHTML = greeting.text
+}
+
+/**
+ * Changes image source on hover
+ * @param {string} elementId - ID of the element
+ * @param {string} newImage - Path to the new image
+ */
+function changeImage(elementId, newImage) {
+  document.getElementById(elementId)?.setAttribute('src', newImage)
+}
+
+/**
+ * Navigates to board page
  */
 function loadBoardHTML() {
   setActiveSite('board')
   window.location.assign('/html/board.html')
-}
-
-/**
- * Change greetings depending on daytime.
- */
-function getTime() {
-  let actualDate = new Date()
-  let hours = actualDate.getHours()
-  if (hours >= 2 && hours < 11) {
-    document.getElementById('greetingsH4').innerHTML = 'Good morning:'
-  } else if (hours >= 11 && hours < 17) {
-    document.getElementById('greetingsH4').innerHTML = 'Good day:'
-  } else {
-    document.getElementById('greetingsH4').innerHTML = 'Good evening:'
-  }
 }
