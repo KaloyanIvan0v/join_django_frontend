@@ -3,7 +3,7 @@ const TASK_API = getApiUrl(API_CONFIG.ENDPOINTS.TASKS)
 const CONTACT_API = getApiUrl(API_CONFIG.ENDPOINTS.CONTACTS)
 
 // User functions
-async function loadAllUsersApi() {
+async function loadAllUsers() {
   try {
     users = await getAllItems(USER_API)
   } catch (error) {
@@ -12,7 +12,7 @@ async function loadAllUsersApi() {
   }
 }
 
-async function createUserApi(user) {
+async function createUser(user) {
   try {
     return await createSingleItem(USER_API, user)
   } catch (error) {
@@ -21,7 +21,7 @@ async function createUserApi(user) {
   }
 }
 
-async function updateUserApi(user) {
+async function updateUser(user) {
   try {
     return await setSingleItem(USER_API, user.id, user)
   } catch (error) {
@@ -30,7 +30,7 @@ async function updateUserApi(user) {
   }
 }
 
-async function deleteUserApi(user) {
+async function deleteUser(user) {
   try {
     return await deleteSingleItem(USER_API, user.id)
   } catch (error) {
@@ -40,7 +40,7 @@ async function deleteUserApi(user) {
 }
 
 // Contact functions
-async function loadAllContactsApi() {
+async function loadAllContacts() {
   try {
     contacts = await getAllItems(CONTACT_API)
   } catch (error) {
@@ -49,7 +49,7 @@ async function loadAllContactsApi() {
   }
 }
 
-async function createContactApi(contact) {
+async function createContact(contact) {
   try {
     return await createSingleItem(CONTACT_API, contact)
   } catch (error) {
@@ -58,7 +58,7 @@ async function createContactApi(contact) {
   }
 }
 
-async function updateContactApi(contact) {
+async function updateContact(contact) {
   try {
     return await setSingleItem(CONTACT_API, contact.id, contact)
   } catch (error) {
@@ -67,9 +67,9 @@ async function updateContactApi(contact) {
   }
 }
 
-async function deleteContactApi(contactId) {
+async function deleteContact(contactId) {
   try {
-    return await deleteSingleItem(CONTACT_API, contactId)
+    return await deleteSingleItem(CONTACT_API, contact)
   } catch (error) {
     console.error('Failed to delete contact:', error)
     throw error
@@ -77,7 +77,7 @@ async function deleteContactApi(contactId) {
 }
 
 // Task functions
-async function loadAllTasksApi() {
+async function loadAllTasks() {
   try {
     tasks = await getAllItems(TASK_API)
   } catch (error) {
@@ -95,7 +95,7 @@ async function createTaskApi(task) {
   }
 }
 
-async function updateTaskApi(task) {
+async function updateTask(task) {
   try {
     return await setSingleItem(TASK_API, task.id, task)
   } catch (error) {
