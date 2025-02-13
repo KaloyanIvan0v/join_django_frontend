@@ -141,7 +141,7 @@ function renderProgressBar(id, subTasksLength, finishedSubTasks) {
  */
 function getFinishedSubTasksLength(id) {
   let task = tasks[getIndexOfElementById(id, tasks)]
-  let finishedSubTasks = task.subTasks.filter((subTask) => subTask.status)
+  let finishedSubTasks = task.subTasks.filter((subTask) => subTask.state)
   return finishedSubTasks.length
 }
 

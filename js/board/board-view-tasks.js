@@ -46,12 +46,13 @@ function renderFullName(i, contactsForTask) {
  */
 function toggleCheckboxSubTask(i, subTaskId, id) {
   if (getSubtaskStatus(i, subTaskId)) {
-    tasks[i].subTasks[getIndexOfElementById(subTaskId, tasks[i].subTasks)].status = false
+    tasks[i].subTasks[getIndexOfElementById(subTaskId, tasks[i].subTasks)].state = false
   } else {
-    tasks[i].subTasks[getIndexOfElementById(subTaskId, tasks[i].subTasks)].status = true
+    tasks[i].subTasks[getIndexOfElementById(subTaskId, tasks[i].subTasks)].state = true
   }
+  task = tasks[i]
+  updateTask(task)
   renderSubTasksBoard(i, id)
-  setItem('tasks', tasks)
 }
 
 /**
@@ -62,7 +63,7 @@ function toggleCheckboxSubTask(i, subTaskId, id) {
  * @returns {boolean} - The status of the specified subtask (true if completed, false otherwise).
  */
 function getSubtaskStatus(i, subTaskId) {
-  let subTaskStatus = tasks[i].subTasks[getIndexOfElementById(subTaskId, tasks[i].subTasks)].status
+  let subTaskStatus = tasks[i].subTasks[getIndexOfElementById(subTaskId, tasks[i].subTasks)].state
   return subTaskStatus
 }
 
@@ -72,13 +73,15 @@ function getSubtaskStatus(i, subTaskId) {
  *
  * @param {string} taskId - Unique identifier of the task to be deleted.
  */
-function deleteTask(taskId) {
+async function deleteTask(taskId) {
+  task = tasks[getIndexOfElementById(taskId, tasks)]
+  await deleteTaskApi(task)
+  console.log('task: ', task)
   tasks.splice(getIndexOfElementById(taskId, tasks), 1)
   closePopUp()
   setSessionStorage('tasks', tasks)
   renderTasks(getFilteredTasks())
   ifLastItem(tasks)
-  setItem('tasks', tasks)
 }
 
 /**

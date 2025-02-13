@@ -104,7 +104,7 @@ async function updateTask(task) {
   }
 }
 
-async function deleteTask(task) {
+async function deleteTaskApi(task) {
   try {
     return await deleteSingleItem(TASK_API, task.id)
   } catch (error) {

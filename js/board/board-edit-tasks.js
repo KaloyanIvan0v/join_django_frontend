@@ -15,6 +15,7 @@ function editTaskOverlay(i, id) {
   prioSelect(id, currentPrio)
   setUsersForEditTask(id)
   renderSubTasksEdit(id)
+  setSessionStorage('openEditTaskId', id)
 }
 
 /**
@@ -49,8 +50,8 @@ function renderSubTasksEdit(id) {
  * @param {Object} subTask - The subtask object to be rendered.
  */
 function renderSubtask(input, subTask) {
-  input.value = subTask.subTask
-  let subTaskState = subTask.status
+  input.value = subTask.description
+  let subTaskState = subTask.state
   addNewSubTaskBoard(subTaskState)
   input.value = ''
 }
@@ -64,9 +65,8 @@ function addNewSubTaskBoard(subTaskState) {
   let singleNewTaskValue = document.getElementById('subTasks').value
   if (subTaskLongEnough(singleNewTaskValue)) {
     subTasks.push({
-      subTask: singleNewTaskValue,
-      status: subTaskState,
-      id: increaseId(subTasks),
+      description: singleNewTaskValue,
+      state: subTaskState,
     })
   }
   removeFocusFrom('subTasks')
@@ -134,8 +134,8 @@ function renderSubTasksBoard(i, id) {
  * @param {number} j - Index of the subtask.
  */
 function renderSubTask(i, id, subTasksField, subTask, j) {
-  const imgSrc = subTask.status ? '/img/box-checked.png' : '/img/check_empty.png'
-  subTasksField.innerHTML += returnHtmlSubtasks(subTask.subTask, i, subTask.id, imgSrc, id, j)
+  const imgSrc = subTask.state ? '/img/box-checked.png' : '/img/check_empty.png'
+  subTasksField.innerHTML += returnHtmlSubtasks(subTask.description, i, subTask.id, imgSrc, id, j)
 }
 
 /**
@@ -147,9 +147,7 @@ function safeTaskChanges(id) {
   safeChangesToTasks(id)
   setSessionStorage('tasks', tasks)
   task = tasks[getIndexOfElementById(id, tasks)]
-  console.log('task', task)
-
-  //updateTask(task)
+  updateTask(task)
   closeEditTaskPopUp()
   subTasks = []
   tasks = JSON.parse(sessionStorage.getItem('tasks'))

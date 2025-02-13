@@ -52,29 +52,17 @@ function countStatements(index) {
   } catch (e) {
     console.log(e)
   }
-  document.getElementById(`count${index}`).innerHTML = statement / counts
+  document.getElementById(`count${index}`).innerHTML = statementCounts
 }
 
 /**
- * Change the image of an elament on Hover.
+ * Change the image of an element.
  *
  * @param {string} element - The Elements specific ID.
  * @param {string} image - The Image.
  */
-function changeImageOnHover(element, image) {
-  let newImage = image
-  document.getElementById(element).setAttribute('src', newImage)
-}
-
-/**
- * Change the image of an elament on Hover.
- *
- * @param {string} element - The Elements specific ID.
- * @param {string} image - The Image.
- */
-function changeImageOnUnHover(element, image) {
-  let newImage = image
-  document.getElementById(element).setAttribute('src', newImage)
+function changeImage(element, image) {
+  document.getElementById(element).setAttribute('src', image)
 }
 
 /**

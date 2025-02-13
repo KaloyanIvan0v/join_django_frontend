@@ -61,14 +61,14 @@ async function addTask() {
       finishedSubTasks: finishedSubTasks || [], // Added default
       state: 'toDo',
     }
+    console.log('Task:', task)
 
     // Validate task
     if (!validateTask(task)) {
       throw new Error('Invalid task data')
     }
 
-    //tasks.push(task)
-    //await setItem('tasks', tasks)
+    tasks.push(task)
     await createTaskApi(task)
 
     return true
@@ -108,15 +108,14 @@ function changeIconsSubtask() {
  * Adds a new subtask to the list of subtasks.
  */
 function addNewSubTask() {
-  let id = increaseId(subTasks)
+  console.log('subTasks', subTasks)
   let singleNewTask = document.getElementById('subTasks')
   let singleNewTaskValue = singleNewTask.value
 
   if (singleNewTaskValue.length >= 3) {
     subTasks.push({
-      subTask: singleNewTaskValue,
-      status: false,
-      id: id,
+      description: singleNewTaskValue,
+      state: false,
     })
   }
   singleNewTask.blur()
@@ -128,10 +127,12 @@ function addNewSubTask() {
  *
  * @param {number} i - The index of the subtask.
  */
-function deleteSubtask(event, i) {
+async function deleteSubtask(event, i) {
   event.stopPropagation()
   subTasks.splice(i, 1)
-  setItem('subTasks', subTasks)
+  id = getFromSessionStorage('openEditTaskId')
+  task = tasks[getIndexOfElementById(id, tasks)]
+  await updateTask(task)
   renderSubTasks()
 }
 
@@ -142,8 +143,10 @@ function deleteSubtask(event, i) {
  */
 async function changeSubtask(i) {
   let changedSubTask = document.getElementById(`inputField${i}`).value
-  subTasks[i]['subTask'] = changedSubTask
-  await setItem('subTasks', subTasks)
+  subTasks[i]['description'] = changedSubTask
+  id = getFromSessionStorage('openEditTaskId')
+  task = tasks[getIndexOfElementById(id, tasks)]
+  await updateTask(task)
   renderSubTasks()
 }
 
@@ -159,7 +162,7 @@ function renderSubTasks(operator) {
   newTaskField.innerHTML = ''
 
   for (i = 0; i < subTasks.length; i++) {
-    let newSubTask = subTasks[i]['subTask']
+    let newSubTask = subTasks[i]['description']
     newTaskField.innerHTML += returnHtmlNewSubtasks(newSubTask)
   }
   checkIfNewSubTask(operator)
@@ -184,7 +187,6 @@ async function checkIfNewSubTask(operator) {
   if (operator == 'newSubtask') {
     checkChangeIcons = true
     changeIconsSubtask()
-    await setItem('subTasks', subTasks)
   }
 }
 
@@ -195,7 +197,7 @@ async function checkIfNewSubTask(operator) {
  */
 function editSubtask(i) {
   let subTaskField = document.getElementById(`subTaskElement${i}`)
-  let subTask = subTasks[i]['subTask']
+  let subTask = subTasks[i]['description']
 
   subTaskField.classList.add('list-element-subtasks')
   subTaskField.classList.remove('hover-subtask')
