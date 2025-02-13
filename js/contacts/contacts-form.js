@@ -110,7 +110,7 @@ async function addNewContact() {
   const id = increaseId(contacts)
   const contact = { id, name, email, phone, color, nameInitials, author, checkbox: false }
   contacts.push(contact)
-  createContact(contact)
+  createContactApi(contact)
 }
 
 /**
@@ -197,7 +197,7 @@ function SaveEditedContact() {
   contact.phone = document.getElementById('id-edit-contact-input-phone').value
   toggleContactForm()
   setTimeout(function () {
-    updateContact(contact)
+    updateContactApi(contact)
     closeContactForm()
     renderContacts(contacts)
     renderContactFullMode(contacts[currentEditingContactId])

@@ -8,7 +8,7 @@ let currentEditingContactId
 async function initContacts() {
   try {
     await includeHTML()
-    await loadAllContacts()
+    await loadAllContactsApi()
     renderContacts(contacts)
     addClickListener()
   } catch (error) {
@@ -45,7 +45,7 @@ async function removeContact(event) {
   let contactIndex = getContactIndex(getActualContactEmail())
   if (contactIndex != undefined) {
     let contact = contacts[contactIndex]
-    deleteContact(contact.id)
+    deleteContactApi(contact.id)
     console.log(contact)
     contacts.splice(contactIndex, 1)
     document.getElementById('id-contact-full-mode').innerHTML = ''

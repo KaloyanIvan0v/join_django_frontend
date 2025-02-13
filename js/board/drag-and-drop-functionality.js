@@ -43,7 +43,7 @@ function moveElementTo(newstatement) {
   renderTasks(getFilteredTasks())
   setSessionStorage('tasks', tasks)
   //setItem('tasks', tasks)
-  updateTask(tasks[getIndexOfElementById(currentDraggedElement, tasks)])
+  updateTaskApi(tasks[getIndexOfElementById(currentDraggedElement, tasks)])
   stopDragging()
 }
 
@@ -160,8 +160,8 @@ function moveTaskTo(id, statement) {
   let task = tasks[getIndexOfElementById(id, tasks)]
   task.state = statement
   console.log('task', task)
-  updateTask(task)
+  updateTaskApi(task)
   renderTasks(getFilteredTasks())
   closePopUp()
-  updateTask(task)
+  updateTaskApi(task)
 }

@@ -19,9 +19,9 @@ async function init_add_task() {
   await includeHTML()
   loadHtmlTaskTemplate()
   // setTimeout(loadFirstLettersFromSessionStorage, 300);
-  loadAllTasks()
-  loadAllContacts()
-  loadAllUsers()
+  loadAllTasksApi()
+  loadAllContactsApi()
+  loadAllUsersApi()
   setTimeout(selectPriority, 200)
   setTimeout(currentDate, 200)
   handleExitImg()
@@ -61,7 +61,6 @@ async function addTask() {
       finishedSubTasks: finishedSubTasks || [], // Added default
       state: 'toDo',
     }
-    console.log('Task:', task)
 
     // Validate task
     if (!validateTask(task)) {
@@ -70,7 +69,7 @@ async function addTask() {
 
     tasks.push(task)
     await createTaskApi(task)
-
+    await loadAllTasksApi()
     return true
   } catch (error) {
     console.error('Error adding task:', error)
@@ -108,7 +107,6 @@ function changeIconsSubtask() {
  * Adds a new subtask to the list of subtasks.
  */
 function addNewSubTask() {
-  console.log('subTasks', subTasks)
   let singleNewTask = document.getElementById('subTasks')
   let singleNewTaskValue = singleNewTask.value
 
@@ -132,7 +130,7 @@ async function deleteSubtask(event, i) {
   subTasks.splice(i, 1)
   id = getFromSessionStorage('openEditTaskId')
   task = tasks[getIndexOfElementById(id, tasks)]
-  await updateTask(task)
+  await updateTaskApi(task)
   renderSubTasks()
 }
 
@@ -146,7 +144,7 @@ async function changeSubtask(i) {
   subTasks[i]['description'] = changedSubTask
   id = getFromSessionStorage('openEditTaskId')
   task = tasks[getIndexOfElementById(id, tasks)]
-  await updateTask(task)
+  await updateTaskApi(task)
   renderSubTasks()
 }
 

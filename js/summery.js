@@ -2,7 +2,7 @@
  * This is the Initialfunction.
  */
 async function init() {
-  await loadAllTasks()
+  await loadAllTasksApi()
   includeHTML()
   getTime()
   writeNumberOfAllTasks()

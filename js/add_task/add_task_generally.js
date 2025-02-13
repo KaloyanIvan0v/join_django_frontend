@@ -44,7 +44,15 @@ function resetInputFields() {
   clearInnerHtmlInputFields()
 }
 
-function clearAssignedSection() {
+/**
+ * Clears the assigned section.
+ *
+ * @param {Event|null} event - The event object or null if called programmatically
+ */
+function clearAssignedSection(event) {
+  if (event) {
+    event.preventDefault()
+  }
   let contactBox = document.getElementById('contactsField')
   if (contactBox.classList.contains('contacts-initialen')) {
     showOrHideContacts(event)
@@ -241,12 +249,14 @@ function showOrHideRequiredField(idParent, idToggle) {
 }
 
 /**
- * Shows or hides the contacts dropdown based on the arrow toggle state.
+ * Shows or hides the contacts dropdown.
  *
- * @param {Event} event - The click event.
+ * @param {Event|null} event - The event object or null if called programmatically
  */
 function showOrHideContacts(event) {
-  event.stopPropagation()
+  if (event) {
+    event.stopPropagation()
+  }
 
   if (openCategories) {
     showOrHideCategoriesField(event)
@@ -364,11 +374,10 @@ function filterContacts(contact, inputSearchContact) {
 }
 
 /**
- * Handles the selection of a user.
+ * Handles user selection.
  *
- * @param {number} i - The index of the contact.
- * @param {Event} event - The click event.
- * @param {string} id - The ID of the contact.
+ * @param {Event|null} event - The event object or null if called programmatically
+ * @param {string} contactId - The ID of the selected contact
  */
 function selectedUser(event, contactId) {
   if (event) {

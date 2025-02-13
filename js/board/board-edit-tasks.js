@@ -143,15 +143,22 @@ function renderSubTask(i, id, subTasksField, subTask, j) {
  *
  * @param {string} id - ID of the task.
  */
-function safeTaskChanges(id) {
-  safeChangesToTasks(id)
-  setSessionStorage('tasks', tasks)
-  task = tasks[getIndexOfElementById(id, tasks)]
-  updateTask(task)
-  closeEditTaskPopUp()
-  subTasks = []
-  tasks = JSON.parse(sessionStorage.getItem('tasks'))
-  renderTasks(getFilteredTasks())
+async function safeTaskChanges(id) {
+  try {
+    safeChangesToTasks(id)
+    task = tasks[getIndexOfElementById(id, tasks)]
+    closeEditTaskPopUp()
+
+    await updateTaskApi(task)
+    await loadAllTasksApi()
+
+    setSessionStorage('tasks', tasks)
+    subTasks = []
+    tasks = JSON.parse(sessionStorage.getItem('tasks'))
+    renderTasks(getFilteredTasks())
+  } catch (error) {
+    console.error('Error updating task:', error)
+  }
 }
 
 /**
@@ -169,14 +176,14 @@ function safeChangesToTasks(id) {
   task.description = description
   task.dueDate = dueDate
   task.assignedTo = assignedTo.length == 0 ? [] : assignedTo
-  task.subTasks.length == 0 ? (task.subTasks = []) : (task.subTasks = subTasks)
+  subTasks.length == 0 ? (task.subTasks = []) : (task.subTasks = subTasks)
 }
 
 /**
  * Closes the edit task popup.
  */
 function closeEditTaskPopUp() {
-  clearAssignedSection()
+  clearAssignedSection(null)
   setTimeout(closePopUp, 20)
   arrowToggleCheck = false
   subTasks = []
@@ -189,14 +196,14 @@ function closeEditTaskPopUp() {
  */
 function setUsersForEditTask(taskId) {
   let assignedToIds = retrieveIdsFromTwoLevelNestedArrayById(taskId, tasks, 'assignedTo')
-  showOrHideContacts(event)
+  showOrHideContacts(null)
   for (let i = 0; i < contacts.length; i++) {
     contactId = contacts[i]['id']
     if (assignedToIds.includes(contactId)) {
-      selectedUser(event, contactId)
+      selectedUser(null, contactId)
     }
   }
-  showOrHideContacts(event)
+  showOrHideContacts(null)
 }
 
 /**

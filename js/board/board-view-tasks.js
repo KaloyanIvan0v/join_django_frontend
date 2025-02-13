@@ -44,14 +44,14 @@ function renderFullName(i, contactsForTask) {
  * @param {string} subTaskId - Unique identifier of the subtask.
  * @param {string} id - Unique identifier of the parent task.
  */
-function toggleCheckboxSubTask(i, subTaskId, id) {
+async function toggleCheckboxSubTask(i, subTaskId, id) {
   if (getSubtaskStatus(i, subTaskId)) {
     tasks[i].subTasks[getIndexOfElementById(subTaskId, tasks[i].subTasks)].state = false
   } else {
     tasks[i].subTasks[getIndexOfElementById(subTaskId, tasks[i].subTasks)].state = true
   }
   task = tasks[i]
-  updateTask(task)
+  await updateTaskApi(task)
   renderSubTasksBoard(i, id)
 }
 

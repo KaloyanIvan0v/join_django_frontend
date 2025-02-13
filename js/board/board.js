@@ -5,8 +5,8 @@
  */
 async function init_board() {
   try {
-    await loadAllTasks()
-    await loadAllContacts()
+    await loadAllTasksApi()
+    await loadAllContactsApi()
     await includeHTML()
     renderTasks(getFilteredTasks())
     setSearchFieldBorderListener()
