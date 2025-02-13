@@ -94,8 +94,10 @@ async function registerNewUser() {
   let email = document.getElementById('email').value
   let password = document.getElementById('password0').value
   let newUser = { name, email, password }
+  console.log(newUser)
+
   users.push(newUser)
-  await setItem('users', users)
+  await createUserApi(newUser)
   resetForm()
   window.location.href = '/index.html?msg=You Signed Up successfully'
 }

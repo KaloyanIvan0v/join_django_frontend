@@ -71,7 +71,7 @@ function renderSingleTask(taskList, taskAreas, i) {
   setCategoryColor(i, taskList)
   setPriorityTaskCard(i, id)
   renderContactsBoardInitials(false, id, `contactsFieldBoard(${id})`)
-  if (singleTask.subTasks[0] !== -1) {
+  if (singleTask.subTasks.length > 0) {
     handleSubtasksProgressBar(id)
   }
 }

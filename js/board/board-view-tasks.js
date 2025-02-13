@@ -76,7 +76,6 @@ function getSubtaskStatus(i, subTaskId) {
 async function deleteTask(taskId) {
   task = tasks[getIndexOfElementById(taskId, tasks)]
   await deleteTaskApi(task)
-  console.log('task: ', task)
   tasks.splice(getIndexOfElementById(taskId, tasks), 1)
   closePopUp()
   setSessionStorage('tasks', tasks)

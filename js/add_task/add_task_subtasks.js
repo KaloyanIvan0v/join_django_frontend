@@ -67,8 +67,6 @@ async function addTask(statement = 'undefined') {
       state: statement == 'undefined' ? 'toDo' : statement,
     }
 
-    console.log(task)
-
     // Validate task
     if (!validateTask(task)) {
       throw new Error('Invalid task data')
