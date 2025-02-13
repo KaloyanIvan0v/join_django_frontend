@@ -3,7 +3,7 @@ const TASK_API = getApiUrl(API_CONFIG.ENDPOINTS.TASKS)
 const CONTACT_API = getApiUrl(API_CONFIG.ENDPOINTS.CONTACTS)
 
 // User functions
-async function loadAllUsers() {
+async function loadAllUsersApi() {
   try {
     users = await getAllItems(USER_API)
   } catch (error) {
@@ -12,7 +12,7 @@ async function loadAllUsers() {
   }
 }
 
-async function createUser(user) {
+async function createUserApi(user) {
   try {
     return await createSingleItem(USER_API, user)
   } catch (error) {
@@ -21,7 +21,7 @@ async function createUser(user) {
   }
 }
 
-async function updateUser(user) {
+async function updateUserApi(user) {
   try {
     return await setSingleItem(USER_API, user.id, user)
   } catch (error) {
@@ -30,7 +30,7 @@ async function updateUser(user) {
   }
 }
 
-async function deleteUser(user) {
+async function deleteUserApi(user) {
   try {
     return await deleteSingleItem(USER_API, user.id)
   } catch (error) {
@@ -40,7 +40,7 @@ async function deleteUser(user) {
 }
 
 // Contact functions
-async function loadAllContacts() {
+async function loadAllContactsApi() {
   try {
     contacts = await getAllItems(CONTACT_API)
   } catch (error) {
@@ -49,7 +49,7 @@ async function loadAllContacts() {
   }
 }
 
-async function createContact(contact) {
+async function createContactApi(contact) {
   try {
     return await createSingleItem(CONTACT_API, contact)
   } catch (error) {
@@ -58,7 +58,7 @@ async function createContact(contact) {
   }
 }
 
-async function updateContact(contact) {
+async function updateContactApi(contact) {
   try {
     return await setSingleItem(CONTACT_API, contact.id, contact)
   } catch (error) {
@@ -67,7 +67,7 @@ async function updateContact(contact) {
   }
 }
 
-async function deleteContact(contactId) {
+async function deleteContactApi(contactId) {
   try {
     return await deleteSingleItem(CONTACT_API, contact)
   } catch (error) {
@@ -77,7 +77,7 @@ async function deleteContact(contactId) {
 }
 
 // Task functions
-async function loadAllTasks() {
+async function loadAllTasksApi() {
   try {
     tasks = await getAllItems(TASK_API)
   } catch (error) {
@@ -95,7 +95,7 @@ async function createTaskApi(task) {
   }
 }
 
-async function updateTask(task) {
+async function updateTaskApi(task) {
   try {
     return await setSingleItem(TASK_API, task.id, task)
   } catch (error) {
