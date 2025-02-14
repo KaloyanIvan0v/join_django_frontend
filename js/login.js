@@ -57,6 +57,7 @@ function login() {
   }
   const user = email.value
   if (userExist(user) && passwordIsCorrect(user)) {
+    sessionStorage.setItem('LoggedIn', 'true')
     setSessionStorage('loggedInUser', users[getUserIndex(user)])
     resetForm()
     window.location.href = '../html/summery.html'
@@ -67,7 +68,6 @@ function login() {
       SetLoginFeedbackMsg('Password is incorrect!', 3000)
     }
   }
-  sessionStorage.setItem('LoggedIn', 'true')
 }
 
 /**
@@ -150,9 +150,14 @@ function getUserIndex(user) {
  * Logs in as a guest user and redirects to the summary page.
  */
 function guestLogIn() {
-  loggedInUser = { name: 'Guest', email: 'guest@info.com', password: 'guest' }
-  window.location.href = '../html/summery.html'
+  const guestUser = {
+    name: 'Guest',
+    email: 'guest@info.com',
+    password: 'guest',
+  }
+  setSessionStorage('loggedInUser', guestUser)
   sessionStorage.setItem('LoggedIn', 'true')
+  window.location.href = '../html/summery.html'
 }
 
 /**

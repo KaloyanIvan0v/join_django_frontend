@@ -21,18 +21,22 @@ function addDNone() {
  *
  */
 function loadFirstLettersFromSessionStorage() {
-  //load first letters of first and last Name!
   let loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'))
   let activeSite = sessionStorage.getItem('activeSite')
+
   if (loggedInUser) {
     let nameOfUser = loggedInUser.name
     let firstAndLastName = nameOfUser.split(' ')
     let firstName = firstAndLastName[0]
-    let lastName = firstAndLastName[1]
+    let lastName = firstAndLastName.length > 1 ? firstAndLastName[1] : '' // Fallback wenn kein Nachname
+
     setAbbreviationToUserIcon(firstName, lastName)
+
     if (window.innerWidth > 1440) {
       if (activeSite == 'summery') {
-        document.getElementById('name').innerHTML = `${firstName} ${lastName}`
+        document.getElementById('name').innerHTML = lastName
+          ? `${firstName} ${lastName}`
+          : firstName
       }
     }
   } else {
@@ -47,8 +51,16 @@ function loadFirstLettersFromSessionStorage() {
  * @param {sting} lastName - Lastname of function loadFirstLettersFromSessionStorage().
  */
 function setAbbreviationToUserIcon(firstName, lastName) {
-  if (firstName && lastName) {
-    document.getElementById('abbreviation').innerHTML = firstName[0] + lastName[0]
+  try {
+    const abbreviation = document.getElementById('abbreviation')
+    if (abbreviation) {
+      const firstInitial = firstName ? firstName[0].toUpperCase() : ''
+      const lastInitial = lastName ? lastName[0].toUpperCase() : ''
+      abbreviation.innerHTML = lastInitial ? `${firstInitial}${lastInitial}` : firstInitial
+    }
+  } catch (error) {
+    console.error('Error setting abbreviation:', error)
+    document.getElementById('abbreviation').innerHTML = firstName[0].toUpperCase()
   }
 }
 

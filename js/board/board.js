@@ -4,6 +4,7 @@
  * @returns {Promise<void>}
  */
 async function init_board() {
+  checkIfLoggedInRouter()
   try {
     await loadAllTasksApi()
     await loadAllContactsApi()

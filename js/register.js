@@ -19,11 +19,45 @@ async function initRegister() {
 }
 
 /**
- * Registers a new user if the email doesn't already exist, the passwords match, and
- * the checkbox is checked. Displays appropriate feedback messages otherwise.
+ * Validates an email address format.
+ *
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} True if the email format is valid, false otherwise.
+ */
+function isValidEmail(email) {
+  // Regular expression for basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  // List of forbidden patterns
+  const forbiddenPatterns = ['asdf@', 'qwer@', 'uiop@']
+
+  // Check if email matches basic format
+  if (!emailRegex.test(email)) {
+    return false
+  }
+
+  // Check if email contains any forbidden patterns
+  for (let pattern of forbiddenPatterns) {
+    if (email.toLowerCase().includes(pattern.toLowerCase())) {
+      SetLoginFeedbackMsg('This email pattern is not allowed.', 3000)
+      return false
+    }
+  }
+
+  return true
+}
+
+/**
+ * Registers a new user if all validation checks pass.
  */
 async function register() {
   const inputEmail = email.value
+
+  if (!isValidEmail(inputEmail)) {
+    SetLoginFeedbackMsg('Please enter a valid email address.', 3000)
+    return
+  }
+
   if (!userExist(inputEmail) && passwordMatch() && checkBoxState) {
     handleMsgBox()
     setTimeout(() => {

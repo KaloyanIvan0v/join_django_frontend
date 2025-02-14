@@ -5,14 +5,14 @@
 }
 
 @font-face {
-  font-family: "inter";
-  src: url("/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf");
+  font-family: 'inter';
+  src: url('/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf');
   /* font-weight: 100; */
 }
 
 body {
   margin: 0;
-  font-family: "inter";
+  font-family: 'inter';
 }
 
 h2 {
@@ -21,7 +21,7 @@ h2 {
   left: 328px;
   font-size: 61px;
   font-weight: 700;
-  font-family: "inter";
+  font-family: 'inter';
 }
 
 button {
@@ -151,4 +151,28 @@ input:focus {
   .warn-landscape {
     visibility: visible;
   }
+}
+
+.popup-message-login {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1000;
+  font-size: 1.2rem;
+}
+
+.popup-overlay-login {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  pointer-events: all;
 }

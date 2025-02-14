@@ -6,6 +6,7 @@
  */
 let currentEditingContactId
 async function initContacts() {
+  checkIfLoggedInRouter()
   try {
     await includeHTML()
     await loadAllContactsApi()

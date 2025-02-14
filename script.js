@@ -30,6 +30,29 @@ let geLoggedInUser = null
 
 addResizeListener()
 
+function checkIfLoggedInRouter() {
+  if (sessionStorage.getItem('LoggedIn') === 'false') {
+    console.log('You are not logged in. Redirecting to login page...')
+    showPopup('You are not logged in. Redirecting to login page...')
+    setTimeout(function () {
+      window.location.href = '/index.html'
+    }, 2000)
+  }
+}
+
+function showPopup(message) {
+  const overlay = document.createElement('div')
+  const popup = document.createElement('div')
+  overlay.classList.add('popup-overlay-login', 'none-clickable')
+  popup.classList.add('popup-message-login')
+  popup.textContent = message
+  overlay.appendChild(popup)
+  document.body.appendChild(overlay)
+  setTimeout(function () {
+    overlay.remove()
+  }, 2000)
+}
+
 /**
  * Sets the currently logged-in user in local storage.
  * @param {Object} user - The user object to be stored.
@@ -160,7 +183,7 @@ function handleExitImg() {
 /**
  * check if a User logged In or not at set to sessionstorage.
  */
-function chechIfLoggedIn() {
+function checkIfLoggedIn() {
   let IfUser = sessionStorage.getItem('LoggedIn')
   if (IfUser == 'false') {
     document.getElementById('menu').classList.replace('menu', 'dNone')
