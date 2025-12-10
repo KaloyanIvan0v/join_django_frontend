@@ -181,6 +181,7 @@ function toggleCheckbox() {
   } else {
     checkBoxState = false
     checkBox.src = '../img/box-unchecked.png'
+
     clearUserDataFromLocalStorage()
   }
 }

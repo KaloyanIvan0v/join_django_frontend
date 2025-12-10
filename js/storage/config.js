@@ -2,7 +2,7 @@ const API_CONFIG = {
   VERSION: 'v1',
   BASE_URL: 'http://127.0.0.1:8000/api',
   ENDPOINTS: {
-    USERS: '/users/',
+    USERS: '/auth/users/',
     TASKS: '/tasks/',
     CONTACTS: '/contacts/',
   },
