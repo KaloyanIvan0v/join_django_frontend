@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Join Stakeholder</title>
     <link rel="icon" type="image/x-icon" href="img/logoDark.png" />
-    <link rel="stylesheet" type="text/css" href="/css/welcome-stackeholder.css" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/welcome-stackeholder.css" />
     <script src="/js/storage/session-storage.js"></script>
     <script src="/js/storage/local-storage.js"></script>
     <script src="/js/storage/config.js"></script>
@@ -16,17 +16,21 @@
     <script src="/script.js"></script>
     <script src="/js/templates.js"></script>
     <script src="/js/w3include.js"></script>
-    <script src="/js/login.js"></script>
+    <script src="/js/stakeholder.js"></script>
   </head>
 
-  <body onload="initLogin()">
+  <body onload="initWelcomeStakeholderPage()">
     <div class="moving-img">
       <img id="id-logo-img" src="/img/logo-dark.svg" alt="" />
     </div>
     <div id="id-opacity-layer" class="opacity-layer"></div>
     <div id="id-log-in-box" class="log-in-box">
       <div class="inner-log-in-box">
-        <div class="inner-box-header">Welcome</div>
+        <div class="inner-box-header">
+          <p>Welcome</p>
+          <div class="blue-underline"></div>
+        </div>
+
         <div class="inner-box-text">
           Pick the option that suits your role: create a request as a stakeholder or log in if
           you’re part of the team.
@@ -34,17 +38,17 @@
         <div class="inner-box-button-wrapper">
           <div class="left-button-wrapper">
             <div class="button-header">
-              <img src="" alt="" />
-              <p></p>
+              <img src="/img/stakeholder.svg" alt="a briefcase icon in blue" />
+              <p>Are you a stakeholder</p>
             </div>
-            <div class="button"></div>
+            <button class="static-button-accent">Create request</button>
           </div>
           <div class="right-button-wrapper">
             <div class="button-header">
-              <img src="" alt="" />
-              <p></p>
+              <img src="/img/member.svg" alt="a member icon in blue" />
+              <p>Are you a team member?</p>
             </div>
-            <div class="button"></div>
+            <button class="static-button-empty">Member log in</button>
           </div>
         </div>
       </div>

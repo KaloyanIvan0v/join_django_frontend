@@ -1,21 +1,6 @@
 body {
   margin: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-a {
-  text-decoration: inherit;
-  color: inherit;
-  cursor: pointer;
-}
-
-body {
-  margin: 0;
-  display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
@@ -28,12 +13,39 @@ a {
   cursor: pointer;
 }
 
+p {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 40px;
+  gap: 16px;
+  color: rgb(168, 168, 168);
+  font-size: 16px;
+}
+
+footer a {
+  padding: 8px;
+}
+
 .log-in-box {
   padding-top: 48px;
   padding-right: 88px;
   padding-bottom: 48px;
   padding-left: 88px;
-  height: 493px;
+  height: max-content;
   width: 98%;
   max-width: 652px;
   box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
@@ -51,21 +63,6 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 40px;
-  gap: 16px;
-  color: rgb(168, 168, 168);
-  font-size: 16px;
-}
-
-footer a {
-  padding: 8px;
 }
 
 .moving-img {
@@ -113,12 +110,38 @@ footer a {
   color: var(--primary-color);
   font-size: 32px;
   font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.blue-underline {
+  width: 80%;
+  height: 3px;
+  background-color: var(--accent-color);
+  border-radius: 2px;
+  margin-bottom: 24px;
 }
 
 .inner-box-text {
   color: var(--primary-color);
   font-size: 23px;
   font-weight: 400;
+  margin-bottom: 56px;
+}
+
+.inner-box-button-wrapper {
+  display: flex;
+  gap: 56px;
+}
+
+.button-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  gap: 8px;
 }
 
 @media (max-width: 1200px) {
@@ -153,22 +176,69 @@ footer a {
 }
 
 @media (max-width: 770px) {
-  .log-in-box {
-    padding: 0px;
-    width: 98%;
-    padding-left: 16px;
-    padding-right: 16px;
-    box-sizing: border-box;
-  }
   body {
     padding-left: 16px;
     padding-right: 16px;
+  }
+  .log-in-box {
+    width: 98%;
+
+    box-sizing: border-box;
+  }
+  .inner-box-header {
+    font-size: 28px;
+  }
+  .inner-box-text {
+    font-size: 20px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .inner-box-header {
+    font-size: 24px;
+  }
+  .inner-box-text {
+    font-size: 18px;
+  }
+  .inner-box-button-wrapper {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .left-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .right-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  button {
+    width: max-content;
   }
 }
 
 @media (max-width: 400px) {
   .log-in-box {
     padding-top: 32px;
+  }
+
+  .inner-box-header {
+    font-size: 22px;
+  }
+  .inner-box-text {
+    font-size: 16px;
+  }
+  button {
+    font-size: 14px;
+  }
+  p {
+    width: max-content;
   }
 }
 

@@ -37,6 +37,17 @@ input:focus {
   outline: none;
 }
 
+.static-button-accent {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.static-button-empty {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
 .join-button {
   background-color: var(--primary-color);
 }
