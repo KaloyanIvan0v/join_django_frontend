@@ -29,7 +29,7 @@ function includeHTML() {
     }
   }
   if (
-    getFilenameFromURL() != 'index.html' &&
+    getFilenameFromURL() != 'login.html' &&
     getFilenameFromURL() != 'register.html' &&
     getFilenameFromURL() != ''
   ) {

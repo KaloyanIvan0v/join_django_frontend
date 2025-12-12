@@ -37,3 +37,11 @@ function setPwdInputEventListeners() {
     inputClicked(event.target.id)
   })
 }
+
+function navigateToStakeholder() {
+  window.location.href = '../html/summery.html'
+}
+
+function navigateToLogin() {
+  window.location.href = '../html/login.html'
+}
