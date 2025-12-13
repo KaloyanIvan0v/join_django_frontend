@@ -38,8 +38,8 @@ function setPwdInputEventListeners() {
   })
 }
 
-function navigateToStakeholder() {
-  window.location.href = '../html/summery.html'
+function navigateToRequest() {
+  window.location.href = '../html/request.html'
 }
 
 function navigateToLogin() {
