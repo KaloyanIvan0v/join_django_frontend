@@ -31,7 +31,7 @@ let geLoggedInUser = null
 addResizeListener()
 
 function checkIfLoggedInRouter() {
-  if (sessionStorage.getItem('LoggedIn') === 'false') {
+  if (localStorage.getItem('authToken') === null) {
     console.log('You are not logged in. Redirecting to login page...')
     showPopup('You are not logged in. Redirecting to login page...')
     setTimeout(function () {

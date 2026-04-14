@@ -6,11 +6,11 @@ let checkBoxState = false
  * animation and sets session storage data.
  */
 async function initLogin() {
-  await loadAllUsersApi()
-  await loadAllContactsApi()
-  await loadAllTasksApi()
-  setSessionStorage('contacts', contacts)
-  setSessionStorage('tasks', tasks)
+  // await loadAllUsersApi()
+  // await loadAllContactsApi()
+  // await loadAllTasksApi()
+  // setSessionStorage('contacts', contacts)
+  // setSessionStorage('tasks', tasks)
   sessionStorage.setItem('activeSite', 'summery')
   setStatusNotLogInToSessionstorage()
   LoadLoginFromLocalStorage()
@@ -23,22 +23,28 @@ async function initLogin() {
  * is correct. If the login is successful, redirects to the summary page. Otherwise,
  * displays appropriate feedback messages.
  */
-function login() {
-  if (checkBoxState == true) {
-    saveLoginToLocalStorage()
+async function login() {
+  const data = {
+    email: document.getElementById('email').value,
+    password: document.getElementById('password0').value,
   }
-  const user = email.value
-  if (userExist(user) && passwordIsCorrect(user)) {
-    sessionStorage.setItem('LoggedIn', 'true')
-    setSessionStorage('loggedInUser', users[getUserIndex(user)])
-    resetForm()
-    window.location.href = '../html/summery.html'
-  } else {
-    if (!userExist(user)) {
-      SetLoginFeedbackMsg('User does not exist!', 3000)
-    } else if (!passwordIsCorrect(user)) {
-      SetLoginFeedbackMsg('Password is incorrect!', 3000)
+  try {
+    const response = await fetch('/api/v1/auth/login/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    if (response.ok) {
+      var responseData = await response.json()
+      localStorage.setItem('authToken', responseData.token)
+      resetForm()
+      window.location.href = '../html/summery.html'
+    } else {
+      SetLoginFeedbackMsg('An error occurred during login. Please try again later.', 3000)
     }
+  } catch (error) {
+    console.error('API Error:', error)
+    throw error
   }
 }
 

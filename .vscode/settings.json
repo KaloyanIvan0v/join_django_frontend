@@ -7,5 +7,7 @@
     "titleBar.activeForeground": "#FFFFFF",
     "statusBar.background": "#761a1a"
   },
-  "github.copilot.editor.enableAutoCompletions": true
+  "github.copilot.editor.enableAutoCompletions": true,
+  "djlint.showInstallError": false,
+  "idf.pythonInstallPath": "/opt/homebrew/bin/python3"
 }

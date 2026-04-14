@@ -1,3 +1,12 @@
+function getAuthHeader() {
+  const token = localStorage.getItem('authToken')
+  if (token) {
+    return { Authorization: `Bearer ${token}` }
+  } else {
+    return {}
+  }
+}
+
 function createApiError(message, status) {
   const error = new Error(message)
   error.status = status
@@ -13,7 +22,9 @@ async function handleResponse(response) {
 
 async function getAllItems(API_URL) {
   try {
-    const response = await fetch(API_URL)
+    const response = await fetch(API_URL, {
+      headers: getAuthHeader(),
+    })
     const data = await handleResponse(response)
     return data || []
   } catch (error) {
@@ -24,7 +35,9 @@ async function getAllItems(API_URL) {
 
 async function getSingleItem(API_URL, itemId) {
   try {
-    const response = await fetch(`${API_URL}${itemId}/`)
+    const response = await fetch(`${API_URL}${itemId}/`, {
+      headers: getAuthHeader(),
+    })
     return await handleResponse(response)
   } catch (error) {
     console.error('API Error:', error)
@@ -36,7 +49,7 @@ async function createSingleItem(API_URL, data) {
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
       body: JSON.stringify(data),
     })
     return await handleResponse(response)
@@ -50,7 +63,7 @@ async function setSingleItem(API_URL, itemId, data) {
   try {
     const response = await fetch(`${API_URL}${itemId}/`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
       body: JSON.stringify(data),
     })
     return await handleResponse(response)
@@ -63,6 +76,7 @@ async function setSingleItem(API_URL, itemId, data) {
 async function deleteSingleItem(API_URL, itemId) {
   try {
     const response = await fetch(`${API_URL}${itemId}/`, {
+      headers: getAuthHeader(),
       method: 'DELETE',
     })
     if (response.status === 204 || response.status === 205) {

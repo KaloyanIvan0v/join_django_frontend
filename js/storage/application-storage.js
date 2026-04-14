@@ -69,7 +69,7 @@ async function updateContactApi(contact) {
 
 async function deleteContactApi(contactId) {
   try {
-    return await deleteSingleItem(CONTACT_API, contact)
+    return await deleteSingleItem(CONTACT_API, contactId)
   } catch (error) {
     console.error('Failed to delete contact:', error)
     throw error

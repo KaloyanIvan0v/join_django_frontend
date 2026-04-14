@@ -1,0 +1,31 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-width: 1121px;
+  margin-top: 85px;
+}
+
+.join-logo {
+  position: absolute;
+  top: 29px;
+  left: 40px;
+  img {
+    width: 46px;
+    height: auto;
+  }
+}
+
+.content-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
