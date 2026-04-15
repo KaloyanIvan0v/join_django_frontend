@@ -6,14 +6,9 @@ let checkBoxState = false
  * animation and sets session storage data.
  */
 async function initLogin() {
-  // await loadAllUsersApi()
-  // await loadAllContactsApi()
-  // await loadAllTasksApi()
-  // setSessionStorage('contacts', contacts)
-  // setSessionStorage('tasks', tasks)
   sessionStorage.setItem('activeSite', 'summery')
   setStatusNotLogInToSessionstorage()
-  LoadLoginFromLocalStorage()
+  loadLoginFromLocalStorage()
   handleInputOnFocusChangeParentElementBorderColor()
   includeHTML()
 }
@@ -36,7 +31,8 @@ async function login() {
     })
     if (response.ok) {
       var responseData = await response.json()
-      localStorage.setItem('authToken', responseData.token)
+      localStorage.setItem('authToken', responseData.access)
+      localStorage.setItem('refreshToken', responseData.refresh)
       resetForm()
       window.location.href = '../html/summery.html'
     } else {
@@ -46,6 +42,13 @@ async function login() {
     console.error('API Error:', error)
     throw error
   }
+}
+
+function logOut() {
+  localStorage.removeItem('authToken')
+  localStorage.removeItem('refreshToken')
+  sessionStorage.setItem('LoggedIn', 'false')
+  window.location.href = '../index.html'
 }
 
 /**
@@ -226,7 +229,7 @@ function saveLoginToLocalStorage() {
   localStorage.setItem('rememberMePW', password)
 }
 
-function LoadLoginFromLocalStorage() {
+function loadLoginFromLocalStorage() {
   let email = localStorage.getItem('rememberMeE-mail')
   let password = localStorage.getItem('rememberMePW')
   if (email) {

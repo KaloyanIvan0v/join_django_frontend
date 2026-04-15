@@ -7,6 +7,42 @@ function getAuthHeader() {
   }
 }
 
+function isAccessExpired() {
+  const token = localStorage.getItem('authToken')
+  if (!token) {
+    return null
+  }
+  const payload = JSON.parse(atob(token.split('.')[1]))
+  const currentTime = Math.floor(Date.now() / 1000)
+  return payload.exp < currentTime + 60
+}
+
+function refreshAccessToken() {
+  const refreshToken = localStorage.getItem('refreshToken')
+  if (!refreshToken) {
+    return null
+  }
+  return fetch('/api/v1/auth/refresh/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ refresh: refreshToken }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw createApiError(`HTTP error! status: ${response.status}`, response.status)
+      }
+      return response.json()
+    })
+    .then((data) => {
+      localStorage.setItem('authToken', data.access)
+      return data.access
+    })
+    .catch((error) => {
+      console.error('API Error:', error)
+      throw error
+    })
+}
+
 function createApiError(message, status) {
   const error = new Error(message)
   error.status = status

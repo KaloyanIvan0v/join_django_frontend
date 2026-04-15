@@ -5,6 +5,7 @@ const API_CONFIG = {
     USERS: '/auth/users/',
     TASKS: '/tasks/',
     CONTACTS: '/contacts/',
+    REFRESH: '/auth/token/refresh/',
   },
 }
 
