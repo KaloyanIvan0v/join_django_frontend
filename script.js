@@ -30,16 +30,6 @@ let geLoggedInUser = null
 
 addResizeListener()
 
-function checkIfLoggedInRouter() {
-  if (localStorage.getItem('authToken') === null) {
-    console.log('You are not logged in. Redirecting to login page...')
-    showPopup('You are not logged in. Redirecting to login page...')
-    setTimeout(function () {
-      window.location.href = '/index.html'
-    }, 2000)
-  }
-}
-
 function showPopup(message) {
   const overlay = document.createElement('div')
   const popup = document.createElement('div')

@@ -19,6 +19,7 @@
     <script src="/js/storage/session-storage.js"></script>
     <script src="/js/storage/local-storage.js"></script>
     <script src="/js/storage/config.js"></script>
+    <script src="/js/router.js"></script>
     <script src="/js/storage/api-storage.js"></script>
     <script src="/js/storage/application-storage.js"></script>
     <script src="/js/board/board_html.js"></script>
@@ -31,9 +32,10 @@
     <script src="/js/add_task/add_task_html_templates.js"></script>
     <script src="/js/add_task/add_task_formular_template.js"></script>
     <script src="/js/board/drag-and-drop-functionality.js"></script>
-  </head>
+    
+</head>
 
-  <body onload="init_board()">
+  <body class="router-hidden" onload="init_board()">
     <div w3-include-html="/templates/header.html" class="header"></div>
     <div w3-include-html="/templates/sidebar.html" class="sidebar"></div>
 

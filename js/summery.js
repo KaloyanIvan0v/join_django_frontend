@@ -3,7 +3,6 @@
  */
 async function init() {
   try {
-    checkIfLoggedInRouter()
     await loadAllTasksApi()
     await includeHTML()
     initializeSummary()

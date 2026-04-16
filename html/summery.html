@@ -13,14 +13,16 @@
     <script src="/js/storage/session-storage.js"></script>
     <script src="/js/storage/local-storage.js"></script>
     <script src="/js/storage/config.js"></script>
+    <script src="/js/router.js"></script>
     <script src="/js/storage/api-storage.js"></script>
     <script src="/js/storage/application-storage.js"></script>
     <script src="/script.js"></script>
     <script src="/js/templates.js"></script>
     <script src="/js/summery.js"></script>
-  </head>
+    
+</head>
 
-  <body onload="init()">
+  <body class="router-hidden" onload="init()">
     <div w3-include-html="/templates/header.html" class="header"></div>
     <div w3-include-html="/templates/sidebar.html" class="sidebar"></div>
     <div class="summeryContent">
