@@ -1,3 +1,5 @@
+const REFRESH_API = getApiUrl(API_CONFIG.ENDPOINTS.REFRESH)
+
 function getAuthHeader() {
   const token = localStorage.getItem('authToken')
   if (token) {
@@ -22,7 +24,7 @@ function refreshAccessToken() {
   if (!refreshToken) {
     return null
   }
-  return fetch('/api/v1/auth/refresh/', {
+  return fetch(REFRESH_API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ refresh: refreshToken }),
@@ -56,7 +58,19 @@ async function handleResponse(response) {
   return await response.json()
 }
 
+async function handleJwtRefresh() {
+  if (isAccessExpired()) {
+    try {
+      await refreshAccessToken()
+    } catch (error) {
+      console.error('Failed to refresh access token:', error)
+      logOut()
+    }
+  }
+}
+
 async function getAllItems(API_URL) {
+  await handleJwtRefresh()
   try {
     const response = await fetch(API_URL, {
       headers: getAuthHeader(),
@@ -70,6 +84,7 @@ async function getAllItems(API_URL) {
 }
 
 async function getSingleItem(API_URL, itemId) {
+  await handleJwtRefresh()
   try {
     const response = await fetch(`${API_URL}${itemId}/`, {
       headers: getAuthHeader(),
@@ -82,6 +97,7 @@ async function getSingleItem(API_URL, itemId) {
 }
 
 async function createSingleItem(API_URL, data) {
+  await handleJwtRefresh()
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -96,6 +112,7 @@ async function createSingleItem(API_URL, data) {
 }
 
 async function setSingleItem(API_URL, itemId, data) {
+  await handleJwtRefresh()
   try {
     const response = await fetch(`${API_URL}${itemId}/`, {
       method: 'PUT',
@@ -110,6 +127,7 @@ async function setSingleItem(API_URL, itemId, data) {
 }
 
 async function deleteSingleItem(API_URL, itemId) {
+  await handleJwtRefresh()
   try {
     const response = await fetch(`${API_URL}${itemId}/`, {
       headers: getAuthHeader(),

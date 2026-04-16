@@ -1,7 +1,6 @@
 const USER_API = getApiUrl(API_CONFIG.ENDPOINTS.USERS)
 const TASK_API = getApiUrl(API_CONFIG.ENDPOINTS.TASKS)
 const CONTACT_API = getApiUrl(API_CONFIG.ENDPOINTS.CONTACTS)
-const REFRESH_API = getApiUrl(API_CONFIG.ENDPOINTS.REFRESH)
 
 // User functions
 async function loadAllUsersApi() {

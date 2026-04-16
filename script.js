@@ -247,3 +247,12 @@ function onResize() {
 function addResizeListener() {
   window.addEventListener('resize', onResize)
 }
+
+function logOut() {
+  localStorage.removeItem('authToken')
+  localStorage.removeItem('refreshToken')
+  localStorage.removeItem('userName')
+  localStorage.removeItem('userEmail')
+  sessionStorage.setItem('LoggedIn', 'false')
+  window.location.href = '/index.html'
+}

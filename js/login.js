@@ -1,5 +1,5 @@
 let checkBoxState = false
-
+let pswVisibility = false
 /**
  * Initializes the login process by setting the start screen image, loading user data,
  * and configuring various event listeners. It also starts a timeout to initiate the start screen
@@ -19,20 +19,10 @@ async function initLogin() {
  * displays appropriate feedback messages.
  */
 async function login() {
-  const data = {
-    email: document.getElementById('email').value,
-    password: document.getElementById('password0').value,
-  }
   try {
-    const response = await fetch('/api/v1/auth/login/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    if (response.ok) {
-      var responseData = await response.json()
-      localStorage.setItem('authToken', responseData.access)
-      localStorage.setItem('refreshToken', responseData.refresh)
+    const response = await getLoginRequest()
+    if (response) {
+      setStorageValues(response)
       resetForm()
       window.location.href = '../html/summery.html'
     } else {
@@ -44,11 +34,28 @@ async function login() {
   }
 }
 
-function logOut() {
-  localStorage.removeItem('authToken')
-  localStorage.removeItem('refreshToken')
-  sessionStorage.setItem('LoggedIn', 'false')
-  window.location.href = '../index.html'
+async function getLoginRequest() {
+  const data = {
+    email: document.getElementById('email').value,
+    password: document.getElementById('password0').value,
+  }
+  const response = await fetch('http://127.0.0.1:8000/api/v1/auth/login/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  if (!response.ok) {
+    return null
+  }
+  return response.json()
+}
+
+function setStorageValues(response) {
+  localStorage.setItem('authToken', response.access)
+  localStorage.setItem('refreshToken', response.refresh)
+  localStorage.setItem('userName', response.username)
+  localStorage.setItem('userEmail', response.email)
+  sessionStorage.setItem('LoggedIn', 'true')
 }
 
 /**
@@ -59,21 +66,11 @@ function logOut() {
  */
 function SetLoginFeedbackMsg(errMsg, duration) {
   const feedbackField = document.getElementById('id-input-feedback')
-  feedbackField.innerHTML = setLoginFeedbackMsgHtml(errMsg)
+  feedbackField.innerHTML = errMsg
 
   setTimeout(() => {
     removeFeedbackMsg(feedbackField)
   }, duration)
-}
-
-/**
- * Generates the HTML for the login feedback message.
- *
- * @param {string} errMsg - The feedback message.
- * @returns {string} The HTML for the feedback message.
- */
-function setLoginFeedbackMsgHtml(errMsg) {
-  return `${errMsg}`
 }
 
 /**
@@ -83,48 +80,6 @@ function setLoginFeedbackMsgHtml(errMsg) {
  */
 function removeFeedbackMsg(divId) {
   divId.innerHTML = ''
-}
-
-/**
- * Checks whether a user exists based on their email.
- *
- * @param {string} user - The email of the user to check.
- * @returns {boolean} True if the user exists, false otherwise.
- */
-function userExist(user) {
-  for (let i = 0; i < users.length; i++) {
-    if (user === users[i].email) {
-      return true
-    }
-  }
-  return false
-}
-
-/**
- * Checks whether the provided password is correct for a given user.
- *
- * @param {string} user - The email of the user.
- * @returns {boolean} True if the password is correct, false otherwise.
- */
-function passwordIsCorrect(user) {
-  const userPsw = users[getUserIndex(user)].password
-  const inputPsw = document.getElementById('password0').value
-  return userPsw === inputPsw
-}
-
-/**
- * Gets the index of a user in the users array based on their email.
- *
- * @param {string} user - The email of the user.
- * @returns {number} The index of the user in the users array.
- */
-function getUserIndex(user) {
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].email === user) {
-      return i
-    }
-  }
-  return -1 // User not found
 }
 
 /**
@@ -162,8 +117,6 @@ function toggleCheckbox() {
   } else {
     checkBoxState = false
     checkBox.src = '../img/box-unchecked.png'
-
-    clearUserDataFromLocalStorage()
   }
 }
 
@@ -222,26 +175,12 @@ function togglePswVisibility(id) {
   }
 }
 
-function saveLoginToLocalStorage() {
-  let email = document.getElementById('email').value
-  let password = document.getElementById('password0').value
-  localStorage.setItem('rememberMeE-mail', email)
-  localStorage.setItem('rememberMePW', password)
-}
-
 function loadLoginFromLocalStorage() {
-  let email = localStorage.getItem('rememberMeE-mail')
-  let password = localStorage.getItem('rememberMePW')
+  let email = localStorage.getItem('userEmail')
   if (email) {
     toggleCheckbox()
     document.getElementById('email').value = email
-    document.getElementById('password0').value = password
   }
-}
-
-function clearUserDataFromLocalStorage() {
-  localStorage.removeItem('rememberMeE-mail')
-  localStorage.removeItem('rememberMePW')
 }
 
 function setStatusNotLogInToSessionstorage() {
