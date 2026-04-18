@@ -171,16 +171,6 @@ function handleExitImg() {
 }
 
 /**
- * check if a User logged In or not at set to sessionstorage.
- */
-function checkIfLoggedIn() {
-  let IfUser = sessionStorage.getItem('LoggedIn')
-  if (IfUser == 'false') {
-    document.getElementById('menu').classList.replace('menu', 'dNone')
-  }
-}
-
-/**
  * Prevents the closing of a pop-up by stopping the event from propagating.
  *
  * This function should be used as an event handler to stop the propagation

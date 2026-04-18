@@ -42,25 +42,11 @@ async function createTaskAtBoard(statement) {
   arrowToggleCheck ? (arrowToggleCheck = false) : arrowToggleCheck
   if (categorySelected()) {
     await addTask(statement)
-    await setSessionStorage('tasks', tasks)
     resetInputFields()
     closePopUp()
-    tasks = JSON.parse(sessionStorage.getItem('tasks'))
     renderTasks(getFilteredTasks())
   } else {
     setErrorBorderColor('containerCategory', 2000)
-  }
-}
-
-/**
- * Updates the statement of the most recently added task if the provided statement is not undefined.
- *
- * @param {string} statement - The statement to be set for the most recently added task.
- */
-function setStatement(statement) {
-  if (statement != 'undefined') {
-    tasks[tasks.length - 1].state = statement
-    updateTaskApi(tasks[tasks.length - 1])
   }
 }
 

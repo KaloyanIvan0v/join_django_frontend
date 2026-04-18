@@ -152,9 +152,7 @@ async function safeTaskChanges(id) {
     await updateTaskApi(task)
     await loadAllTasksApi()
 
-    setSessionStorage('tasks', tasks)
     subTasks = []
-    tasks = JSON.parse(sessionStorage.getItem('tasks'))
     renderTasks(getFilteredTasks())
   } catch (error) {
     console.error('Error updating task:', error)
@@ -270,10 +268,4 @@ function setPrioSelectDefaultState(urgent, medium, low) {
   urgent.src = '/img/urgent.png'
   medium.src = '/img/medium.png'
   low.src = '/img/low.png'
-}
-
-function ifLastItem(list) {
-  if (list.length == 0) {
-    list = ' '
-  }
 }

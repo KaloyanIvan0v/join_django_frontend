@@ -35,7 +35,6 @@ function includeHTML() {
   ) {
     loadFirstLettersFromSessionStorage()
     changeBackgroundColorOfLink()
-    checkIfLoggedIn()
   }
 }
 

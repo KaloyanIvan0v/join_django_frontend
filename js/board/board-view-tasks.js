@@ -78,9 +78,8 @@ async function deleteTask(taskId) {
   await deleteTaskApi(task)
   tasks.splice(getIndexOfElementById(taskId, tasks), 1)
   closePopUp()
-  setSessionStorage('tasks', tasks)
+
   renderTasks(getFilteredTasks())
-  ifLastItem(tasks)
 }
 
 /**

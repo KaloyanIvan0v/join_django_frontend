@@ -41,8 +41,6 @@ function allowDrop(event) {
 function moveElementTo(newstatement) {
   tasks[getIndexOfElementById(currentDraggedElement, tasks)].state = newstatement
   renderTasks(getFilteredTasks())
-  setSessionStorage('tasks', tasks)
-  //setItem('tasks', tasks)
   updateTaskApi(tasks[getIndexOfElementById(currentDraggedElement, tasks)])
   stopDragging()
 }
