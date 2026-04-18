@@ -92,7 +92,7 @@ function returnHtmlTaskTemplate(createTask, leftButtonFunction, leftButtonText, 
                         <span class="input-description">Subtasks</span>
                         <div id="inputFieldSubtasks" class="input-field new-subtask normal-border">
                             <input min="3" onclick="changeIconsSubtask(event)" class="input-new-subtask" type="text" id="subTasks" placeholder="Add new subtask">
-                            <div class="icon-subtask-field" id="addIconSubtasks">
+                            <div class="icon-subtask-field" id="addIconSubtasksWrapper">
                                 <a id="addIconSubtasks" class="icon-subtask-field"><img class="add-icon" src="/img/add.png"></a>
                             </div>
                         </div>
@@ -128,5 +128,5 @@ function returnHtmlTaskTemplate(createTask, leftButtonFunction, leftButtonText, 
         </div>
     </div>
 </div>
-</div>`;
+</div>`
 }

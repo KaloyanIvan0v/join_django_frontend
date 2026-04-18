@@ -92,7 +92,7 @@ function validateTask(task) {
  * Changes the icons for adding or clearing subtasks and renders the subtasks accordingly.
  */
 function changeIconsSubtask() {
-  let addIconSubtasks = document.getElementById('addIconSubtasks')
+  let addIconSubtasks = document.getElementById('addIconSubtasksWrapper')
   let subTask = document.getElementById('inputFieldSubtasks')
 
   addIconSubtasks.innerHTML = ''

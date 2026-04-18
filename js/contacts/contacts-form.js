@@ -145,8 +145,8 @@ function openContactEditMenu() {
  * @returns {void}
  */
 function closeContactEditMenu() {
-  if (window.width < 1080) {
-    var element = document.getElementById('id-contact-full-mode-edit-mobile')
+  if (window.innerWidth < 1080) {
+    const element = document.getElementById('id-contact-full-mode-edit-mobile')
     element.classList.add('hide')
   }
 }

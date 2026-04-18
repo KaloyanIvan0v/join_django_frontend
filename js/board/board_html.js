@@ -147,13 +147,6 @@ function renderSubtaskProgressBarHtml(singleTask, finishedSubTasks) {
   `
 }
 
-function returnMoreContactsPreview(restAmount, j) {
-  return /*html*/ `
-    <div id="initialArea${j}" class="contact-board mg-left-8" style="background-color: rgb(42, 54, 71)">
-      <span>+${restAmount}</span>
-    </div>`
-}
-
 function openTaskDetailViewHtml(overlayTask, i, id) {
   return /*html*/ `
   <div class="overlay-current-task" onclick="doNotClosePopUp(event)">

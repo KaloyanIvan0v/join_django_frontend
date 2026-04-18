@@ -159,9 +159,7 @@ function renderTaskMenu(id) {
 function moveTaskTo(id, statement) {
   let task = tasks[getIndexOfElementById(id, tasks)]
   task.state = statement
-  console.log('task', task)
   updateTaskApi(task)
   renderTasks(getFilteredTasks())
   closePopUp()
-  updateTaskApi(task)
 }

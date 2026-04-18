@@ -345,9 +345,8 @@ function showContactsInitial(contactsField) {
  * Searches for contacts based on the input value and updates the contacts dropdown accordingly.
  */
 function searchContact() {
-  let inputSearchContact = document.getElementById('inputToSearchContact').value
-
-  inputSearchContact = inputSearchContact.toLowerCase()
+  const inputSearchContact = document.getElementById('inputToSearchContact').value.toLowerCase()
+  const contactsField = document.getElementById('contactsField')
 
   findContactsAtSearch.splice(0, findContactsAtSearch.length)
   if (inputSearchContact.length >= 3) {
@@ -393,6 +392,8 @@ function selectedUser(event, contactId) {
   if (!checkedUsers.includes(singleUser, 0)) {
     checkedUsers.push(singleUser)
   } else {
+    let indexInChecked = checkedContactsId.indexOf(contactId)
+    checkedContactsId.splice(indexInChecked, 1)
     checkedUsers.splice(currentIndex, 1)
   }
   toggleBackgroundForCheckedUser(contactId)
