@@ -133,8 +133,8 @@ function addNewSubTask() {
 async function deleteSubtask(event, i) {
   event.stopPropagation()
   subTasks.splice(i, 1)
-  id = getFromSessionStorage('openEditTaskId')
-  task = tasks[getIndexOfElementById(id, tasks)]
+  const id = getFromSessionStorage('openEditTaskId')
+  const task = tasks[getIndexOfElementById(id, tasks)]
   await updateTaskApi(task)
   renderSubTasks()
 }
@@ -147,8 +147,8 @@ async function deleteSubtask(event, i) {
 async function changeSubtask(i) {
   let changedSubTask = document.getElementById(`inputField${i}`).value
   subTasks[i]['description'] = changedSubTask
-  id = getFromSessionStorage('openEditTaskId')
-  task = tasks[getIndexOfElementById(id, tasks)]
+  const id = getFromSessionStorage('openEditTaskId')
+  const task = tasks[getIndexOfElementById(id, tasks)]
   await updateTaskApi(task)
   renderSubTasks()
 }
@@ -164,7 +164,7 @@ function renderSubTasks(operator) {
   singleNewTask.value = ''
   newTaskField.innerHTML = ''
 
-  for (i = 0; i < subTasks.length; i++) {
+  for (let i = 0; i < subTasks.length; i++) {
     let newSubTask = subTasks[i]['description']
     newTaskField.innerHTML += returnHtmlNewSubtasks(newSubTask)
   }
