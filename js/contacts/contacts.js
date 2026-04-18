@@ -67,40 +67,11 @@ function createContactAndCloseForm() {
 }
 
 /**
- * Generates a badge based on the provided name.
- *
- * @param {string} name - The name to generate the badge from.
- * @returns {string} The generated badge.
- */
-function generateBadge(name) {
-  const nameParts = name.split(' ')
-  let badge = nameParts[0][0].toUpperCase()
-  if (nameParts.length > 1) {
-    badge += nameParts[nameParts.length - 1][0].toUpperCase()
-  }
-  return badge
-}
-
-/**
- * Sets a badge and background color for a contact.
- *
- * @param {string} badge - The badge to be set.
- * @param {string} colorId - The color ID for the background.
- * @returns {void}
- */
-function setBadge(badge, colorId) {
-  let badgeDiv = document.getElementById('id-mask-contact-img-div')
-  badgeDiv.innerHTML = badge
-  badgeDiv.style.backgroundColor = contactColor[colorId]
-}
-
-/**
  * Saves the contacts to local storage and session storage.
  *
  * @returns {void}
  */
 function safeContacts() {
-  setItem('/contacts', contacts)
   setSessionStorage('contacts', contacts)
 }
 

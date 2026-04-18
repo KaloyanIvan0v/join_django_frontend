@@ -26,7 +26,7 @@ let contacts = []
 /** @type {Array<Object>} */
 let users = []
 /** @type {Object|null} */
-let geLoggedInUser = null
+let getLoggedInUser = null
 
 addResizeListener()
 

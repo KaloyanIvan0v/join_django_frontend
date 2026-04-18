@@ -3,7 +3,7 @@
  * @param {string} key - The key under which to store the value.
  * @param {Object} value - The value to store.
  */
-async function setSessionStorage(key, value) {
+function setSessionStorage(key, value) {
   try {
     const serializedValue = JSON.stringify(value)
     sessionStorage.setItem(key, serializedValue)
