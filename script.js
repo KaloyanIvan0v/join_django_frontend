@@ -43,20 +43,8 @@ function showPopup(message) {
   }, 2000)
 }
 
-/**
- * Sets the currently logged-in user in local storage.
- * @param {Object} user - The user object to be stored.
- */
-function setLoggedInUser(user) {
-  saveToLocalStorage('loggedInUser', user)
-}
-
-/**
- * Retrieves the currently logged-in user from local storage.
- * @returns {Object|null} The user object or null if not found.
- */
-function getLoggedInUser() {
-  return getFromLocalStorage('loggedInUser')
+function getLoggedInUserEmail() {
+  return localStorage.getItem('userEmail') || null
 }
 
 /**

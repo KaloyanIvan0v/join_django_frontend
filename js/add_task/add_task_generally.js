@@ -127,7 +127,7 @@ function selectPriority() {
   prioSelection.innerHTML = ''
 
   for (let i = 0; i < priorities.length; i++) {
-    const priority = priorities[i]
+    priority = priorities[i]
     checkBooleanForPriority(priority)
   }
 }
@@ -292,7 +292,7 @@ function renderContactsToSelect(contactsField, arrayToRender) {
   for (let i = 0; i < arrayToRender.length; i++) {
     let contact = arrayToRender[i]
     let contactId = arrayToRender[i]['id']
-    contactsField.innerHTML += returnHtmlSingleContact(let contact)
+    contactsField.innerHTML += returnHtmlSingleContact(contact)
     backgroundColorInitialsById(i, contactId, 'showInitial')
     checkIfContactChecked(contactId)
   }
@@ -430,12 +430,8 @@ function toggleCheckbox(id) {
 }
 
 function toggleCheckboxStatus(id) {
-  let checkBoxStatus = contacts[getIndexOfElementById(id, contacts)]['checkbox']
-  if (checkBoxStatus == false) {
-    contacts[getIndexOfElementById(id, contacts)]['checkbox'] = true
-  } else {
-    contacts[getIndexOfElementById(id, contacts)]['checkbox'] = false
-  }
+  let index = getIndexOfElementById(id, contacts)
+  contacts[index]['checkbox'] = !contacts[index]['checkbox']
 }
 
 /**
@@ -446,7 +442,7 @@ function toggleCheckboxStatus(id) {
 function checkIfContactChecked(id) {
   let currentContactId = id
 
-  for (let j = 0; j < checkedContactsId.length; j++) {
+  for (j = 0; j < checkedContactsId.length; j++) {
     let checkedContact = checkedContactsId[j]
     if (checkedContact === currentContactId) {
       toggleBackgroundForCheckedUser(currentContactId)

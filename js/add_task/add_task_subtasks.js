@@ -15,7 +15,7 @@ let checkBoxContact = false
 let arrowToggleCheck = false
 let categoryBoolean = false
 
-async function init_add_task() {
+async function initAddTask() {
   await includeHTML()
   loadHtmlTaskTemplate()
   loadAllTasksApi()
@@ -54,7 +54,7 @@ async function createTask() {
  *
  * @returns {Promise} A promise that resolves after the task is added.
  */
-async function addTask(statement = 'undefined') {
+async function addTask(statement) {
   try {
     const task = {
       title: document.getElementById('title').value,
@@ -64,7 +64,7 @@ async function addTask(statement = 'undefined') {
       prio: currentPrio,
       category: selectedCategory,
       subTasks: subTasks.length === 0 ? [] : subTasks, // Changed -1 to empty array
-      state: statement == 'undefined' ? 'toDo' : statement,
+      state: statement ?? 'toDo',
     }
 
     // Validate task

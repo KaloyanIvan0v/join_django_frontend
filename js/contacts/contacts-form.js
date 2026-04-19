@@ -106,7 +106,7 @@ async function addNewContact() {
   const phone = document.getElementById('id-add-contact-phone').value
   const color = Math.floor(Math.random() * 14) + 1
   const nameInitials = generateBadge(name)
-  const author = 'Günter'
+  const author = getLoggedInUserEmail()
   const id = increaseId(contacts)
   const contact = { id, name, email, phone, color, nameInitials, author, checkbox: false }
   contacts.push(contact)
@@ -190,7 +190,7 @@ function createContactAndCloseForm() {
  *
  * @returns {void}
  */
-function SaveEditedContact() {
+function saveEditedContact() {
   let contact = contacts[currentEditingContactId]
   contact.name = document.getElementById('id-edit-contact-input-name').value
   contact.email = document.getElementById('id-edit-contact-input-email').value

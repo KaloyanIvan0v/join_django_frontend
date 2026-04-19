@@ -40,7 +40,7 @@ function handleHoverButtonChangeImgDelayed() {
  */
 async function removeContact(event) {
   closeContactForm()
-  HideFullViewShowContactList()
+  hideFullViewShowContactList()
   let contactIndex = getContactIndex(getActualContactEmail())
   if (contactIndex != undefined) {
     let contact = contacts[contactIndex]
@@ -50,20 +50,6 @@ async function removeContact(event) {
     renderContacts(contacts)
     toggleContactFullMode()
   }
-}
-
-/**
- * Creates a new contact and closes the contact form.
- *
- * @returns {void}
- */
-function createContactAndCloseForm() {
-  addNewContact()
-  toggleContactForm()
-  setTimeout(function () {
-    closeContactForm()
-    renderContacts(contacts)
-  }, 500)
 }
 
 /**
@@ -229,7 +215,7 @@ function setElementBackgroundColor(elementId, colorId) {
  */
 function openContact(contactEmail, divId) {
   selectContact(divId)
-  HideContactsListShowFullView()
+  hideContactsListShowFullView()
   const contactDiv = document.getElementById('id-contact-full-mode-badges')
   let timeout = 0
   if (contactDiv) {
@@ -248,12 +234,8 @@ function openContact(contactEmail, divId) {
  * @param {string} contactEmail - The email of the contact to retrieve data for.
  * @returns {Object} The contact data.
  */
-function getContactData(contactEmail) {
-  for (let i = 0; i < contacts.length; i++) {
-    if (contacts[i].email == contactEmail) {
-      return contacts[i]
-    }
-  }
+function getContactData(email) {
+  return contacts[getContactIndex(email)]
 }
 
 /**
@@ -276,7 +258,7 @@ function renderContactFullMode(contact) {
  *
  * @returns {void}
  */
-function HideContactsListShowFullView() {
+function hideContactsListShowFullView() {
   let contactList = document.getElementById('id-contacts-list')
   let contactSingleView = document.getElementById('id-contacts-single-view')
   contactList.classList.add('d-none-mobile')
@@ -288,7 +270,7 @@ function HideContactsListShowFullView() {
  *
  * @returns {void}
  */
-function HideFullViewShowContactList() {
+function hideFullViewShowContactList() {
   let contactList = document.getElementById('id-contacts-list')
   let contactSingleView = document.getElementById('id-contacts-single-view')
   contactList.classList.remove('d-none-mobile')
