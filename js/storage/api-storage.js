@@ -133,6 +133,9 @@ async function deleteSingleItem(API_URL, itemId) {
       headers: getAuthHeader(),
       method: 'DELETE',
     })
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
     if (response.status === 204 || response.status === 205) {
       return null // or return an empty object, or whatever is appropriate
     }

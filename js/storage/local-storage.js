@@ -14,7 +14,13 @@ function saveToLocalStorage(key, value) {
  * @returns {Object|null} The parsed value from storage or null if not found.
  */
 function getFromLocalStorage(key) {
-  const value = localStorage.getItem(key)
-  const valueAsJSON = JSON.parse(value)
-  return valueAsJSON || null
+  try {
+    const value = localStorage.getItem(key)
+    if (value === null) return null
+    const valueAsJSON = JSON.parse(value)
+    return valueAsJSON || null
+  } catch (error) {
+    console.error('Error parsing JSON from localStorage:', error)
+    return null
+  }
 }

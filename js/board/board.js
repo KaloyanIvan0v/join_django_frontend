@@ -145,22 +145,20 @@ function getFinishedSubTasksLength(id) {
   return finishedSubTasks.length
 }
 
+taskStateMapper = {
+  toDo: 0,
+  inProgress: 1,
+  awaitFeedback: 2,
+  done: 3,
+}
+
 /**
  * Returns the index of the task area for a task.
  * @param {Object[]} taskList - The list of tasks.
  * @returns {number} The index of the task area.
  */
 function sectionIdForTask(taskList, i) {
-  let statement = taskList[i]['state']
-  if (statement == 'toDo') {
-    return 0
-  } else if (statement == 'inProgress') {
-    return 1
-  } else if (statement == 'awaitFeedback') {
-    return 2
-  } else if (statement == 'done') {
-    return 3
-  }
+  return taskStateMapper[taskList[i]['state']]
 }
 
 /**

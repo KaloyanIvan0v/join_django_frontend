@@ -6,6 +6,7 @@ let checkWhichTaskOverlay = []
  * @param {string} statement - The initial statement to be prefilled in the task form.
  */
 function openAddTaskTemplate(statement) {
+  taskFormState.addTaskMode = true
   checkWhichTaskOverlay = 'addTaskTemplate'
   openPopUp()
   renderAddTaskTemplate(statement)
@@ -39,7 +40,7 @@ function renderAddTaskTemplate(statement) {
  * @returns {Promise<void>}
  */
 async function createTaskAtBoard(statement) {
-  arrowToggleCheck ? (arrowToggleCheck = false) : arrowToggleCheck
+  taskFormUIState.arrowToggleCheck ? (taskFormUIState.arrowToggleCheck = false) : taskFormUIState.arrowToggleCheck
   if (categorySelected()) {
     await addTask(statement)
     resetInputFields()
@@ -77,7 +78,7 @@ function renderExitCross(elementId) {
 function closeAddTaskPopUp() {
   resetInputFields()
   setTimeout(closePopUp, 20)
-  arrowToggleCheck = false
+  taskFormUIState.arrowToggleCheck = false
 }
 
 /**

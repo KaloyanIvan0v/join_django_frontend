@@ -19,12 +19,12 @@ function addedToBoardPopUp() {
 
 function toggleDropDownArrowInputField(idImage) {
   let arrow = document.getElementById(idImage)
-  if (arrowToggleCheck == false) {
+  if (taskFormUIState.arrowToggleCheck == false) {
     arrow.src = '../img/arrow_drop_down_up.png'
-    arrowToggleCheck = true
+    taskFormUIState.arrowToggleCheck = true
   } else {
     arrow.src = '../img/arrow_drop_down.png'
-    arrowToggleCheck = false
+    taskFormUIState.arrowToggleCheck = false
   }
 }
 
@@ -33,9 +33,9 @@ function toggleDropDownArrowInputField(idImage) {
  */
 function resetInputFields() {
   clearAssignedSection()
-  checkedUsers = []
-  subTasks = []
-  checkChangeIcons = true
+  taskFormState = createCleanTaskFormState()
+  taskFormUIState = createCleanUIFormState()
+  taskFormUIState.checkChangeIcons = true
   renderSubTasks('none')
   currentDate()
   changePrio(1)
@@ -64,7 +64,7 @@ function clearAssignedSection(event) {
     }
   }
   showOrHideContacts(event)
-  arrowToggleCheck = true
+  taskFormUIState.arrowToggleCheck = true
 }
 
 /**
@@ -114,7 +114,7 @@ function currentDate() {
  * @param {number} i - The index of the priority to change.
  */
 function changePrio(i) {
-  currentPrio = priorities[i]['text']
+  taskFormState.currentPrio = priorities[i]['text']
   priorities[i]['isPriority'] = true
   selectPriority()
 }
@@ -127,7 +127,7 @@ function selectPriority() {
   prioSelection.innerHTML = ''
 
   for (let i = 0; i < priorities.length; i++) {
-    priority = priorities[i]
+    let priority = priorities[i]
     checkBooleanForPriority(priority)
   }
 }
@@ -157,24 +157,24 @@ function showOrHideCategoriesField(event) {
   if (event) {
     event.stopPropagation()
   }
-  if (openContacts) {
+  if (taskFormUIState.openContacts) {
     closeContactsField(event)
-    openContacts = false
+    taskFormUIState.openContacts = false
   }
   let categoriesField = document.getElementById('categories')
 
   categoriesField.innerHTML = ''
 
-  if (categoryBoolean == false) {
-    openCategories = true
+  if (taskFormUIState.categoryBoolean == false) {
+    taskFormUIState.openCategories = true
     for (let i = 0; i < categories.length; i++) {
       let category = categories[i]
       categoriesField.innerHTML += returnHtmlShowCategories(category)
     }
-    categoryBoolean = true
-    arrowToggleCheck = false
+    taskFormUIState.categoryBoolean = true
+    taskFormUIState.arrowToggleCheck = false
   } else {
-    categoryBoolean = false
+    taskFormUIState.categoryBoolean = false
   }
   toggleDropDownArrowInputField('dropDownArrowCategory')
 }
@@ -192,8 +192,8 @@ function changeCategoryAndCloseDropdown(category) {
   showSelectedCatageory.innerHTML = category
   containerCategory.classList.remove('error-border')
 
-  selectedCategory = category
-  arrowToggleCheck = true
+  taskFormState.selectedCategory = category
+  taskFormUIState.arrowToggleCheck = true
   showOrHideCategoriesField()
 }
 
@@ -207,13 +207,13 @@ function clearContactsChecked() {
 }
 
 function closeContactsOrCategories(event) {
-  if (openContacts) {
+  if (taskFormUIState.openContacts) {
     closeContactsField(event)
-    openContacts = false
-  } else if (openCategories) {
+    taskFormUIState.openContacts = false
+  } else if (taskFormUIState.openCategories) {
     showOrHideCategoriesField(event)
-    openCategories = false
-    arrowToggleCheck = false
+    taskFormUIState.openCategories = false
+    taskFormUIState.arrowToggleCheck = false
   }
 }
 
@@ -223,7 +223,7 @@ function closeContactsOrCategories(event) {
  * @param {Event} event - The click event.
  */
 function closeContactsField(event) {
-  if (arrowToggleCheck == true) {
+  if (taskFormUIState.arrowToggleCheck == true) {
     showOrHideContacts(event)
   }
 }
@@ -258,18 +258,18 @@ function showOrHideContacts(event) {
     event.stopPropagation()
   }
 
-  if (openCategories) {
+  if (taskFormUIState.openCategories) {
     showOrHideCategoriesField(event)
-    openCategories = false
-    arrowToggleCheck = false
+    taskFormUIState.openCategories = false
+    taskFormUIState.arrowToggleCheck = false
   }
   toggleDropDownArrowInputField('dropDownArrow')
 
   let contactsField = document.getElementById('contactsField')
   let inputField = document.getElementById('inputToSearchContact')
 
-  if (arrowToggleCheck == true) {
-    openContacts = true
+  if (taskFormUIState.arrowToggleCheck == true) {
+    taskFormUIState.openContacts = true
     contactsField.classList.add('contacts-assigned')
     contactsField.classList.remove('contacts-initialen')
     renderContactsToSelect(contactsField, contacts)
@@ -327,10 +327,10 @@ function backgroundColorInitialsById(i, contactId, whichArea) {
 function showContactsInitial(contactsField) {
   contactsField.innerHTML = ''
 
-  for (let i = 0; i < checkedUsers.length; i++) {
-    let contact = checkedUsers[i]
-    let contactId = checkedUsers[i]['id']
-    let checkBoxStatus = checkedUsers[i]['checkbox']
+  for (let i = 0; i < taskFormState.checkedUsers.length; i++) {
+    let contact = taskFormState.checkedUsers[i]
+    let contactId = taskFormState.checkedUsers[i]['id']
+    let checkBoxStatus = taskFormState.checkedUsers[i]['checkbox']
 
     if (checkBoxStatus == true) {
       contactsField.classList.remove('contacts-assigned')
@@ -348,13 +348,13 @@ function searchContact() {
   const inputSearchContact = document.getElementById('inputToSearchContact').value.toLowerCase()
   const contactsField = document.getElementById('contactsField')
 
-  findContactsAtSearch.splice(0, findContactsAtSearch.length)
+  taskFormState.findContactsAtSearch.splice(0, taskFormState.findContactsAtSearch.length)
   if (inputSearchContact.length >= 3) {
     for (let i = 0; i < contacts.length; i++) {
       let contact = contacts[i]
       filterContacts(contact, inputSearchContact)
     }
-    renderContactsToSelect(contactsField, findContactsAtSearch)
+    renderContactsToSelect(contactsField, taskFormState.findContactsAtSearch)
   } else {
     renderContactsToSelect(contactsField, contacts)
   }
@@ -368,7 +368,7 @@ function searchContact() {
  */
 function filterContacts(contact, inputSearchContact) {
   if (contact.name.toLowerCase().includes(inputSearchContact)) {
-    findContactsAtSearch.push(contact)
+    taskFormState.findContactsAtSearch.push(contact)
   }
 }
 
@@ -382,19 +382,19 @@ function selectedUser(event, contactId) {
   if (event) {
     event.stopPropagation()
   }
-  checkedContactsId.push(contactId)
+  taskFormState.checkedContactsId.push(contactId)
   let indexOfId = contacts.findIndex((item) => item.id === contactId)
 
   let singleUser = contacts[indexOfId]
-  let currentIndex = checkedUsers.indexOf(singleUser)
+  let currentIndex = taskFormState.checkedUsers.indexOf(singleUser)
   let inputField = document.getElementById('inputToSearchContact')
 
-  if (!checkedUsers.includes(singleUser, 0)) {
-    checkedUsers.push(singleUser)
+  if (!taskFormState.checkedUsers.includes(singleUser, 0)) {
+    taskFormState.checkedUsers.push(singleUser)
   } else {
-    let indexInChecked = checkedContactsId.indexOf(contactId)
-    checkedContactsId.splice(indexInChecked, 1)
-    checkedUsers.splice(currentIndex, 1)
+    let indexInChecked = taskFormState.checkedContactsId.indexOf(contactId)
+    taskFormState.checkedContactsId.splice(indexInChecked, 1)
+    taskFormState.checkedUsers.splice(currentIndex, 1)
   }
   toggleBackgroundForCheckedUser(contactId)
   toggleCheckboxStatus(contactId)
@@ -442,8 +442,8 @@ function toggleCheckboxStatus(id) {
 function checkIfContactChecked(id) {
   let currentContactId = id
 
-  for (j = 0; j < checkedContactsId.length; j++) {
-    let checkedContact = checkedContactsId[j]
+  for (let j = 0; j < taskFormState.checkedContactsId.length; j++) {
+    let checkedContact = taskFormState.checkedContactsId[j]
     if (checkedContact === currentContactId) {
       toggleBackgroundForCheckedUser(currentContactId)
       toggleCheckbox(currentContactId)

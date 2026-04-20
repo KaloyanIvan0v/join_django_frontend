@@ -5,7 +5,10 @@
  * @param {string} id - ID of the task.
  */
 function editTaskOverlay(i, id) {
-  arrowToggleCheck ? (arrowToggleCheck = false) : arrowToggleCheck
+  taskFormState.addTaskMode = false
+  taskFormUIState.arrowToggleCheck
+    ? (taskFormUIState.arrowToggleCheck = false)
+    : taskFormUIState.arrowToggleCheck
   checkWhichTaskOverlay = 'editTaskOverlay'
   const overlayTask = tasks[getIndexOfElementById(id, tasks)]
   const dialogField = document.getElementById('id-pop-up')
@@ -179,7 +182,7 @@ function safeChangesToTasks(id) {
 function closeEditTaskPopUp() {
   clearAssignedSection(null)
   setTimeout(closePopUp, 20)
-  arrowToggleCheck = false
+  taskFormUIState.arrowToggleCheck = false
   subTasks = []
 }
 

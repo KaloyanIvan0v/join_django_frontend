@@ -38,7 +38,7 @@ function handleHoverButtonChangeImgDelayed() {
  * @param {Event} event - The event triggering the delete action.
  * @returns {void}
  */
-async function removeContact(event) {
+async function removeContact() {
   closeContactForm()
   hideFullViewShowContactList()
   let contactIndex = getContactIndex(getActualContactEmail())

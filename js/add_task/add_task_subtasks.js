@@ -1,26 +1,40 @@
-let currentPrio = 'Medium'
-let idNumber = []
+//static
 let categories = ['Technical Task', 'User Story']
-let selectedCategory = []
-let subTasks = []
-let subTaskStatus = []
-let checkedUsers = []
-let findContactsAtSearch = []
-let finishedSubTasks = []
-let checkedContactsId = []
-let openContacts = false
-let openCategories = false
-let checkChangeIcons = false
-let checkBoxContact = false
-let arrowToggleCheck = false
-let categoryBoolean = false
+
+let taskFormState = createCleanTaskFormState()
+let taskFormUIState = createCleanUIFormState()
+
+function createCleanUIFormState() {
+  return {
+    openContacts: false,
+    openCategories: false,
+    checkChangeIcons: false,
+    checkBoxContact: false,
+    arrowToggleCheck: false,
+    categoryBoolean: false,
+  }
+}
+
+function createCleanTaskFormState() {
+  return {
+    checkedContactsId: [],
+    currentPrio: 'Medium',
+    selectedCategory: [],
+    subTasks: [],
+    subTaskStatus: [],
+    checkedUsers: [],
+    findContactsAtSearch: [],
+    finishedSubTasks: [],
+    addTaskMode: true,
+  }
+}
 
 async function initAddTask() {
+  taskFormState.addTaskMode = true
   await includeHTML()
   loadHtmlTaskTemplate()
   loadAllTasksApi()
   loadAllContactsApi()
-  loadAllUsersApi()
   setTimeout(selectPriority, 200)
   setTimeout(currentDate, 200)
   handleExitImg()
@@ -33,7 +47,7 @@ async function createTask() {
   let containerCategory = document.getElementById('containerCategory')
 
   try {
-    if (selectedCategory.length == 0) {
+    if (taskFormState.selectedCategory.length == 0) {
       containerCategory.classList.add('error-border')
       return
     }
@@ -59,11 +73,11 @@ async function addTask(statement) {
     const task = {
       title: document.getElementById('title').value,
       description: document.getElementById('description').value,
-      assignedTo: checkedUsers.length === 0 ? [] : checkedUsers, // Changed -1 to empty array
+      assignedTo: taskFormState.checkedUsers.length === 0 ? [] : taskFormState.checkedUsers,
       dueDate: document.getElementById('dueDate').value,
-      prio: currentPrio,
-      category: selectedCategory,
-      subTasks: subTasks.length === 0 ? [] : subTasks, // Changed -1 to empty array
+      prio: taskFormState.currentPrio,
+      category: taskFormState.selectedCategory,
+      subTasks: taskFormState.subTasks.length === 0 ? [] : taskFormState.subTasks,
       state: statement ?? 'toDo',
     }
 
@@ -97,13 +111,13 @@ function changeIconsSubtask() {
 
   addIconSubtasks.innerHTML = ''
 
-  if (checkChangeIcons == false) {
+  if (taskFormUIState.checkChangeIcons == false) {
     addIconSubtasks.innerHTML = returnHtmlCheckAndClear()
-    checkChangeIcons = false
+    taskFormUIState.checkChangeIcons = false
     renderSubTasks()
   } else {
     addIconSubtasks.innerHTML = returnHtmlAdd()
-    checkChangeIcons = false
+    taskFormUIState.checkChangeIcons = false
   }
   renderSubTasks()
 }
@@ -116,7 +130,7 @@ function addNewSubTask() {
   let singleNewTaskValue = singleNewTask.value
 
   if (singleNewTaskValue.length >= 3) {
-    subTasks.push({
+    taskFormState.subTasks.push({
       description: singleNewTaskValue,
       state: false,
     })
@@ -132,10 +146,10 @@ function addNewSubTask() {
  */
 async function deleteSubtask(event, i) {
   event.stopPropagation()
-  subTasks.splice(i, 1)
+  taskFormState.subTasks.splice(i, 1)
   const id = getFromSessionStorage('openEditTaskId')
   const task = tasks[getIndexOfElementById(id, tasks)]
-  await updateTaskApi(task)
+  if (!taskFormState.addTaskMode) await updateTaskApi(task)
   renderSubTasks()
 }
 
@@ -146,10 +160,10 @@ async function deleteSubtask(event, i) {
  */
 async function changeSubtask(i) {
   let changedSubTask = document.getElementById(`inputField${i}`).value
-  subTasks[i]['description'] = changedSubTask
+  taskFormState.subTasks[i]['description'] = changedSubTask
   const id = getFromSessionStorage('openEditTaskId')
   const task = tasks[getIndexOfElementById(id, tasks)]
-  await updateTaskApi(task)
+  if (!taskFormState.addTaskMode) await updateTaskApi(task)
   renderSubTasks()
 }
 
@@ -164,8 +178,8 @@ function renderSubTasks(operator) {
   singleNewTask.value = ''
   newTaskField.innerHTML = ''
 
-  for (let i = 0; i < subTasks.length; i++) {
-    let newSubTask = subTasks[i]['description']
+  for (let i = 0; i < taskFormState.subTasks.length; i++) {
+    let newSubTask = taskFormState.subTasks[i]['description']
     newTaskField.innerHTML += returnHtmlNewSubtasks(newSubTask)
   }
   checkIfNewSubTask(operator)
@@ -177,7 +191,7 @@ function renderSubTasks(operator) {
 function resetAddNewSubtask() {
   let subTasks = document.getElementById('subTasks')
   subTasks.value = ''
-  checkChangeIcons = true
+  taskFormUIState.checkChangeIcons = true
   changeIconsSubtask()
 }
 
@@ -188,7 +202,7 @@ function resetAddNewSubtask() {
  */
 async function checkIfNewSubTask(operator) {
   if (operator == 'newSubtask') {
-    checkChangeIcons = true
+    taskFormUIState.checkChangeIcons = true
     changeIconsSubtask()
   }
 }
@@ -200,7 +214,7 @@ async function checkIfNewSubTask(operator) {
  */
 function editSubtask(i) {
   let subTaskField = document.getElementById(`subTaskElement${i}`)
-  let subTask = subTasks[i]['description']
+  let subTask = taskFormState.subTasks[i]['description']
 
   subTaskField.classList.add('list-element-subtasks')
   subTaskField.classList.remove('hover-subtask')

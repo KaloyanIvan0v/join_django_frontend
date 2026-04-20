@@ -4,17 +4,17 @@ function returnHtmlShowToDos(singleTask, i, id) {
     onclick="openTaskDetailView(${i},${id})">
     <div class="task-card-category">
         <span id="statementField${i}" class="which-statement">
-            ${singleTask['category']}
+            ${escapeHtml(singleTask['category'])}
         </span>
         <div id="mobileTasMenu${i}" class="mobile-task-menu" onclick="openTaskMenu(${id})"></div>
     </div>
 
     <div class="header-area-card">
         <div class="ft-weight-700">
-            ${singleTask['title']}
+            ${escapeHtml(singleTask['title'])}
         </div>
         <div class="task-msg">
-            ${singleTask['description']}
+            ${escapeHtml(singleTask['description'])}
         </div>
         <div id="id-subtasks-progress-section${id}" class="subtasks-progress-section visibility-hidden">
             <div id="progressBar${id}" class="progerss-bar-container">
@@ -54,7 +54,7 @@ function returnHtmlEditCurrentTask(overlayTask, i, id) {
         </div>
       </div>
       <div>
-        <input class="input-edit-title" id="title" type="text" value="${overlayTask['title']}">
+        <input class="input-edit-title" id="title" type="text" value="${escapeHtml(overlayTask['title'])}">
         <div>
           <span class="required-field-edit vs-hidden">This field is required</span>   
         </div>
@@ -64,13 +64,13 @@ function returnHtmlEditCurrentTask(overlayTask, i, id) {
     <div class="description-edit-board">
       <span clas="edit-task-headlines">Description</span>
       <div>
-        <textarea id="description" class="edit-task-description">${overlayTask['description']}</textarea>
+        <textarea id="description" class="edit-task-description">${escapeHtml(overlayTask['description'])}</textarea>
       </div>
     </div>
     
     <div class="overlay-date-edit font-overlay">
         <span clas="edit-task-headlines">Due date</span>
-        <input class="input-edit-title" type="date" value="${overlayTask['dueDate']}" id="dueDate">
+        <input class="input-edit-title" type="date" value="${escapeHtml(overlayTask['dueDate'])}" id="dueDate">
         <div class="vs-hidden">
          <span class="required-field-edit">This field is required</span>
         </div>
@@ -151,18 +151,18 @@ function openTaskDetailViewHtml(overlayTask, i, id) {
   return /*html*/ `
   <div class="overlay-current-task" onclick="doNotClosePopUp(event)">
     <div id="categoryArea(${i})" class="overlay-first-row">
-        <div class="overlay-category" id="statementField${i}">${overlayTask['category']}</div>
+        <div class="overlay-category" id="statementField${i}">${escapeHtml(overlayTask['category'])}</div>
         <a class="exit-cross" onclick="closePopUp()">X</a>
     </div>
     <div class="overlay-title">
-        <span id="title(${i})">${overlayTask['title']}</span>
+        <span id="title(${i})">${escapeHtml(overlayTask['title'])}</span>
     </div>
     <div class="overlay-description font-overlay">
-      <span id="description(${i})">${overlayTask['description']}</span>
+      <span id="description(${i})">${escapeHtml(overlayTask['description'])}</span>
     </div>
     <div class="overlay-date font-overlay">
         <span class="task-detail-view-section-title">Due Date:</span>
-        <span id="date(${i})">${overlayTask['dueDate']}</span>
+        <span id="date(${i})">${escapeHtml(overlayTask['dueDate'])}</span>
     </div>
     <div class="overlay-prio font-overlay">
         <span class="task-detail-view-section-title">Priority:</span>
@@ -211,14 +211,14 @@ function returnHtmlSubtasks(subTask, i, subTaskId, imgSrc, taksId, j) {
   return /*html*/ `
     <div class="subtasks-check-board">
       <img id="checkEmptySubtask(${j})" src="${imgSrc}" onclick="toggleCheckboxSubTask(${i},${subTaskId},${taksId})">
-      <span>${subTask}</span>
+      <span>${escapeHtml(subTask)}</span>
     </div>`
 }
 
 function returnHtmlContactsFullName(currentTask) {
   return /*html*/ `
     <div class="full-name">
-      <span>${currentTask['name']}</span>
+      <span>${escapeHtml(currentTask['name'])}</span>
     </div>`
 }
 

@@ -1,3 +1,5 @@
+let logInApi = getApiUrl(API_CONFIG.ENDPOINTS.LOGIN)
+
 let checkBoxState = false
 let pswVisibility = false
 /**
@@ -39,7 +41,7 @@ async function getLoginRequest() {
     email: document.getElementById('email').value,
     password: document.getElementById('password0').value,
   }
-  const response = await fetch('http://127.0.0.1:8000/api/v1/auth/login/', {
+  const response = await fetch(logInApi, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
