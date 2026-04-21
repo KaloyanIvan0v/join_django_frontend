@@ -7,6 +7,7 @@ const API_CONFIG = {
     CONTACTS: '/contacts/',
     REFRESH: '/auth/token/refresh/',
     LOGIN: '/auth/token/',
+    GUEST: '/auth/guest/',
   },
 }
 

@@ -1,4 +1,5 @@
 let logInApi = getApiUrl(API_CONFIG.ENDPOINTS.LOGIN)
+let guestLogInApi = getApiUrl(API_CONFIG.ENDPOINTS.GUEST)
 
 let checkBoxState = false
 let pswVisibility = false
@@ -52,6 +53,17 @@ async function getLoginRequest() {
   return response.json()
 }
 
+async function getGuestLoginRequest() {
+  const response = await fetch(guestLogInApi, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  if (!response.ok) {
+    return null
+  }
+  return response.json()
+}
+
 function setStorageValues(response) {
   localStorage.setItem('authToken', response.access)
   localStorage.setItem('refreshToken', response.refresh)
@@ -87,15 +99,20 @@ function removeFeedbackMsg(divId) {
 /**
  * Logs in as a guest user and redirects to the summary page.
  */
-function guestLogIn() {
-  const guestUser = {
-    name: 'Guest',
-    email: 'guest@info.com',
-    password: 'guest',
+async function guestLogIn() {
+  try {
+    const response = await getGuestLoginRequest()
+    if (response) {
+      setStorageValues(response)
+      resetForm()
+      window.location.href = '../html/summery.html'
+    } else {
+      SetLoginFeedbackMsg('An error occurred during login. Please try again later.', 3000)
+    }
+  } catch (error) {
+    console.error('API Error:', error)
+    throw error
   }
-  setSessionStorage('loggedInUser', guestUser)
-  sessionStorage.setItem('LoggedIn', 'true')
-  window.location.href = '../html/summery.html'
 }
 
 /**
