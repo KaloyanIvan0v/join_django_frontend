@@ -1,42 +1,14 @@
-const USER_API = getApiUrl(API_CONFIG.ENDPOINTS.USERS)
 const TASK_API = getApiUrl(API_CONFIG.ENDPOINTS.TASKS)
 const CONTACT_API = getApiUrl(API_CONFIG.ENDPOINTS.CONTACTS)
+const SIGNUP_API = getApiUrl(API_CONFIG.ENDPOINTS.SIGNUP)
 
-// User functions
-async function loadAllUsersApi() {
-  try {
-    users = await getAllItems(USER_API)
-  } catch (error) {
-    console.error('Failed to load users:', error)
-    throw error
-  }
-}
-
-async function createUserApi(user) {
-  try {
-    return await createSingleItem(USER_API, user)
-  } catch (error) {
-    console.error('Failed to create user:', error)
-    throw error
-  }
-}
-
-async function updateUserApi(user) {
-  try {
-    return await setSingleItem(USER_API, user.id, user)
-  } catch (error) {
-    console.error('Failed to update user:', error)
-    throw error
-  }
-}
-
-async function deleteUserApi(user) {
-  try {
-    return await deleteSingleItem(USER_API, user.id)
-  } catch (error) {
-    console.error('Failed to delete user:', error)
-    throw error
-  }
+async function registerUserApi(userData) {
+  let response = await fetch(SIGNUP_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData),
+  })
+  return handleResponse(response)
 }
 
 // Contact functions

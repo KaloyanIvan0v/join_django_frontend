@@ -12,7 +12,6 @@ let pswVisibility = [false, false]
  * Initializes the registration process by loading users and setting up password input event listeners.
  */
 async function initRegister() {
-  await loadAllUsersApi()
   setPwdInputEventListeners()
   handleInputOnFocusChangeParentElementBorderColor()
   includeHTML()
@@ -58,25 +57,22 @@ async function register() {
     return
   }
 
-  if (!userExist(inputEmail) && passwordMatch() && checkBoxState) {
-    handleMsgBox()
-    setTimeout(() => {
-      registerNewUser()
-    }, 1000)
+  if (passwordMatch() && checkBoxState) {
+    const success = await registerNewUser()
+    if (success) {
+      handleMsgBox()
+      window.location.href = '/html/login.html?msg=You Signed Up successfully'
+    }
   } else {
-    handleLoginFeedbackMsg(inputEmail)
+    handleLoginFeedbackMsg()
   }
 }
 
 /**
  * Displays feedback messages based on the registration validation.
- *
- * @param {string} inputEmail - The email entered by the user.
  */
-function handleLoginFeedbackMsg(inputEmail) {
-  if (userExist(inputEmail)) {
-    SetLoginFeedbackMsg('User already exists!', 3000)
-  } else if (!passwordMatch()) {
+function handleLoginFeedbackMsg() {
+  if (!passwordMatch()) {
     SetLoginFeedbackMsg("Oops! Your passwords don't match.", 3000)
   } else if (!checkBoxState) {
     SetLoginFeedbackMsg('Please accept the policy.', 3000)
@@ -128,38 +124,33 @@ async function registerNewUser() {
   let email = document.getElementById('email').value
   let password = document.getElementById('password0').value
   let newUser = { name, email, password }
-  console.log(newUser)
-
-  users.push(newUser)
-  await createUserApi(newUser)
-  resetForm()
-  window.location.href = '/index.html?msg=You Signed Up successfully'
+  try {
+    await registerUserApi(newUser)
+    resetForm()
+    return true
+  } catch (error) {
+    if (error.status === 400) {
+      SetLoginFeedbackMsg('This email is already registered. Please use a different email.', 3000)
+      registerBtn.disabled = false
+      registerBtn.style.backgroundColor = '#007bff'
+      email.value = ''
+    } else {
+      console.error('Failed to create user:', error)
+      SetLoginFeedbackMsg('An error occurred while registering. Please try again.', 3000)
+      registerBtn.disabled = false
+      registerBtn.style.backgroundColor = '#007bff'
+      return false
+    }
+  }
 }
-
 /**
  * Resets the form fields used for user registration.
  */
 function resetForm() {
-  const registerBtn = document.getElementById('registerBtn')
   names.value = ''
   email.value = ''
   password0.value = ''
   password1.value = ''
-}
-
-/**
- * Checks if a user with the given email already exists in the system.
- *
- * @param {string} user - The email of the user to check.
- * @returns {boolean} True if the user exists, false otherwise.
- */
-function userExist(user) {
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].email === user) {
-      return true
-    }
-  }
-  return false
 }
 
 /**
