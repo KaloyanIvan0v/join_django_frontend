@@ -92,7 +92,7 @@ function removeFocusFrom(elementId) {
  * @returns {boolean} - Returns true if the subtask is long enough, false otherwise.
  */
 function subTaskLongEnough(element) {
-  return element.length >= 3
+  return element.length >= APP_CONFIG.MIN_INPUT_LENGTH
 }
 
 /**

@@ -255,10 +255,10 @@ function renderTaskMenuHtml(id) {
   return /*html*/ `
   <div class="task-menu" id="task-menu-${id}">
      <div class="task-menu-title">Move To</div>
-    <button class="join-button" onclick="moveTaskTo(${id}, 'toDo')">To do</button>
-    <button class="join-button" onclick="moveTaskTo(${id}, 'inProgress')">In progress</button>
-    <button class="join-button" onclick="moveTaskTo(${id}, 'awaitFeedback')">Await Feedback</button>
-    <button class="join-button" onclick="moveTaskTo(${id}, 'done')">Done</button>
+    <button class="join-button" onclick="moveTaskTo(${id}, '${TASK_STATUS.TODO}')">To do</button>
+    <button class="join-button" onclick="moveTaskTo(${id}, '${TASK_STATUS.IN_PROGRESS}')">In progress</button>
+    <button class="join-button" onclick="moveTaskTo(${id}, '${TASK_STATUS.AWAIT_FEEDBACK}')">Await Feedback</button>
+    <button class="join-button" onclick="moveTaskTo(${id}, '${TASK_STATUS.DONE}')">Done</button>
     <button class="join-button" onclick="closePopUp()">Cancel</button>
   </div>
     `

@@ -33,8 +33,8 @@ async function initAddTask() {
   taskFormState.addTaskMode = true
   await includeHTML()
   loadHtmlTaskTemplate()
-  loadAllTasksApi()
-  loadAllContactsApi()
+  await loadAllTasksApi()
+  await loadAllContactsApi()
   setTimeout(selectPriority, 200)
   setTimeout(currentDate, 200)
   handleExitImg()
@@ -78,7 +78,7 @@ async function addTask(statement) {
       prio: taskFormState.currentPrio,
       category: taskFormState.selectedCategory,
       subTasks: taskFormState.subTasks.length === 0 ? [] : taskFormState.subTasks,
-      state: statement ?? 'toDo',
+      state: statement ?? TASK_STATUS.TODO,
     }
 
     // Validate task
@@ -129,7 +129,7 @@ function addNewSubTask() {
   let singleNewTask = document.getElementById('subTasks')
   let singleNewTaskValue = singleNewTask.value
 
-  if (singleNewTaskValue.length >= 3) {
+  if (singleNewTaskValue.length >= APP_CONFIG.MIN_INPUT_LENGTH) {
     taskFormState.subTasks.push({
       description: singleNewTaskValue,
       state: false,

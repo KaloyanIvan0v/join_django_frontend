@@ -100,11 +100,22 @@ function editContactFillForm() {
  *
  * @returns {void}
  */
+function showContactFeedback(msg) {
+  const feedback = document.getElementById('id-contact-feedback')
+  if (!feedback) return
+  feedback.textContent = msg
+  setTimeout(() => (feedback.textContent = ''), 3000)
+}
+
 async function addNewContact() {
-  const name = document.getElementById('id-add-contact-name').value
-  const email = document.getElementById('id-add-contact-email').value
-  const phone = document.getElementById('id-add-contact-phone').value
-  const color = Math.floor(Math.random() * 14) + 1
+  const name = document.getElementById('id-add-contact-name').value.trim()
+  const email = document.getElementById('id-add-contact-email').value.trim()
+  const phone = document.getElementById('id-add-contact-phone').value.trim()
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!name) return showContactFeedback('Please enter a name.')
+  if (!emailRegex.test(email)) return showContactFeedback('Please enter a valid email.')
+  if (!phone) return showContactFeedback('Please enter a phone number.')
+  const color = Math.floor(Math.random() * APP_CONFIG.COLOR_COUNT) + 1
   const nameInitials = generateBadge(name)
   const author = getLoggedInUserEmail()
   const id = increaseId(contacts)

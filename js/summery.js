@@ -33,7 +33,7 @@ function updateTaskMetrics() {
  * Updates the counts for all task states
  */
 function updateTaskStateCounts() {
-  const states = ['toDo', 'done', 'inProgress', 'awaitFeedback']
+  const states = Object.values(TASK_STATUS)
   states.forEach((state) => countStatements(state))
 }
 

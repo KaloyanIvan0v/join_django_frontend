@@ -19,30 +19,28 @@ function isAccessExpired() {
   return payload.exp < currentTime + 60
 }
 
-function refreshAccessToken() {
+async function refreshAccessToken() {
   const refreshToken = localStorage.getItem('refreshToken')
   if (!refreshToken) {
     return null
   }
-  return fetch(REFRESH_API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ refresh: refreshToken }),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw createApiError(`HTTP error! status: ${response.status}`, response.status)
-      }
-      return response.json()
+  try {
+    let response = await fetch(REFRESH_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh: refreshToken }),
     })
-    .then((data) => {
-      localStorage.setItem('authToken', data.access)
-      return data.access
-    })
-    .catch((error) => {
-      console.error('API Error:', error)
-      throw error
-    })
+    if (!response.ok) {
+      throw createApiError(`HTTP error! status: ${response.status}`, response.status)
+    }
+    let data = await response.json()
+
+    localStorage.setItem('authToken', data.access)
+    return data.access
+  } catch (error) {
+    console.error('API Error:', error)
+    throw error
+  }
 }
 
 function createApiError(message, status) {

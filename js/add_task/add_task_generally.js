@@ -349,7 +349,7 @@ function searchContact() {
   const contactsField = document.getElementById('contactsField')
 
   taskFormState.findContactsAtSearch.splice(0, taskFormState.findContactsAtSearch.length)
-  if (inputSearchContact.length >= 3) {
+  if (inputSearchContact.length >= APP_CONFIG.MIN_INPUT_LENGTH) {
     for (let i = 0; i < contacts.length; i++) {
       let contact = contacts[i]
       filterContacts(contact, inputSearchContact)

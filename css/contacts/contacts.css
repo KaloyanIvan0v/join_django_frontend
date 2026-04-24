@@ -395,3 +395,10 @@ body {
 .contact-full-mode-right-0 {
   right: -55px;
 }
+
+.contact-form-feedback {
+  color: red;
+  min-height: 1.2em;
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+}

@@ -38,7 +38,7 @@ function isValidEmail(email) {
   // Check if email contains any forbidden patterns
   for (let pattern of forbiddenPatterns) {
     if (email.toLowerCase().includes(pattern.toLowerCase())) {
-      SetLoginFeedbackMsg('This email pattern is not allowed.', 3000)
+      setLoginFeedbackMsg('This email pattern is not allowed.', 3000)
       return false
     }
   }
@@ -53,7 +53,7 @@ async function register() {
   const inputEmail = email.value
 
   if (!isValidEmail(inputEmail)) {
-    SetLoginFeedbackMsg('Please enter a valid email address.', 3000)
+    setLoginFeedbackMsg('Please enter a valid email address.', 3000)
     return
   }
 
@@ -73,9 +73,9 @@ async function register() {
  */
 function handleLoginFeedbackMsg() {
   if (!passwordMatch()) {
-    SetLoginFeedbackMsg("Oops! Your passwords don't match.", 3000)
+    setLoginFeedbackMsg("Oops! Your passwords don't match.", 3000)
   } else if (!checkBoxState) {
-    SetLoginFeedbackMsg('Please accept the policy.', 3000)
+    setLoginFeedbackMsg('Please accept the policy.', 3000)
   }
 }
 
@@ -85,7 +85,7 @@ function handleLoginFeedbackMsg() {
  * @param {string} errMsg - The feedback message to display.
  * @param {number} duration - The time in milliseconds to display the message.
  */
-function SetLoginFeedbackMsg(errMsg, duration) {
+function setLoginFeedbackMsg(errMsg, duration) {
   const feedbackField = document.getElementById('id-input-feedback')
   feedbackField.innerHTML = setLoginFeedbackMsgHtml(errMsg)
 
@@ -130,19 +130,25 @@ async function registerNewUser() {
     return true
   } catch (error) {
     if (error.status === 400) {
-      SetLoginFeedbackMsg('This email is already registered. Please use a different email.', 3000)
-      registerBtn.disabled = false
-      registerBtn.style.backgroundColor = '#007bff'
+      setLoginFeedbackMsg('This email is already registered. Please use a different email.', 3000)
+      resetRegisterButton()
       email.value = ''
+      return false
     } else {
       console.error('Failed to create user:', error)
-      SetLoginFeedbackMsg('An error occurred while registering. Please try again.', 3000)
-      registerBtn.disabled = false
-      registerBtn.style.backgroundColor = '#007bff'
+      setLoginFeedbackMsg('An error occurred while registering. Please try again.', 3000)
+      resetRegisterButton()
       return false
     }
   }
 }
+
+function resetRegisterButton() {
+  const registerBtn = document.getElementById('registerBtn')
+  registerBtn.disabled = false
+  registerBtn.style.backgroundColor = '#007bff'
+}
+
 /**
  * Resets the form fields used for user registration.
  */

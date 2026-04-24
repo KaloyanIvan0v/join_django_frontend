@@ -146,10 +146,10 @@ function getFinishedSubTasksLength(id) {
 }
 
 taskStateMapper = {
-  toDo: 0,
-  inProgress: 1,
-  awaitFeedback: 2,
-  done: 3,
+  [TASK_STATUS.TODO]: 0,
+  [TASK_STATUS.IN_PROGRESS]: 1,
+  [TASK_STATUS.AWAIT_FEEDBACK]: 2,
+  [TASK_STATUS.DONE]: 3,
 }
 
 /**
@@ -210,7 +210,7 @@ function renderContactsBoardInitials(renderFull, id, targetElementId) {
   if (contactsForTask !== -1) {
     for (let j = 0; j < contactsForTask.length; j++) {
       if (contactExists(contactsForTask[j])) {
-        if (j < 3 || renderFull) {
+        if (j < APP_CONFIG.MAX_CONTACT_PREVIEW || renderFull) {
           renderContactInitial(contactsFieldBoard, contactsForTask, id, j)
         } else {
           renderMoreContactsPreview(contactsFieldBoard, contactsForTask, j)
@@ -353,10 +353,10 @@ function getStatementByTaskI(i) {
  */
 function getTaskStatementIndex(id) {
   const statementIndices = {
-    toDo: 0,
-    inProgress: 1,
-    awaitFeedback: 2,
-    done: 3,
+    [TASK_STATUS.TODO]: 0,
+    [TASK_STATUS.IN_PROGRESS]: 1,
+    [TASK_STATUS.AWAIT_FEEDBACK]: 2,
+    [TASK_STATUS.DONE]: 3,
   }
   const statement = tasks[getIndexOfElementById(id, tasks)].state
   return statementIndices.hasOwnProperty(statement) ? statementIndices[statement] : -1
