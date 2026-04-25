@@ -352,14 +352,8 @@ function getStatementByTaskI(i) {
  * @returns {number} The index of the task statement.
  */
 function getTaskStatementIndex(id) {
-  const statementIndices = {
-    [TASK_STATUS.TODO]: 0,
-    [TASK_STATUS.IN_PROGRESS]: 1,
-    [TASK_STATUS.AWAIT_FEEDBACK]: 2,
-    [TASK_STATUS.DONE]: 3,
-  }
   const statement = tasks[getIndexOfElementById(id, tasks)].state
-  return statementIndices.hasOwnProperty(statement) ? statementIndices[statement] : -1
+  return Object.hasOwn(taskStateMapper, statement) ? taskStateMapper[statement] : -1
 }
 
 /**

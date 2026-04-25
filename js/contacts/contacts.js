@@ -10,7 +10,7 @@ async function initContacts() {
     await includeHTML()
     await loadAllContactsApi()
     renderContacts(contacts)
-    addClickListener()
+    clickListener()
   } catch (error) {
     console.error('Error initializing contacts:', error)
   }
@@ -315,15 +315,19 @@ function removeShadowLayer() {
  *
  * @returns {void}
  */
-function addClickListener() {
+function clickListener() {
   var element = document.getElementById('id-contacts-single-view')
-  element.addEventListener('click', function (event) {
-    if (event.target.id !== 'id-mobile-dot-menu' && event.target.id !== 'dot-menu-img') {
-      closeContactEditMenu()
-    }
-  })
+  element.removeEventListener('click', clickHandler)
+  element.addEventListener('click', clickHandler)
 }
 
+function clickHandler(event) {
+  if (clickOutsideContactEditMenu(event)) closeContactEditMenu(event)
+}
+
+function clickOutsideContactEditMenu(event) {
+  return event.target.id !== 'id-mobile-dot-menu' && event.target.id !== 'dot-menu-img'
+}
 /**
  * Selects a contact by adding a 'selected' class to its HTML element.
  *
